@@ -25,7 +25,12 @@ BASE_URL = (
 )
 
 ALL_SEASONS = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
-ALL_WEEKS = list(range(1, 18))
+DEFAULT_MAX_WEEK = 17
+
+
+def _get_weeks(max_week: int = DEFAULT_MAX_WEEK) -> list[int]:
+    return list(range(1, max_week + 1))
+
 
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "raw"
 
@@ -69,14 +74,18 @@ def _summarize(transactions: list) -> tuple[int, int, int]:
 
 
 def fetch_transactions_all(
-    year: int = None, week: int = None, output_dir: str = None
+    year: int = None,
+    week: int = None,
+    max_week: int = DEFAULT_MAX_WEEK,
+    output_dir: str = None,
 ) -> None:
     """
     Fetch ESPN transaction data for given year/week and save as raw JSON.
 
     Args:
         year: Season year. If None, fetches all seasons.
-        week: Week number 1-17. If None, fetches all weeks.
+        week: Specific week number 1-max_week. If omitted, fetches all weeks.
+        max_week: Maximum week to fetch. Defaults to 17.
         output_dir: Output directory. Defaults to data/raw/.
     """
     if not all([LEAGUE_ID, ESPN_S2, SWID]):
@@ -87,7 +96,7 @@ def fetch_transactions_all(
         return
 
     years = [year] if year else ALL_SEASONS
-    weeks = [week] if week else ALL_WEEKS
+    weeks = [week] if week else _get_weeks(max_week)
     output_dir = output_dir or DEFAULT_OUTPUT_DIR
 
     logger.info(
