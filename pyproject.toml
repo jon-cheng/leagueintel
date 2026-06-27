@@ -1,0 +1,40 @@
+[project]
+name = "leagueintel"
+version = "0.2.0"
+description = "Fantasy football league-specific analytics and competitive intelligence"
+authors = [{ name = "Jonathan Cheng", email = "jonchengw@gmail.com" }]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = ["pytest (>=9.1.1,<10.0.0)", "pytest-cov (>=7.1.0,<8.0.0)"]
+
+[tool.poetry.scripts]
+leagueintel = "leagueintel.cli:cli"
+
+[tool.poetry]
+packages = [{ include = "leagueintel", from = "src" }]
+
+[tool.poetry.dependencies]
+requests = "*"
+click = "*"
+loguru = "*"
+python-dotenv = "*"
+espn-api = "*"
+nflreadpy = "*"
+polars = "*"
+pyarrow = "*"
+pandas = "*"
+retry = "*"
+setuptools = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pytest-cov = "*"
