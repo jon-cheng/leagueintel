@@ -1,6 +1,6 @@
 [project]
 name = "leagueintel"
-version = "0.1.0"
+version = "0.2.0"
 description = "Fantasy football league-specific analytics and competitive intelligence"
 authors = [{ name = "Jonathan Cheng", email = "jonchengw@gmail.com" }]
 license = "MIT"
