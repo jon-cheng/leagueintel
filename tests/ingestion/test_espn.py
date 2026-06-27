@@ -1,5 +1,6 @@
 # tests/ingestion/test_espn.py
 import pytest
+import requests
 import json
 from unittest.mock import patch, MagicMock
 from pathlib import Path
