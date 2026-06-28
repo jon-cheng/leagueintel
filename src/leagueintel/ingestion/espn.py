@@ -8,6 +8,7 @@ import json
 import time
 import requests
 from pathlib import Path
+from datetime import date
 from loguru import logger
 from dotenv import load_dotenv, find_dotenv
 
@@ -24,7 +25,12 @@ BASE_URL = (
     "/segments/0/leagues/{league_id}"
 )
 
-ALL_SEASONS = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+CURRENT_YEAR = date.today().year
+
+# ALL_SEASONS = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+ALL_SEASONS = list(
+    range(2014, CURRENT_YEAR)
+)  # as of June, 2026 only data from 2018 onwards is available via ESPN API
 DEFAULT_MAX_WEEK = 17
 
 
