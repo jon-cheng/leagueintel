@@ -3,47 +3,30 @@ ESPN API ingestion layer.
 Fetches raw transaction data and saves as JSON.
 """
 
-import os
 import json
 import time
 import requests
 from pathlib import Path
-from datetime import date
 from espn_api.football import League
 from espn_api.football.team import Team
 from loguru import logger
-from dotenv import load_dotenv, find_dotenv
 
-from leagueintel.storage.database import get_connection, create_tables
-from leagueintel.storage.writer import write_teams
-
-REPO_ROOT = Path(find_dotenv()).parent
-load_dotenv(REPO_ROOT / ".env")  # load .env FIRST
-
-LEAGUE_ID = os.getenv("LEAGUE_ID")  # now reads correctly
-ESPN_S2 = os.getenv("ESPN_S2")
-SWID = os.getenv("SWID")
-
-BASE_URL = (
-    "https://lm-api-reads.fantasy.espn.com"
-    "/apis/v3/games/ffl/seasons/{year}"
-    "/segments/0/leagues/{league_id}"
+from leagueintel.config import (
+    LEAGUE_ID,
+    ESPN_S2,
+    SWID,
+    ALL_SEASONS,
+    DEFAULT_OUTPUT_DIR,
+    DEFAULT_MAX_WEEK,
+    BASE_URL,
+    REPO_ROOT,
 )
-
-CURRENT_YEAR = date.today().year
-
-# ALL_SEASONS = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
-ALL_SEASONS = list(
-    range(2014, CURRENT_YEAR)
-)  # as of June, 2026 only data from 2018 onwards is available via ESPN API
-DEFAULT_MAX_WEEK = 17
+from leagueintel.storage.database import get_connection, create_tables
+from leagueintel.storage.writer import write_teams, write_players
 
 
 def _get_weeks(max_week: int = DEFAULT_MAX_WEEK) -> list[int]:
     return list(range(1, max_week + 1))
-
-
-DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "raw"
 
 
 def _fetch_week(year: int, week: int) -> dict:
@@ -73,14 +56,16 @@ def _save_raw(data: dict, year: int, week: int, output_dir: str) -> str:
 def _summarize(transactions: list) -> tuple[int, int, int]:
     """Return counts of executed waivers, failed waivers, and draft picks."""
     waiver_executed = sum(
-        1 for t in transactions if t["type"] == "WAIVER" and t["status"] == "EXECUTED"
+        1
+        for t in transactions
+        if t.get("type") == "WAIVER" and t.get("status") == "EXECUTED"
     )
     waiver_failed = sum(
         1
         for t in transactions
-        if t["type"] == "WAIVER" and t["status"].startswith("FAILED")
+        if t.get("type") == "WAIVER" and t.get("status", "").startswith("FAILED")
     )
-    draft = sum(1 for t in transactions if t["type"] == "DRAFT")
+    draft = sum(1 for t in transactions if t.get("type") == "DRAFT")
     return waiver_executed, waiver_failed, draft
 
 
@@ -90,15 +75,7 @@ def fetch_transactions_all(
     max_week: int = DEFAULT_MAX_WEEK,
     output_dir: str = None,
 ) -> None:
-    """
-    Fetch ESPN transaction data for given year/week and save as raw JSON.
-
-    Args:
-        year: Season year. If None, fetches all seasons.
-        week: Specific week number 1-max_week. If omitted, fetches all weeks.
-        max_week: Maximum week to fetch. Defaults to 17.
-        output_dir: Output directory. Defaults to data/raw/.
-    """
+    """Fetch ESPN transaction data for given year/week and save as raw JSON."""
     if not all([LEAGUE_ID, ESPN_S2, SWID]):
         logger.error(
             "Missing credentials. Ensure LEAGUE_ID, ESPN_S2, SWID "
@@ -116,8 +93,7 @@ def fetch_transactions_all(
     )
     logger.info(f"Output directory: {output_dir}")
 
-    success = 0
-    errors = 0
+    success, errors = 0, 0
 
     for y in years:
         logger.info(f"=== Season {y} ===")
@@ -125,10 +101,8 @@ def fetch_transactions_all(
             try:
                 data = _fetch_week(y, w)
                 path = _save_raw(data, y, w, output_dir)
-
                 transactions = data.get("transactions", [])
                 waiver_executed, waiver_failed, draft = _summarize(transactions)
-
                 logger.info(
                     f"week {w:02d}: {len(transactions)} total | "
                     f"{waiver_executed} waiver wins | "
@@ -159,7 +133,9 @@ def fetch_transactions_all(
         raise SystemExit(1)
 
 
-# Fetching fantasy_teams table:
+# ── Teams ─────────────────────────────────────────────────────────────────────
+
+
 def _extract_team(team: Team, season: int) -> dict:
     return {
         "season": season,
@@ -175,12 +151,12 @@ def _extract_team(team: Team, season: int) -> dict:
 
 
 def fetch_teams(league: League, season: int) -> list[dict]:
+    """Fetch team data from espn_api League object."""
     return [_extract_team(team, season) for team in league.teams]
 
 
-def fetch_teams_all(
-    seasons: list[int] = ALL_SEASONS,
-) -> None:
+def fetch_teams_all(seasons: list[int] = None) -> None:
+    """Fetch team data for all seasons and write to SQLite."""
     seasons = seasons or ALL_SEASONS
     conn = get_connection()
     create_tables(conn)
@@ -192,4 +168,40 @@ def fetch_teams_all(
         write_teams(teams, conn)
         logger.info(f"Season {year}: wrote {len(teams)} teams")
 
+    conn.close()
+
+
+# ── Players ───────────────────────────────────────────────────────────────────
+
+
+def fetch_players(league: League) -> list[dict]:
+    """Fetch all players from ESPN player_map for a given league season."""
+    return [
+        {"player_id": pid, "full_name": str(name)}
+        for pid, name in league.player_map.items()
+        if isinstance(pid, int)
+    ]
+
+
+def fetch_players_all(seasons: list[int] = None) -> None:
+    """Fetch player map across all seasons and write to SQLite."""
+    seasons = seasons or ALL_SEASONS
+    conn = get_connection()
+    create_tables(conn)
+
+    all_players = {}
+
+    logger.info(f"Fetching players across {len(seasons)} seasons")
+    for year in seasons:
+        league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
+        players = fetch_players(league)
+        for p in players:
+            if p["player_id"] not in all_players:
+                all_players[p["player_id"]] = p
+        logger.info(
+            f"Season {year}: {len(players)} players in map, "
+            f"{len(all_players)} unique total"
+        )
+
+    write_players(list(all_players.values()), conn)
     conn.close()

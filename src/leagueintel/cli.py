@@ -7,10 +7,19 @@ Usage:
     leagueintel fetch-transactions
     leagueintel fetch-teams --seasons 2024
     leagueintel fetch-teams
+    leagueintel fetch-players --seasons 2024
+    leagueintel fetch-players
+    leagueintel parse-transactions --seasons 2024
+    leagueintel parse-transactions
 """
 
 import click
-from leagueintel.ingestion.espn import fetch_transactions_all, fetch_teams_all
+from leagueintel.ingestion.espn import (
+    fetch_transactions_all,
+    fetch_teams_all,
+    fetch_players_all,
+)
+from leagueintel.ingestion.parse import parse_transactions_all
 
 
 @click.group()
@@ -48,10 +57,7 @@ def cli():
 def fetch_transactions(year, week, max_week, output_dir):
     """Fetch ESPN transaction data and save as raw JSON."""
     fetch_transactions_all(
-        year=year,
-        week=week,
-        max_week=max_week,
-        output_dir=output_dir,
+        year=year, week=week, max_week=max_week, output_dir=output_dir
     )
 
 
@@ -66,6 +72,41 @@ def fetch_transactions(year, week, max_week, output_dir):
 def fetch_teams(seasons):
     """Fetch ESPN fantasy team data and write to SQLite."""
     fetch_teams_all(seasons=list(seasons) if seasons else None)
+
+
+@cli.command()
+@click.option(
+    "--seasons",
+    multiple=True,
+    type=int,
+    default=None,
+    help="Seasons to fetch. If omitted, fetches all seasons.",
+)
+def fetch_players(seasons):
+    """Fetch ESPN player map and write to SQLite."""
+    fetch_players_all(seasons=list(seasons) if seasons else None)
+
+
+@cli.command()
+@click.option(
+    "--seasons",
+    multiple=True,
+    type=int,
+    default=None,
+    help="Seasons to parse. If omitted, parses all seasons.",
+)
+@click.option(
+    "--input-dir",
+    type=str,
+    default=None,
+    help="Input directory for raw JSON. Defaults to data/raw/.",
+)
+def parse_transactions(seasons, input_dir):
+    """Parse raw ESPN JSON files and write transactions to SQLite."""
+    parse_transactions_all(
+        seasons=list(seasons) if seasons else None,
+        input_dir=input_dir,
+    )
 
 
 if __name__ == "__main__":
