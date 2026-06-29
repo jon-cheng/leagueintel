@@ -11,6 +11,8 @@ Usage:
     leagueintel fetch-players
     leagueintel parse-transactions --seasons 2024
     leagueintel parse-transactions
+    leagueintel fetch-box-scores --seasons 2024
+    leagueintel fetch-box-scores
 """
 
 import click
@@ -18,6 +20,7 @@ from leagueintel.ingestion.espn import (
     fetch_transactions_all,
     fetch_teams_all,
     fetch_players_all,
+    fetch_box_scores_all,
 )
 from leagueintel.ingestion.parse import parse_transactions_all
 
@@ -106,6 +109,29 @@ def parse_transactions(seasons, input_dir):
     parse_transactions_all(
         seasons=list(seasons) if seasons else None,
         input_dir=input_dir,
+    )
+
+
+@cli.command()
+@click.option(
+    "--seasons",
+    multiple=True,
+    type=int,
+    default=None,
+    help="Seasons to fetch. If omitted, fetches all seasons.",
+)
+@click.option(
+    "--max-week",
+    type=int,
+    default=17,
+    show_default=True,
+    help="Maximum week number to fetch.",
+)
+def fetch_box_scores(seasons, max_week):
+    """Fetch ESPN box score data and write to SQLite."""
+    fetch_box_scores_all(
+        seasons=list(seasons) if seasons else None,
+        max_week=max_week,
     )
 
 
