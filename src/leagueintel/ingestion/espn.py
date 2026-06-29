@@ -19,10 +19,9 @@ from leagueintel.config import (
     DEFAULT_OUTPUT_DIR,
     DEFAULT_MAX_WEEK,
     BASE_URL,
-    REPO_ROOT,
 )
 from leagueintel.storage.database import get_connection, create_tables
-from leagueintel.storage.writer import write_teams, write_players
+from leagueintel.storage.writer import write_teams, write_players, write_box_scores
 
 
 def _get_weeks(max_week: int = DEFAULT_MAX_WEEK) -> list[int]:
@@ -205,3 +204,69 @@ def fetch_players_all(seasons: list[int] = None) -> None:
 
     write_players(list(all_players.values()), conn)
     conn.close()
+
+
+# ── Box scores ────────────────────────────────────────────────────────────────
+
+
+def _extract_player_week(player, team_id: int, week: int, season: int) -> dict:
+    """Extract box score fields from a single player in a lineup."""
+    return {
+        "season": season,
+        "week": week,
+        "team_id": team_id,
+        "player_id": player.playerId,
+        "player_name": player.name,
+        "position": player.position,
+        "lineup_slot": player.lineupSlot,
+        "pro_team": player.proTeam,
+        "points": player.points,
+        "projected_points": player.projected_points,
+        "on_bye_week": int(player.on_bye_week),
+        "game_played": player.game_played,
+    }
+
+
+def fetch_box_scores(league: League, week: int, season: int) -> list[dict]:
+    """Fetch all player box score records for a given week."""
+    rows = []
+    for matchup in league.box_scores(week):
+        for player in matchup.home_lineup:
+            rows.append(
+                _extract_player_week(player, matchup.home_team.team_id, week, season)
+            )
+        if matchup.away_team != 0:
+            for player in matchup.away_lineup:
+                rows.append(
+                    _extract_player_week(
+                        player, matchup.away_team.team_id, week, season
+                    )
+                )
+    return rows
+
+
+def fetch_box_scores_all(
+    seasons: list[int] = None,
+    max_week: int = DEFAULT_MAX_WEEK,
+) -> None:
+    """Fetch box scores for all seasons and weeks and write to SQLite."""
+    seasons = seasons or ALL_SEASONS
+    conn = get_connection()
+    create_tables(conn)
+
+    for year in seasons:
+        logger.info(f"=== Season {year} ===")
+        league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
+        weeks = _get_weeks(max_week)
+
+        for week in weeks:
+            try:
+                rows = fetch_box_scores(league, week, year)
+                write_box_scores(rows, conn)
+                logger.info(f"  week {week:02d}: wrote {len(rows)} player records")
+                time.sleep(0.3)
+            except Exception as e:
+                logger.warning(f"  week {week:02d}: ERROR — {e}")
+
+    conn.close()
+    logger.info("Done.")

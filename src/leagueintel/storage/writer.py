@@ -45,6 +45,21 @@ class TransactionMoveRecord(BaseModel):
     overall_pick_number: int | None = None
 
 
+class BoxScoreRecord(BaseModel):
+    season: int
+    week: int
+    team_id: int
+    player_id: int
+    player_name: str | None = None
+    position: str | None = None
+    lineup_slot: str | None = None
+    pro_team: str | None = None
+    points: float = 0.0
+    projected_points: float = 0.0
+    on_bye_week: int = 0  # 0 or 1
+    game_played: int = 0  # 0-100
+
+
 # ── Generic writer ────────────────────────────────────────────────────────────
 
 
@@ -75,7 +90,6 @@ def _write_records(
 
 
 def write_teams(teams: list[dict], conn: sqlite3.Connection) -> None:
-    """Write fantasy team records to SQLite."""
     _write_records(
         teams,
         FantasyTeamSchema,
@@ -89,7 +103,6 @@ def write_teams(teams: list[dict], conn: sqlite3.Connection) -> None:
 
 
 def write_players(players: list[dict], conn: sqlite3.Connection) -> None:
-    """Write player records to SQLite."""
     _write_records(
         players,
         PlayerRecord,
@@ -103,7 +116,6 @@ def write_players(players: list[dict], conn: sqlite3.Connection) -> None:
 
 
 def write_transactions(transactions: list[dict], conn: sqlite3.Connection) -> None:
-    """Write transaction records to SQLite."""
     _write_records(
         transactions,
         TransactionRecord,
@@ -119,7 +131,6 @@ def write_transactions(transactions: list[dict], conn: sqlite3.Connection) -> No
 
 
 def write_transaction_moves(moves: list[dict], conn: sqlite3.Connection) -> None:
-    """Write transaction move records — excludes auto-generated id."""
     rows = []
     skipped = 0
 
@@ -151,3 +162,18 @@ def write_transaction_moves(moves: list[dict], conn: sqlite3.Connection) -> None
     )
     conn.commit()
     logger.info(f"Wrote {len(rows)} transaction moves, skipped {skipped}")
+
+
+def write_box_scores(box_scores: list[dict], conn: sqlite3.Connection) -> None:
+    _write_records(
+        box_scores,
+        BoxScoreRecord,
+        """
+        INSERT OR IGNORE INTO box_scores
+        (season, week, team_id, player_id, player_name, position,
+         lineup_slot, pro_team, points, projected_points,
+         on_bye_week, game_played)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """,
+        conn,
+    )
