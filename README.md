@@ -58,9 +58,8 @@ leagueintel fetch-transactions --year 2024 --max-week 13
 ## Project status
 
 - ✅ fetch-transactions — ESPN API ingestion with raw JSON storage
-- 🔄 parse-transactions — coming next
+- ✅  parse-transactions — coming next
 - 🔄 analytics layer — waiver ROI, manager skill metrics
-- 🔄 bid estimator — predict competitor FAAB bids
 - 🔄 chatbot — natural language league Q&A
 
 ## Tech stack
