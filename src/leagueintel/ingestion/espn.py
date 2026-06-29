@@ -9,8 +9,13 @@ import time
 import requests
 from pathlib import Path
 from datetime import date
+from espn_api.football import League
+from espn_api.football.team import Team
 from loguru import logger
 from dotenv import load_dotenv, find_dotenv
+
+from leagueintel.storage.database import get_connection, create_tables
+from leagueintel.storage.writer import write_teams
 
 REPO_ROOT = Path(find_dotenv()).parent
 load_dotenv(REPO_ROOT / ".env")  # load .env FIRST
@@ -111,7 +116,8 @@ def fetch_transactions_all(
     )
     logger.info(f"Output directory: {output_dir}")
 
-    success, errors = 0, 0
+    success = 0
+    errors = 0
 
     for y in years:
         logger.info(f"=== Season {y} ===")
@@ -151,3 +157,39 @@ def fetch_transactions_all(
     if errors > 0:
         logger.warning(f"{errors} week(s) failed — check logs above")
         raise SystemExit(1)
+
+
+# Fetching fantasy_teams table:
+def _extract_team(team: Team, season: int) -> dict:
+    return {
+        "season": season,
+        "team_id": team.team_id,
+        "team_name": team.team_name,
+        "team_abbrev": team.team_abbrev,
+        "owner_name": (
+            f"{team.owners[0]['firstName']} {team.owners[0]['lastName']}"
+            if team.owners
+            else None
+        ),
+    }
+
+
+def fetch_teams(league: League, season: int) -> list[dict]:
+    return [_extract_team(team, season) for team in league.teams]
+
+
+def fetch_teams_all(
+    seasons: list[int] = ALL_SEASONS,
+) -> None:
+    seasons = seasons or ALL_SEASONS
+    conn = get_connection()
+    create_tables(conn)
+
+    logger.info(f"Fetching teams for {len(seasons)} seasons")
+    for year in seasons:
+        league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
+        teams = fetch_teams(league, season=year)
+        write_teams(teams, conn)
+        logger.info(f"Season {year}: wrote {len(teams)} teams")
+
+    conn.close()
