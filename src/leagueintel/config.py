@@ -30,3 +30,6 @@ BASE_URL = (
     "/apis/v3/games/ffl/seasons/{year}"
     "/segments/0/leagues/{league_id}"
 )
+
+# Theshold games played for consideration in draft, waiver analyses
+MIN_WEEKS = 8

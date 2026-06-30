@@ -1,28 +1,13 @@
-[project]
+[tool.poetry]
 name = "leagueintel"
 version = "0.2.0"
 description = "Fantasy football league-specific analytics and competitive intelligence"
-authors = [{ name = "Jonathan Cheng", email = "jonchengw@gmail.com" }]
-license = "MIT"
+authors = ["Jonathan Cheng <jonchengw@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = ["pydantic (>=2.13.4,<3.0.0)"]
-
-
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[dependency-groups]
-dev = ["pytest (>=9.1.1,<10.0.0)", "pytest-cov (>=7.1.0,<8.0.0)", "ipykernel (>=7.3.0,<8.0.0)"]
-
-[tool.poetry.scripts]
-leagueintel = "leagueintel.cli:cli"
-
-[tool.poetry]
 packages = [{ include = "leagueintel", from = "src" }]
 
 [tool.poetry.dependencies]
+python = "^3.12"
 requests = "*"
 click = "*"
 loguru = "*"
@@ -32,9 +17,21 @@ nflreadpy = "*"
 polars = "*"
 pyarrow = "*"
 pandas = "*"
-retry = "*"
+pydantic = "*"
 setuptools = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"
 pytest-cov = "*"
+ipykernel = "*"
+
+[tool.poetry.group.reporting.dependencies]
+streamlit = "*"
+plotly = "*"
+
+[tool.poetry.scripts]
+leagueintel = "leagueintel.cli:cli"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
