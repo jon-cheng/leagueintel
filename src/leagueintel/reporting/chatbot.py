@@ -359,7 +359,7 @@ def ask(question: str) -> tuple[str, object | None]:
     while True:
         response = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=1024,
+            max_tokens=4096,
             system=SYSTEM_PROMPT,
             tools=TOOLS,
             messages=messages,

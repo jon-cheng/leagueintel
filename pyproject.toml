@@ -30,6 +30,7 @@ nbformat = "^5.10.4"
 streamlit = "*"
 plotly = "*"
 anthropic = "^0.113.0"
+boto3 = "^1.43.38"
 
 [tool.poetry.scripts]
 leagueintel = "leagueintel.cli:cli"
