@@ -60,6 +60,19 @@ class BoxScoreRecord(BaseModel):
     game_played: int = 0  # 0-100
 
 
+class MatchupRecord(BaseModel):
+    season: int
+    week: int
+    home_team_id: int
+    away_team_id: int | None = None
+    home_score: float = 0.0
+    away_score: float = 0.0
+    home_projected: float = 0.0
+    away_projected: float = 0.0
+    is_playoff: int = 0
+    matchup_type: str | None = None
+
+
 # ── Generic writer ────────────────────────────────────────────────────────────
 
 
@@ -177,3 +190,55 @@ def write_box_scores(box_scores: list[dict], conn: sqlite3.Connection) -> None:
     """,
         conn,
     )
+
+
+def write_matchups(matchups: list[dict], conn: sqlite3.Connection) -> None:
+    """
+    Write matchup records to SQLite.
+
+    Uses DELETE + INSERT instead of INSERT OR REPLACE because SQLite
+    treats NULL != NULL in UNIQUE constraints — bye week matchups
+    (away_team_id = NULL) would be inserted as duplicates on each refresh.
+    COALESCE(away_team_id, -1) treats all NULLs as equivalent for matching.
+    """
+    rows = []
+    skipped = 0
+
+    for matchup in matchups:
+        try:
+            record = MatchupRecord(**matchup)
+            rows.append((
+                record.season,
+                record.week,
+                record.home_team_id,
+                record.away_team_id,
+                record.home_score,
+                record.away_score,
+                record.home_projected,
+                record.away_projected,
+                record.is_playoff,
+                record.matchup_type,
+            ))
+        except ValidationError as e:
+            logger.warning(f"Skipping invalid matchup: {e}")
+            skipped += 1
+
+    # delete existing rows before reinserting — handles both score updates
+    # and bye week NULL deduplication in one pattern
+    conn.executemany("""
+        DELETE FROM matchups
+        WHERE season = ?
+        AND week = ?
+        AND home_team_id = ?
+        AND COALESCE(away_team_id, -1) = COALESCE(?, -1)
+    """, [(r[0], r[1], r[2], r[3]) for r in rows])
+
+    conn.executemany("""
+        INSERT INTO matchups
+        (season, week, home_team_id, away_team_id, home_score, away_score,
+         home_projected, away_projected, is_playoff, matchup_type)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, rows)
+
+    conn.commit()
+    logger.info(f"Wrote {len(rows)} matchups, skipped {skipped}")

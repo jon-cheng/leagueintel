@@ -24,10 +24,12 @@ setuptools = "*"
 pytest = "*"
 pytest-cov = "*"
 ipykernel = "*"
+nbformat = "^5.10.4"
 
 [tool.poetry.group.reporting.dependencies]
 streamlit = "*"
 plotly = "*"
+anthropic = "^0.113.0"
 
 [tool.poetry.scripts]
 leagueintel = "leagueintel.cli:cli"

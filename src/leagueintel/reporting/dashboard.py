@@ -4,8 +4,6 @@ import plotly.express as px
 from leagueintel.analytics.draft import get_draft_roi
 from leagueintel.config import ALL_SEASONS
 
-import time
-
 
 def plot_draft_roi(df):
     avg = df["points_per_game"].mean()
