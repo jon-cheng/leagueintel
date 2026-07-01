@@ -19,6 +19,7 @@ def create_tables(conn: sqlite3.Connection) -> None:
     _create_transactions_table(conn)
     _create_transaction_moves_table(conn)
     _create_box_scores_table(conn)
+    _create_matchups_table(conn)
     conn.commit()
 
 
@@ -98,5 +99,29 @@ def _create_box_scores_table(conn: sqlite3.Connection) -> None:
             FOREIGN KEY (team_id) REFERENCES teams(team_id),
             FOREIGN KEY (player_id) REFERENCES players(player_id),
             UNIQUE (season, week, player_id)
+        )
+    """)
+
+
+def _create_matchups_table(conn: sqlite3.Connection) -> None:
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS matchups (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            season INTEGER NOT NULL,           -- NFL season year
+            week INTEGER NOT NULL,             -- NFL week number 1-17
+            home_team_id INTEGER NOT NULL,     -- references teams.team_id
+            away_team_id INTEGER,              -- NULL = bye week
+            home_score REAL,                   -- actual points scored
+            away_score REAL,                   -- actual points scored, 0 if bye
+            home_projected REAL,               -- projected points before games
+            away_projected REAL,
+            is_playoff INTEGER,                -- 0 or 1
+            matchup_type TEXT,                 -- NONE=regular season,
+                                                -- WINNERS_BRACKET=championship bracket,
+                                                -- WINNERS_CONSOLATION_LADDER=3rd-6th place games,
+                                                -- LOSERS_CONSOLATION_LADDER=bottom bracket
+            FOREIGN KEY (home_team_id) REFERENCES teams(team_id),
+            FOREIGN KEY (away_team_id) REFERENCES teams(team_id),
+            UNIQUE (season, week, home_team_id, away_team_id)
         )
     """)

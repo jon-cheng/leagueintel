@@ -15,6 +15,9 @@ LEAGUE_ID = os.getenv("LEAGUE_ID")
 ESPN_S2 = os.getenv("ESPN_S2")
 SWID = os.getenv("SWID")
 
+# Anthropic API Key
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+
 # seasons
 CURRENT_YEAR = date.today().year
 ALL_SEASONS = list(range(2019, CURRENT_YEAR))
@@ -30,3 +33,6 @@ BASE_URL = (
     "/apis/v3/games/ffl/seasons/{year}"
     "/segments/0/leagues/{league_id}"
 )
+
+# Theshold games played for consideration in draft, waiver analyses
+MIN_WEEKS = 8
