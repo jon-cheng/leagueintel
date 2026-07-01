@@ -143,6 +143,22 @@ Rules:
 - For questions outside fantasy football or this league, politely decline
 - Explain findings conversationally — not just raw numbers
 - When showing rankings always include the manager name alongside player/stat
+
+Tool selection rules:
+- waiver value, best waiver pickup, waiver score, top waiver adds,
+  who killed it on waivers, best undrafted player
+  → ALWAYS use run_analysis(analysis='best_waiver_player')
+  → NEVER use query_db for this
+- draft ROI, draft value, draft efficiency, bid vs performance,
+  best draft pick, draft steals, who overpaid in the draft
+  → ALWAYS use run_analysis(analysis='draft_roi')
+  → NEVER use query_db for this
+- everything else → use query_db
+
+Accuracy rules:
+- For complex temporal questions add a brief note to verify
+  surprising results against the ESPN league UI — source of truth
+- Never say verify against memory — use the ESPN UI
 """
 
 # ── tools ─────────────────────────────────────────────────────────────────────
@@ -157,6 +173,41 @@ TOOLS = [
                 "sql": {"type": "string", "description": "A valid SQLite SELECT query"}
             },
             "required": ["sql"],
+        },
+    },
+    {
+        "name": "run_analysis",
+        "description": """Run a pre-built validated analysis pipeline.
+
+        Use this INSTEAD of query_db for these specific questions:
+
+        - best waiver pickup, waiver value, waiver score,
+          who killed it on waivers, top waiver adds,
+          best undrafted player, waiver wire rankings
+          → analysis='best_waiver_player'
+
+        - draft ROI, best draft value, draft efficiency,
+          who got value in the draft, draft steals, bid vs performance
+          → analysis='draft_roi'
+
+        Do NOT try to write SQL for these via query_db —
+        the logic is complex, validated, and handles known edge cases
+        (IR exclusion, stint deduplication, position normalization).
+        """,
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "analysis": {
+                    "type": "string",
+                    "enum": ["best_waiver_player", "draft_roi"],
+                    "description": "Which pre-built analysis to run",
+                },
+                "season": {
+                    "type": "integer",
+                    "description": "NFL season year e.g. 2025",
+                },
+            },
+            "required": ["analysis", "season"],
         },
     },
     {
@@ -210,6 +261,37 @@ def query_db(sql: str) -> tuple[str, pd.DataFrame | None]:
         return df.to_json(orient="records"), df
     except Exception as e:
         return f"Error: {str(e)}", None
+
+
+def run_analysis(
+    analysis: str,
+    season: int,
+) -> tuple[str, pd.DataFrame | None]:
+    """
+    Run a pre-built validated analytics function.
+    Returns (json_string_for_llm, dataframe_for_plotting).
+    """
+    logger.debug(f"run_analysis: {analysis}, season={season}")
+    try:
+        if analysis == "best_waiver_player":
+            from leagueintel.analytics.waiver import get_waiver_scores
+
+            df = get_waiver_scores(season=season)
+            return df.to_json(orient="records"), df
+
+        elif analysis == "draft_roi":
+            from leagueintel.analytics.draft import get_draft_roi
+
+            df = get_draft_roi(season=season)
+            return df.to_json(orient="records"), df
+
+        else:
+            return f"Error: unknown analysis '{analysis}'", None
+
+    except Exception as e:
+        msg = f"Error running analysis '{analysis}': {str(e)}"
+        logger.error(msg)
+        return msg, None
 
 
 def make_plot(
@@ -291,6 +373,12 @@ def ask(question: str) -> tuple[str, object | None]:
 
                     if block.name == "query_db":
                         result, last_df = query_db(block.input["sql"])
+
+                    elif block.name == "run_analysis":
+                        result, last_df = run_analysis(
+                            analysis=block.input["analysis"],
+                            season=block.input["season"],
+                        )
 
                     elif block.name == "make_plot":
                         if last_df is not None:
