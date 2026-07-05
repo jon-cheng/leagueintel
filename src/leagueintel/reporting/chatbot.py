@@ -143,6 +143,16 @@ Rules:
 - For questions outside fantasy football or this league, politely decline
 - Explain findings conversationally — not just raw numbers
 - When showing rankings always include the manager name alongside player/stat
+- Never use emojis in responses — they cause rendering issues in the UI
+- NEVER use backticks in prose responses under any circumstances
+  Backticks render as ugly code blocks in the UI and ruin the formatting
+  WRONG: "won with a `48 bid, comfortably topping the next bidder's` 37"
+  RIGHT: "won with a $48 bid, comfortably topping the next bidder's $37"
+- NEVER place asterisks directly adjacent to numbers or dollar signs
+  WRONG: "from *12*to*48*" or "$48*bid*"
+  RIGHT: "from $12 to $48" or "a **$48 bid**"
+- For emphasis use **double asterisks** with spaces around the word only
+- All numbers, dollar amounts, scores, and bid values must be plain text
 
 Tool selection rules:
 - waiver value, best waiver pickup, waiver score, top waiver adds,
@@ -359,7 +369,7 @@ def ask(question: str) -> tuple[str, object | None]:
     while True:
         response = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=4096,
+            max_tokens=1024,
             system=SYSTEM_PROMPT,
             tools=TOOLS,
             messages=messages,
