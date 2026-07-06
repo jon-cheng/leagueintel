@@ -10,7 +10,12 @@ import plotly.express as px
 import anthropic
 from loguru import logger
 
-from leagueintel.config import DEFAULT_DB_PATH, ANTHROPIC_API_KEY, ALL_SEASONS
+from leagueintel.config import (
+    DEFAULT_DB_PATH,
+    ANTHROPIC_API_KEY,
+    ALL_SEASONS,
+    CHATBOT_DAILY_TOKEN_LIMIT,
+)
 from leagueintel.ingestion.espn import get_scoring_description, get_league_context
 from espn_api.football import League
 from leagueintel.config import LEAGUE_ID, ESPN_S2, SWID
@@ -143,6 +148,16 @@ Rules:
 - For questions outside fantasy football or this league, politely decline
 - Explain findings conversationally — not just raw numbers
 - When showing rankings always include the manager name alongside player/stat
+- Never use emojis in responses — they cause rendering issues in the UI
+- NEVER use backticks in prose responses under any circumstances
+  Backticks render as ugly code blocks in the UI and ruin the formatting
+  WRONG: "won with a `48 bid, comfortably topping the next bidder's` 37"
+  RIGHT: "won with a $48 bid, comfortably topping the next bidder's $37"
+- NEVER place asterisks directly adjacent to numbers or dollar signs
+  WRONG: "from *12*to*48*" or "$48*bid*"
+  RIGHT: "from $12 to $48" or "a **$48 bid**"
+- For emphasis use **double asterisks** with spaces around the word only
+- All numbers, dollar amounts, scores, and bid values must be plain text
 
 Tool selection rules:
 - waiver value, best waiver pickup, waiver score, top waiver adds,
@@ -342,6 +357,61 @@ def make_plot(
         return None, msg
 
 
+# ── usage tracking ───────────────────────────────────────────────────────────
+
+from datetime import date as _date
+
+
+def _get_today_usage() -> tuple[int, int, int]:
+    """Return (tokens_input, tokens_output, question_count) for today."""
+    try:
+        conn = sqlite3.connect(f"file:{DEFAULT_DB_PATH}?mode=ro", uri=True)
+        row = conn.execute(
+            "SELECT tokens_input, tokens_output, question_count "
+            "FROM usage WHERE date = ?",
+            (str(_date.today()),),
+        ).fetchone()
+        conn.close()
+        return row if row else (0, 0, 0)
+    except Exception:
+        return (0, 0, 0)
+
+
+def _record_usage(tokens_input: int, tokens_output: int) -> None:
+    """Upsert today token usage into the usage table."""
+    try:
+        # use DEFAULT_DB_PATH directly (same as _get_today_usage)
+        # avoids get_connection() which has its own DB path reference
+        # making both functions patchable from the same module attribute
+        conn = sqlite3.connect(DEFAULT_DB_PATH)
+        conn.execute(
+            """
+            INSERT INTO usage (date, tokens_input, tokens_output, question_count)
+            VALUES (?, ?, ?, 1)
+            ON CONFLICT(date) DO UPDATE SET
+                tokens_input   = tokens_input   + excluded.tokens_input,
+                tokens_output  = tokens_output  + excluded.tokens_output,
+                question_count = question_count + 1
+            """,
+            (str(_date.today()), tokens_input, tokens_output),
+        )
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        logger.warning(f"Failed to record usage: {e}")
+
+
+def check_daily_budget() -> tuple[bool, int]:
+    """
+    Check whether today token budget has been exceeded.
+    Returns (within_budget, tokens_used_today).
+    Limit is read from config so it can be tuned without code changes.
+    """
+    tokens_in, tokens_out, _ = _get_today_usage()
+    tokens_used = tokens_in + tokens_out
+    return tokens_used < CHATBOT_DAILY_TOKEN_LIMIT, tokens_used
+
+
 # ── agent loop ────────────────────────────────────────────────────────────────
 
 client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
@@ -352,6 +422,18 @@ def ask(question: str) -> tuple[str, object | None]:
     Run one question through the chatbot agent loop.
     Returns (text_response, plotly_figure or None).
     """
+    # check daily token budget before making any API call
+    within_budget, tokens_used = check_daily_budget()
+    if not within_budget:
+        logger.warning(
+            f"Daily token budget exceeded: {tokens_used:,} tokens used today"
+        )
+        return (
+            "The daily question limit has been reached. "
+            "Come back tomorrow — the limit resets at midnight UTC.",
+            None,
+        )
+
     messages = [{"role": "user", "content": question}]
     last_df = None  # track most recent query result for plotting
     fig = None  # track any generated plot
@@ -359,7 +441,7 @@ def ask(question: str) -> tuple[str, object | None]:
     while True:
         response = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=1024,
+            max_tokens=4096,
             system=SYSTEM_PROMPT,
             tools=TOOLS,
             messages=messages,
@@ -415,5 +497,10 @@ def ask(question: str) -> tuple[str, object | None]:
         else:
             text = next(
                 block.text for block in response.content if hasattr(block, "text")
+            )
+            # record token usage — best effort, never blocks the response
+            _record_usage(
+                response.usage.input_tokens,
+                response.usage.output_tokens,
             )
             return text, fig
