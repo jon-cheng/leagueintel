@@ -6,17 +6,29 @@ import os
 from pathlib import Path
 from datetime import date
 from dotenv import load_dotenv, find_dotenv
+import streamlit as st
 
 REPO_ROOT = Path(find_dotenv()).parent
 load_dotenv(REPO_ROOT / ".env")
 
-# ESPN credentials
-LEAGUE_ID = os.getenv("LEAGUE_ID")
-ESPN_S2 = os.getenv("ESPN_S2")
-SWID = os.getenv("SWID")
 
-# Anthropic API Key
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+def _get_env(key: str, default: str = None) -> str:
+    """Read from env var first, then st.secrets, then default."""
+    val = os.getenv(key)
+    if val:
+        return val
+    try:
+        return st.secrets.get(key, default)
+    except Exception:
+        return default
+
+
+ANTHROPIC_API_KEY = _get_env("ANTHROPIC_API_KEY")
+
+# ESPN credentials
+LEAGUE_ID = _get_env("LEAGUE_ID")
+ESPN_S2 = _get_env("ESPN_S2")
+SWID = _get_env("SWID")
 
 # seasons
 CURRENT_YEAR = date.today().year
