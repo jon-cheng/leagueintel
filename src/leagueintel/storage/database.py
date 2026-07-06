@@ -20,6 +20,7 @@ def create_tables(conn: sqlite3.Connection) -> None:
     _create_transaction_moves_table(conn)
     _create_box_scores_table(conn)
     _create_matchups_table(conn)
+    _create_usage_table(conn)
     conn.commit()
 
 
@@ -123,5 +124,17 @@ def _create_matchups_table(conn: sqlite3.Connection) -> None:
             FOREIGN KEY (home_team_id) REFERENCES teams(team_id),
             FOREIGN KEY (away_team_id) REFERENCES teams(team_id),
             UNIQUE (season, week, home_team_id, away_team_id)
+        )
+    """)
+
+
+def _create_usage_table(conn: sqlite3.Connection) -> None:
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS usage (
+            date TEXT NOT NULL,
+            tokens_input INTEGER DEFAULT 0,
+            tokens_output INTEGER DEFAULT 0,
+            question_count INTEGER DEFAULT 0,
+            PRIMARY KEY (date)
         )
     """)

@@ -42,5 +42,17 @@ BASE_URL = (
     "/segments/0/leagues/{league_id}"
 )
 
-# Theshold games played for consideration in draft, waiver analyses
+# Threshold games played for consideration in draft, waiver analyses
 MIN_WEEKS = 8
+
+# ── chatbot token budget ──────────────────────────────────────────────────────
+# Daily token limit across all users — protects against runaway API costs.
+# Adjust here to tune throttling without touching chatbot code.
+#
+# Rough guide (claude-sonnet-4-6 at ~1,600 tokens/question):
+#   50,000  → ~30 questions/day  (conservative)
+#   100,000 → ~60 questions/day  (recommended for private league)
+#   200,000 → ~120 questions/day (generous)
+#
+# For the public demo deployment set this lower (e.g. 20,000).
+CHATBOT_DAILY_TOKEN_LIMIT = int(os.getenv("CHATBOT_DAILY_TOKEN_LIMIT", "100000"))
