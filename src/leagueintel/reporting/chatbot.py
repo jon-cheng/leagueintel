@@ -380,10 +380,9 @@ def _get_today_usage() -> tuple[int, int, int]:
 def _record_usage(tokens_input: int, tokens_output: int) -> None:
     """Upsert today token usage into the usage table."""
     try:
-        # use DEFAULT_DB_PATH directly (same as _get_today_usage)
-        # avoids get_connection() which has its own DB path reference
-        # making both functions patchable from the same module attribute
-        conn = sqlite3.connect(DEFAULT_DB_PATH)
+        from leagueintel.storage.database import get_connection
+
+        conn = get_connection()
         conn.execute(
             """
             INSERT INTO usage (date, tokens_input, tokens_output, question_count)
@@ -414,7 +413,16 @@ def check_daily_budget() -> tuple[bool, int]:
 
 # ── agent loop ────────────────────────────────────────────────────────────────
 
-client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+def _get_client() -> anthropic.Anthropic:
+    """
+    Lazy client instantiation — reads API key at call time not import time.
+    Required for Streamlit Cloud where secrets aren't available at import.
+    """
+    import os
+
+    api_key = os.getenv("ANTHROPIC_API_KEY") or ANTHROPIC_API_KEY
+    return anthropic.Anthropic(api_key=api_key)
 
 
 def ask(question: str) -> tuple[str, object | None]:
@@ -439,7 +447,7 @@ def ask(question: str) -> tuple[str, object | None]:
     fig = None  # track any generated plot
 
     while True:
-        response = client.messages.create(
+        response = _get_client().messages.create(
             model="claude-sonnet-4-6",
             max_tokens=4096,
             system=SYSTEM_PROMPT,
