@@ -1,0 +1,73 @@
+# .github/workflows/refresh.yml
+# Weekly pipeline: download DB from S3 → sync ESPN data → upload back to S3
+# Runs every Tuesday at 8am UTC (Monday night US time, after MNF)
+# Also triggerable manually via workflow_dispatch for testing
+
+name: weekly refresh
+
+on:
+  schedule:
+    - cron: "0 8 * * 2" # Tuesday 8am UTC
+  workflow_dispatch: # manual trigger via GitHub Actions UI
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: poetry install --with reporting
+
+      - name: Download DB from S3
+        run: aws s3 cp s3://leagueintel-data/leagueintel.db leagueintel.db
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_REFRESH }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_REFRESH }}
+          AWS_DEFAULT_REGION: us-west-2
+
+      - name: Sync league data
+        run: poetry run leagueintel sync --seasons $(date +%Y)
+        env:
+          LEAGUE_ID: ${{ secrets.LEAGUE_ID }}
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+
+      - name: Verify DB integrity
+        run: |
+          poetry run python -c "
+          import sqlite3
+          conn = sqlite3.connect('leagueintel.db')
+          tables = ['box_scores', 'matchups', 'transactions', 'teams', 'players']
+          for table in tables:
+              count = conn.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0]
+              print(f'{table}: {count} rows')
+          box_scores = conn.execute('SELECT COUNT(*) FROM box_scores').fetchone()[0]
+          assert box_scores > 0, 'box_scores is empty — sync may have failed'
+          conn.close()
+          print('DB integrity check passed')
+          "
+
+      - name: Upload updated DB to S3
+        run: aws s3 cp leagueintel.db s3://leagueintel-data/leagueintel.db
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_REFRESH }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_REFRESH }}
+          AWS_DEFAULT_REGION: us-west-2
+
+      - name: Verify S3 upload
+        run: aws s3 ls s3://leagueintel-data/leagueintel.db
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_REFRESH }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_REFRESH }}
+          AWS_DEFAULT_REGION: us-west-2
