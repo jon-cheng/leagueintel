@@ -227,3 +227,6 @@ __marimo__/
 
 # db
 *.db
+
+#GitHub Actions
+.github/secrets.local
