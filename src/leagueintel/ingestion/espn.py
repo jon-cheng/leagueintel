@@ -252,7 +252,6 @@ def fetch_box_scores(league: League, week: int, season: int) -> list[dict]:
 
 def fetch_box_scores_all(
     seasons: list[int] = None,
-    max_week: int = DEFAULT_MAX_WEEK,
 ) -> None:
     """Fetch box scores for all seasons and weeks and write to SQLite."""
     seasons = seasons or ALL_SEASONS
@@ -310,7 +309,6 @@ def fetch_matchups(league: League, week: int, season: int) -> list[dict]:
 
 def fetch_matchups_all(
     seasons: list[int] = None,
-    max_week: int = DEFAULT_MAX_WEEK,
 ) -> None:
     """Fetch matchup results for all seasons and weeks and write to SQLite."""
     seasons = seasons or ALL_SEASONS

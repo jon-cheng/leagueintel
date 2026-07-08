@@ -11,10 +11,8 @@ Usage:
     leagueintel fetch-players
     leagueintel parse-transactions --seasons 2024
     leagueintel parse-transactions
-    leagueintel fetch-box-scores --seasons 2024
-    leagueintel fetch-box-scores
-    leagueintel fetch-matchups --seasons 2024
-    leagueintel fetch-matchups
+    leagueintel fetch-box-scores [--seasons 2024]
+    leagueintel fetch-matchups [--seasons 2024]
 """
 
 import click
@@ -123,19 +121,9 @@ def parse_transactions(seasons, input_dir):
     default=None,
     help="Seasons to fetch. If omitted, fetches all seasons.",
 )
-@click.option(
-    "--max-week",
-    type=int,
-    default=17,
-    show_default=True,
-    help="Maximum week number to fetch.",
-)
-def fetch_box_scores(seasons, max_week):
+def fetch_box_scores(seasons):
     """Fetch ESPN box score data and write to SQLite."""
-    fetch_box_scores_all(
-        seasons=list(seasons) if seasons else None,
-        max_week=max_week,
-    )
+    fetch_box_scores_all(seasons=list(seasons) if seasons else None)
 
 
 @cli.command()
@@ -146,19 +134,9 @@ def fetch_box_scores(seasons, max_week):
     default=None,
     help="Seasons to fetch. If omitted, fetches all seasons.",
 )
-@click.option(
-    "--max-week",
-    type=int,
-    default=17,
-    show_default=True,
-    help="Maximum week number to fetch.",
-)
-def fetch_matchups(seasons, max_week):
+def fetch_matchups(seasons):
     """Fetch ESPN matchup results and write to SQLite."""
-    fetch_matchups_all(
-        seasons=list(seasons) if seasons else None,
-        max_week=max_week,
-    )
+    fetch_matchups_all(seasons=list(seasons) if seasons else None)
 
 
 if __name__ == "__main__":
