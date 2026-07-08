@@ -380,9 +380,7 @@ def _get_today_usage() -> tuple[int, int, int]:
 def _record_usage(tokens_input: int, tokens_output: int) -> None:
     """Upsert today token usage into the usage table."""
     try:
-        from leagueintel.storage.database import get_connection
-
-        conn = get_connection()
+        conn = sqlite3.connect(DEFAULT_DB_PATH)
         conn.execute(
             """
             INSERT INTO usage (date, tokens_input, tokens_output, question_count)

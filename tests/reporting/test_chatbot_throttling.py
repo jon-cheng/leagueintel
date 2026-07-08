@@ -11,7 +11,7 @@ leagueintel.reporting.chatbot.DEFAULT_DB_PATH is sufficient.
 import sqlite3
 import pytest
 from datetime import date
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from pathlib import Path
 import leagueintel.reporting.chatbot as chatbot_module
 
@@ -140,7 +140,8 @@ def test_ask_blocked_when_over_budget():
     chatbot_module.CHATBOT_DAILY_TOKEN_LIMIT = 100
     chatbot_module._record_usage(50, 60)  # 110 total — over 100
 
-    with patch("leagueintel.reporting.chatbot.client") as mock_client:
+    mock_client = MagicMock()
+    with patch("leagueintel.reporting.chatbot._get_client", return_value=mock_client):
         text, fig = chatbot_module.ask("Who had the best waiver pickup in 2025?")
 
         # API should never have been called
