@@ -2,6 +2,8 @@
 leagueintel CLI
 
 Usage:
+    leagueintel sync --seasons 2025
+    leagueintel sync
     leagueintel fetch-transactions --year 2024 --week 1
     leagueintel fetch-transactions --year 2024
     leagueintel fetch-transactions
@@ -137,6 +139,23 @@ def fetch_box_scores(seasons):
 def fetch_matchups(seasons):
     """Fetch ESPN matchup results and write to SQLite."""
     fetch_matchups_all(seasons=list(seasons) if seasons else None)
+
+
+@cli.command()
+@click.option(
+    "--seasons",
+    multiple=True,
+    type=int,
+    default=None,
+    help="Seasons to sync. If omitted, syncs all seasons.",
+)
+def sync(seasons):
+    """Run the full data pipeline: teams, players, box scores, and matchups."""
+    seasons_list = list(seasons) if seasons else None
+    fetch_teams_all(seasons=seasons_list)
+    fetch_players_all(seasons=seasons_list)
+    fetch_box_scores_all(seasons=seasons_list)
+    fetch_matchups_all(seasons=seasons_list)
 
 
 if __name__ == "__main__":
