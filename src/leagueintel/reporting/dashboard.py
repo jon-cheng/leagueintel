@@ -41,11 +41,13 @@ def check_password() -> bool:
     st.title("🏈 leagueintel")
     st.caption("Fantasy football analytics — sponsored by seltzerdads")
 
-    password = st.text_input(
-        "Enter league password", type="password", placeholder="ask the commissioner"
-    )
+    with st.form("login_form"):
+        password = st.text_input(
+            "Enter league password", type="password", placeholder="ask the commissioner"
+        )
+        submitted = st.form_submit_button("Enter")
 
-    if st.button("Enter"):
+    if submitted:
         league_password = os.getenv("LEAGUE_PASSWORD") or st.secrets.get(
             "LEAGUE_PASSWORD"
         )
@@ -74,6 +76,7 @@ def plot_draft_roi(df):
             "bid_amount": "Draft Price ($)",
             "points_per_game": "Points Per Game Started",
         },
+        height=600,
     )
     fig.add_hline(
         y=avg,
@@ -112,7 +115,9 @@ def main():
         df = get_draft_roi(season=season)
 
     fig = plot_draft_roi(df)
-    st.plotly_chart(fig, use_container_width=True)
+    _, col, _ = st.columns([1, 4, 1])
+    with col:
+        st.plotly_chart(fig, use_container_width=True)
 
     st.subheader("Data")
     st.dataframe(
