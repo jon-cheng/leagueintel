@@ -35,18 +35,6 @@ def get_playoff_matchups(season: int) -> pd.DataFrame:
         params={"season": season},
     )
     conn.close()
-
-    # safety net 1: deduplicate bye weeks stored twice
-    # due to SQLite treating NULL != NULL in UNIQUE constraints
-    df = df.drop_duplicates(subset=["week", "home_owner"], keep="first")
-
-    # safety net 2: deduplicate same matchup appearing in consecutive weeks
-    # ESPN sometimes stores the championship in both week 16 and week 17
-    # with identical scores — keep only the first occurrence
-    df = df.drop_duplicates(
-        subset=["home_owner", "away_owner", "home_score", "away_score"], keep="first"
-    )
-
     return df
 
 

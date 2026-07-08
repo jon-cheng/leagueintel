@@ -262,7 +262,7 @@ def fetch_box_scores_all(
     for year in seasons:
         logger.info(f"=== Season {year} ===")
         league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
-        weeks = _get_weeks(max_week)
+        weeks = _get_weeks(league.finalScoringPeriod)
 
         for week in weeks:
             try:
@@ -320,7 +320,7 @@ def fetch_matchups_all(
     for year in seasons:
         logger.info(f"=== Season {year} ===")
         league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
-        weeks = _get_weeks(max_week)
+        weeks = _get_weeks(league.finalScoringPeriod)
 
         for week in weeks:
             try:
