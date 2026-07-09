@@ -269,6 +269,13 @@ def fetch_box_scores_all(
                 write_box_scores(rows, conn)
                 logger.info(f"  week {week:02d}: wrote {len(rows)} player records")
                 time.sleep(0.3)
+            except KeyError as e:
+                if "rosterForCurrentScoringPeriod" in str(e):
+                    # ESPN doesn't populate roster data for future seasons
+                    # during offseason this fires for all weeks — expected
+                    logger.debug(f"  week {week:02d}: no roster data yet (offseason)")
+                else:
+                    logger.warning(f"  week {week:02d}: unexpected KeyError — {e}")
             except Exception as e:
                 logger.warning(f"  week {week:02d}: ERROR — {e}")
 
@@ -326,6 +333,13 @@ def fetch_matchups_all(
                 write_matchups(rows, conn)
                 logger.info(f"  week {week:02d}: wrote {len(rows)} matchups")
                 time.sleep(0.3)
+            except KeyError as e:
+                if "rosterForCurrentScoringPeriod" in str(e):
+                    # ESPN doesn't populate roster data for future seasons
+                    # during offseason this fires for all weeks — expected
+                    logger.debug(f"  week {week:02d}: no roster data yet (offseason)")
+                else:
+                    logger.warning(f"  week {week:02d}: unexpected KeyError — {e}")
             except Exception as e:
                 logger.warning(f"  week {week:02d}: ERROR — {e}")
 
