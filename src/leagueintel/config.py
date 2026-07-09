@@ -16,9 +16,10 @@ def _get_env(key: str, default: str = None) -> str:
     """Read from env var first, then st.secrets, then default."""
     val = os.getenv(key)
     if val:
-        return val
+        return val.strip()
     try:
-        return st.secrets.get(key, default)
+        val = st.secrets.get(key, default)
+        return val.strip() if val else val
     except Exception:
         return default
 

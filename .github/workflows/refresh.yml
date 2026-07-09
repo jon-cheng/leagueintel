@@ -7,8 +7,7 @@ name: weekly refresh
 
 on:
   schedule:
-    # - cron: "0 8 * * 2" # Tuesday 8am UTC
-    - cron: "*/15 * * * *"
+    - cron: "0 9 * * *" # daily at 1am PST / 2am PDT
   workflow_dispatch: # manual trigger via GitHub Actions UI
 
 jobs:
