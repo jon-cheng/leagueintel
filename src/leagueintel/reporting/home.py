@@ -82,7 +82,7 @@ def shared_sidebar() -> None:
     )
 
     with st.sidebar:
-        st.title("leagueintel")
+        st.title("🏈 leagueintel")
         st.caption("your league's historian and oracle")
 
         if st.button("💬 Chat", use_container_width=True, type="primary"):
@@ -109,11 +109,11 @@ def shared_sidebar() -> None:
         )
 
         st.subheader("Season Overview")
-        st.page_link("pages/Season_Overview.py", label="🏈 Season Overview")
+        st.page_link("pages/Season_Overview.py", label="🏆 Season Overview")
 
         st.subheader("Analytics")
-        st.page_link("pages/Draft_ROI.py", label="📊 Draft ROI")
-        st.page_link("pages/Best_Waiver.py", label="📈 Best Waiver")
+        st.page_link("pages/Draft_ROI.py", label="🎯 Draft ROI")
+        st.page_link("pages/Best_Waiver.py", label="💎 Best Waiver")
 
         st.subheader("History")
         st.page_link("pages/Head_to_Head.py", label="⚔️ Head to Head")
