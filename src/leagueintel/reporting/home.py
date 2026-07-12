@@ -57,6 +57,12 @@ def check_password() -> bool:
 
 # ── shared sidebar ────────────────────────────────────────────────────────────
 
+FAQ = {
+    "Most regrettable drop": "Who had the most regrettable drop in 2025?",
+    "Highest scoring week": "What was the highest scoring week ever?",
+    "Luckiest manager": "Which manager was luckiest in 2025 based on points against?",
+}
+
 
 def shared_sidebar() -> None:
     """Render the sidebar shared across all authenticated pages."""
@@ -69,18 +75,24 @@ def shared_sidebar() -> None:
 
     with st.sidebar:
         st.title("leagueintel")
-        st.caption("your league's historian")
+        st.caption("your league's historian and oracle")
 
         if st.button("💬 Chat", use_container_width=True, type="primary"):
             st.switch_page("pages/Chat.py")
+
+        with st.expander("Quick Questions", expanded=False):
+            for label, question in FAQ.items():
+                if st.button(label, use_container_width=True, key=f"faq_{label}"):
+                    st.session_state.pending_question = question
+                    st.switch_page("pages/Chat.py")
+
+        st.divider()
 
         st.selectbox(
             "Season",
             options=sorted(ALL_SEASONS, reverse=True),
             key="selected_season",
         )
-
-        st.divider()
 
         st.subheader("Season Overview")
         st.page_link("pages/Season_Overview.py", label="🏈 Season Overview")
@@ -108,10 +120,10 @@ def _landing_hero() -> None:
     with left:
         st.markdown("**Try asking:**")
         st.markdown(
-            "- \"How much FAAB did Manager A spend last season?\"\n"
-            "- \"What's my all-time record against Manager B?\"\n"
-            "- \"Who were the best waiver pickups this year?\"\n"
-            "- \"Show me draft ROI for this season\""
+            '- "How much FAAB did Manager A spend last season?"\n'
+            '- "What\'s my all-time record against Manager B?"\n'
+            '- "Who were the best waiver pickups this year?"\n'
+            '- "Show me draft ROI for this season"'
         )
     with right:
         st.markdown("**What's available:**")

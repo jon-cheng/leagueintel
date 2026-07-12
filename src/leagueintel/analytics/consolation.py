@@ -80,62 +80,46 @@ def get_consolation_matchups(season: int) -> pd.DataFrame:
 
 
 def get_toilet_bowl_loser(season: int) -> dict:
-    """
-    Track losers through consolation bracket week by week.
-    Teams that lose every round end up in the last place game.
-    Toilet bowl loser = loser of the game between the two
-    teams who lost in both week 15 AND week 16.
-    """
     matchups = get_consolation_matchups(season)
     weeks = sorted(matchups["week"].unique())
 
-    # week 1: find all losers
-    round1_games = matchups[matchups["week"] == weeks[0]]
-    round1_losers = set()
-    for _, game in round1_games.iterrows():
-        if game["home_score"] < game["away_score"]:
-            round1_losers.add(game["home_owner"])
-        else:
-            round1_losers.add(game["away_owner"])
-
-    # week 2: among round1 losers, find who lost again
-    round2_games = matchups[matchups["week"] == weeks[1]]
-    round2_losers = set()
-    for _, game in round2_games.iterrows():
-        home = game["home_owner"]
-        away = game["away_owner"]
-        # only care about games between round1 losers
-        if home in round1_losers and away in round1_losers:
+    # count losses per manager across all rounds except final
+    loss_count = {}
+    for week in weeks[:-1]:
+        week_games = matchups[matchups["week"] == week]
+        for _, game in week_games.iterrows():
             if game["home_score"] < game["away_score"]:
-                round2_losers.add(home)
+                loser = game["home_owner"]
             else:
-                round2_losers.add(away)
+                loser = game["away_owner"]
+            loss_count[loser] = loss_count.get(loser, 0) + 1
 
-    # week 3: find the game between the two teams
-    # who lost in both round1 AND round2
-    double_losers = round1_losers & round2_losers
-    final_games = matchups[matchups["week"] == weeks[2]]
+    # team with most losses = the one destined for last place game
+    most_losses_team = max(loss_count, key=loss_count.get)
 
+    print(f"loss counts: {loss_count}")
+    print(f"most losses team: {most_losses_team}")
+
+    # find their final week game
+    final_games = matchups[matchups["week"] == weeks[-1]]
     last_place_game = final_games[
-        (final_games["home_owner"].isin(double_losers))
-        & (final_games["away_owner"].isin(double_losers))
+        (final_games["home_owner"] == most_losses_team)
+        | (final_games["away_owner"] == most_losses_team)
     ]
 
     if last_place_game.empty:
-        raise ValueError(f"Could not find last place game in {season}")
+        raise ValueError(
+            f"Could not find last place game for {most_losses_team} in {season}"
+        )
 
     game = last_place_game.iloc[0]
 
     if game["home_score"] < game["away_score"]:
-        loser = game["home_owner"]
-        loser_score = game["home_score"]
-        winner = game["away_owner"]
-        winner_score = game["away_score"]
+        loser, loser_score = game["home_owner"], game["home_score"]
+        winner, winner_score = game["away_owner"], game["away_score"]
     else:
-        loser = game["away_owner"]
-        loser_score = game["away_score"]
-        winner = game["home_owner"]
-        winner_score = game["home_score"]
+        loser, loser_score = game["away_owner"], game["away_score"]
+        winner, winner_score = game["home_owner"], game["home_score"]
 
     return {
         "season": season,
@@ -143,6 +127,58 @@ def get_toilet_bowl_loser(season: int) -> dict:
         "last_place_score": loser_score,
         "opponent": winner,
         "opponent_score": winner_score,
+    }
+
+
+def get_arbys_winner(season: int) -> dict:
+    """
+    Arby's winner = winner of the 7 vs 8 seed game in the
+    final consolation week. Best finisher among non-playoff teams.
+    Identified as the team with the most WINS in the consolation
+    bracket prior to the final week — inverse of toilet bowl logic.
+    """
+    matchups = get_consolation_matchups(season)
+    weeks = sorted(matchups["week"].unique())
+
+    # count wins per manager across all rounds except final
+    win_count = {}
+    for week in weeks[:-1]:
+        week_games = matchups[matchups["week"] == week]
+        for _, game in week_games.iterrows():
+            if game["home_score"] > game["away_score"]:
+                winner = game["home_owner"]
+            else:
+                winner = game["away_owner"]
+            win_count[winner] = win_count.get(winner, 0) + 1
+
+    # team with most wins = destined for the arby's game
+    most_wins_team = max(win_count, key=win_count.get)
+
+    # find their final week game
+    final_games = matchups[matchups["week"] == weeks[-1]]
+    arbys_game = final_games[
+        (final_games["home_owner"] == most_wins_team)
+        | (final_games["away_owner"] == most_wins_team)
+    ]
+
+    if arbys_game.empty:
+        raise ValueError(f"Could not find Arby's game for {most_wins_team} in {season}")
+
+    game = arbys_game.iloc[0]
+
+    if game["home_score"] > game["away_score"]:
+        winner, winner_score = game["home_owner"], game["home_score"]
+        loser, loser_score = game["away_owner"], game["away_score"]
+    else:
+        winner, winner_score = game["away_owner"], game["away_score"]
+        loser, loser_score = game["home_owner"], game["home_score"]
+
+    return {
+        "season": season,
+        "arbys_winner": winner,
+        "winner_score": winner_score,
+        "opponent": loser,
+        "loser_score": loser_score,
     }
 
 

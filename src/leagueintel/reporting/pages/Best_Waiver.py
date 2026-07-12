@@ -4,7 +4,9 @@ import streamlit as st
 from leagueintel.config import ALL_SEASONS
 from leagueintel.reporting.home import shared_sidebar
 
-st.set_page_config(page_title="leagueintel — Best Waiver", page_icon="🏈", layout="wide")
+st.set_page_config(
+    page_title="leagueintel — Best Waiver", page_icon="🏈", layout="wide"
+)
 
 # ── auth gate ─────────────────────────────────────────────────────────────────
 
@@ -18,7 +20,7 @@ season = st.session_state.get("selected_season", max(ALL_SEASONS))
 
 # ── page ──────────────────────────────────────────────────────────────────────
 
-st.title("Best Waiver Pickup")
+st.title(f"Best Waiver Pickup: {season}")
 st.caption("Position-normalized percentile score")
 
 st.info("Waiver score analytics coming soon")

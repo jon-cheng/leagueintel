@@ -1,8 +1,10 @@
 # src/leagueintel/reporting/pages/Season_Overview.py
 import streamlit as st
 import streamlit.components.v1 as components
+from leagueintel.analytics.consolation import get_arbys_winner, get_toilet_bowl_loser
 from leagueintel.analytics.standings import get_standings
 from leagueintel.config import ALL_SEASONS
+from leagueintel.reporting.consolation_card import render_matchup_card
 from leagueintel.reporting.home import shared_sidebar
 from leagueintel.reporting.playoff_bracket import bracket_height, render_playoff_bracket
 
@@ -45,5 +47,36 @@ st.dataframe(
 st.header("Playoff Bracket")
 components.html(render_playoff_bracket(season), height=bracket_height(season))
 
-st.header("Last Place")
-st.info("Last place tracker coming soon")
+st.header("Arby's Bowl")
+try:
+    arbys = get_arbys_winner(season)
+    card = render_matchup_card(
+        title=f"{season} Consolation Ladder Championship",
+        emoji="🥩",
+        name_top=arbys["arbys_winner"],
+        score_top=arbys["winner_score"],
+        name_bot=arbys["opponent"],
+        score_bot=arbys["loser_score"],
+        highlight="top",
+        color="green",
+    )
+    components.html(card, height=150)
+except Exception:
+    st.info("Arby's Bowl data not available for this season")
+
+st.header("Toilet Bowl")
+try:
+    toilet_bowl = get_toilet_bowl_loser(season)
+    card = render_matchup_card(
+        title=f"{season} Last Place Game",
+        emoji="🚽",
+        name_top=toilet_bowl["last_place"],
+        score_top=toilet_bowl["last_place_score"],
+        name_bot=toilet_bowl["opponent"],
+        score_bot=toilet_bowl["opponent_score"],
+        highlight="top",
+        color="red",
+    )
+    components.html(card, height=150)
+except Exception:
+    st.info("Toilet Bowl data not available for this season")

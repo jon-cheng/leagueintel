@@ -86,25 +86,6 @@ with st.expander("ℹ️ How to get the best results", expanded=False):
     Complex temporal questions (before/after events) are best-effort.
     """)
 
-# ── sidebar FAQ buttons ───────────────────────────────────────────────────────
-
-st.sidebar.title("Quick questions")
-st.sidebar.caption("Click to ask")
-
-FAQ = {
-    "Best waiver pickups": "Who were the best waiver pickups in 2025?",
-    "Draft ROI": "Show me draft ROI for 2025",
-    "Most regrettable drop": "Who had the most regrettable drop in 2025?",
-    "FAAB spend by manager": "How much FAAB did each manager spend in 2025?",
-    "Head to head records": "Show me all head to head records for 2025",
-    "Highest scoring week": "What was the highest scoring week ever?",
-    "Luckiest manager": "Which manager was luckiest in 2025 based on points against?",
-}
-
-for label, question in FAQ.items():
-    if st.sidebar.button(label, use_container_width=True):
-        st.session_state.pending_question = question
-
 # ── chat history ──────────────────────────────────────────────────────────────
 
 if "chat_history" not in st.session_state:
