@@ -1,4 +1,4 @@
-# src/leagueintel/reporting/pages/3_📈_Best_Waiver.py
+# src/leagueintel/reporting/pages/Best_Waiver.py
 import pandas as pd
 import streamlit as st
 from leagueintel.config import ALL_SEASONS

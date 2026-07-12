@@ -1,4 +1,4 @@
-# src/leagueintel/reporting/pages/2_📊_Draft_ROI.py
+# src/leagueintel/reporting/pages/Draft_ROI.py
 import streamlit as st
 import plotly.express as px
 from leagueintel.analytics.draft import get_draft_roi
@@ -84,7 +84,7 @@ _, col, _ = st.columns([1, 4, 1])
 with col:
     st.plotly_chart(fig, use_container_width=True)
 
-st.subheader("Data")
+st.subheader("Draft Selections")
 st.dataframe(
     df[
         [
@@ -96,7 +96,7 @@ st.dataframe(
             "total_points",
             "points_per_game",
         ]
-    ],
+    ].sort_values("bid_amount", ascending=False),
     use_container_width=True,
     hide_index=True,
 )

@@ -72,7 +72,7 @@ def shared_sidebar() -> None:
         st.caption("your league's historian")
 
         if st.button("💬 Chat", use_container_width=True, type="primary"):
-            st.switch_page("pages/1_💬_Chat.py")
+            st.switch_page("pages/Chat.py")
 
         st.selectbox(
             "Season",
@@ -83,14 +83,14 @@ def shared_sidebar() -> None:
         st.divider()
 
         st.subheader("Season Overview")
-        st.page_link("pages/4_🏈_Season_Overview.py", label="🏈 Season Overview")
+        st.page_link("pages/Season_Overview.py", label="🏈 Season Overview")
 
         st.subheader("Analytics")
-        st.page_link("pages/2_📊_Draft_ROI.py", label="📊 Draft ROI")
-        st.page_link("pages/3_📈_Best_Waiver.py", label="📈 Best Waiver")
+        st.page_link("pages/Draft_ROI.py", label="📊 Draft ROI")
+        st.page_link("pages/Best_Waiver.py", label="📈 Best Waiver")
 
         st.subheader("History")
-        st.page_link("pages/5_⚔️_Head_to_Head.py", label="⚔️ Head to Head")
+        st.page_link("pages/Head_to_Head.py", label="⚔️ Head to Head")
 
 
 # ── landing page ──────────────────────────────────────────────────────────────
@@ -131,7 +131,7 @@ def main() -> None:
     initialize_db()
 
     if st.session_state.get("authenticated"):
-        st.switch_page("pages/2_📊_Draft_ROI.py")
+        st.switch_page("pages/Draft_ROI.py")
 
     # hide sidebar nav entirely pre-login — there's nothing to navigate to yet
     st.markdown(
@@ -142,7 +142,7 @@ def main() -> None:
     _landing_hero()
 
     if check_password():
-        st.switch_page("pages/2_📊_Draft_ROI.py")
+        st.switch_page("pages/Draft_ROI.py")
 
 
 if __name__ == "__main__":

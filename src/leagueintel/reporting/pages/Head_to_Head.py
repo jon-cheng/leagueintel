@@ -1,4 +1,4 @@
-# src/leagueintel/reporting/pages/5_⚔️_Head_to_Head.py
+# src/leagueintel/reporting/pages/Head_to_Head.py
 import pandas as pd
 import streamlit as st
 from leagueintel.analytics.head_to_head import get_h2h_matrix

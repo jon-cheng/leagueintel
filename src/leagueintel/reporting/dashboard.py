@@ -119,7 +119,7 @@ def main():
     with col:
         st.plotly_chart(fig, use_container_width=True)
 
-    st.subheader("Data")
+    st.subheader("Draft Selections")
     st.dataframe(
         df[
             [
@@ -131,7 +131,7 @@ def main():
                 "total_points",
                 "points_per_game",
             ]
-        ],
+        ].sort_values("bid_amount", ascending=False),
         use_container_width=True,
         hide_index=True,
     )

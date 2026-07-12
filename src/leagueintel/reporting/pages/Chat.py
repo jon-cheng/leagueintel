@@ -1,4 +1,4 @@
-# src/leagueintel/reporting/pages/1_💬_Chat.py
+# src/leagueintel/reporting/pages/Chat.py
 """
 Chatbot UI page for leagueintel.
 Wires the chatbot engine (chatbot.py) into Streamlit's chat interface.

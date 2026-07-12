@@ -1,4 +1,4 @@
-# src/leagueintel/reporting/pages/4_🏈_Season_Overview.py
+# src/leagueintel/reporting/pages/Season_Overview.py
 import streamlit as st
 import streamlit.components.v1 as components
 from leagueintel.analytics.standings import get_standings
