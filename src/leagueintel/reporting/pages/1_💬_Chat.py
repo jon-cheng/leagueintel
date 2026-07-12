@@ -1,4 +1,4 @@
-# src/leagueintel/reporting/pages/2_Chat.py
+# src/leagueintel/reporting/pages/1_💬_Chat.py
 """
 Chatbot UI page for leagueintel.
 Wires the chatbot engine (chatbot.py) into Streamlit's chat interface.
@@ -7,14 +7,17 @@ Wires the chatbot engine (chatbot.py) into Streamlit's chat interface.
 import re
 import streamlit as st
 from leagueintel.reporting.chatbot import ask
+from leagueintel.reporting.home import shared_sidebar
 
-st.set_page_config(page_title="leagueintel — Chat", page_icon="💬", layout="wide")
+st.set_page_config(page_title="leagueintel — Chat", page_icon="🏈", layout="wide")
 
 # ── auth gate ─────────────────────────────────────────────────────────────────
 
 if not st.session_state.get("authenticated"):
-    st.warning("Please log in from the main page first.")
+    st.switch_page("home.py")
     st.stop()
+
+shared_sidebar()
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -51,8 +54,8 @@ def clean_response(text: str) -> str:
         r"\U0001FA00-\U0001FA9F"
         r"\U00002600-\U000027BF"
         r"\U0001F600-\U0001F64F"
-        r"\u2700-\u27BF"
-        r"\u2300-\u23FF]+",
+        r"✀-➿"
+        r"⌀-⏿]+",
         "",
         text,
     )
@@ -68,8 +71,8 @@ st.caption("Ask anything about your fantasy league — 6 seasons of data")
 with st.expander("ℹ️ How to get the best results", expanded=False):
     st.markdown("""
     **Works well:**
-    - "How much FAAB did Jake spend in 2025?"
-    - "What's my all-time record against Sam?"
+    - "How much FAAB did Manager A spend in 2025?"
+    - "What's my all-time record against Manager B?"
     - "Who were the best waiver pickups in 2025?"
     - "Show me draft ROI for 2025"
     - "Who had the most regrettable drop of 2025?"
