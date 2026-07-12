@@ -2,6 +2,7 @@
 import streamlit as st
 import plotly.express as px
 from leagueintel.analytics.draft import get_draft_roi, get_draft_selections
+from leagueintel.analytics.availability import SeasonNotReadyError
 from leagueintel.config import ALL_SEASONS
 from leagueintel.reporting.home import shared_sidebar
 
@@ -55,8 +56,12 @@ st.caption(
 )
 
 with st.spinner("Loading draft data..."):
-    df = get_draft_roi(season=season)
-    all_selections = get_draft_selections(season=season)
+    try:
+        df = get_draft_roi(season=season)
+        all_selections = get_draft_selections(season=season)
+    except SeasonNotReadyError as e:
+        st.info(str(e))
+        st.stop()
 
 # ── metric cards ──────────────────────────────────────────────────────────────
 

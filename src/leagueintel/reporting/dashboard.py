@@ -43,7 +43,7 @@ def check_password() -> bool:
 
     with st.form("login_form"):
         password = st.text_input(
-            "Enter league password", type="password", placeholder="ask the commissioner"
+            "Enter league password", type="password", placeholder="ask the developer"
         )
         submitted = st.form_submit_button("Enter")
 

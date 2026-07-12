@@ -12,6 +12,7 @@ def create_views(conn: sqlite3.Connection) -> None:
     """Create all leagueintel views."""
     _create_draft_picks_view(conn)
     _create_draft_box_scores_view(conn)
+    _create_waiver_stints_view(conn)
     conn.commit()
 
 
@@ -94,4 +95,76 @@ def _create_draft_box_scores_view(conn: sqlite3.Connection) -> None:
         AND t.status = 'EXECUTED'             -- successful picks only
         AND mv.item_type = 'DRAFT'            -- keep DRAFT item type only
         AND bs.position NOT IN ('K', 'D/ST') -- exclude kickers and defenses
+    """)
+
+
+def _create_waiver_stints_view(conn: sqlite3.Connection) -> None:
+    """
+    Waiver-added player stints on fantasy teams — one row per continuous
+    roster stint for a player who was picked up off waivers (drafted
+    players are excluded; they're covered by draft_picks/draft_box_scores).
+
+    acquisition_week: first scoring period the player was added via waiver
+    drop_week: first scoring period the player was dropped after that
+               acquisition, or 18 (past the season) if never dropped
+
+    Use for: waiver value analyses — join to box_scores on
+    (player_id, team_id, season) and filter week within [acquisition_week, drop_week).
+    """
+    conn.execute("""
+        CREATE VIEW IF NOT EXISTS waiver_stints AS
+        WITH drafted_players AS (
+            SELECT DISTINCT
+                tm.player_id,
+                t.season
+            FROM transaction_moves tm
+            JOIN transactions t ON tm.transaction_id = t.id
+            WHERE t.transaction_type = 'DRAFT'
+            AND t.status = 'EXECUTED'
+            AND tm.item_type = 'DRAFT'
+            AND tm.player_id > 0
+        ),
+        waiver_adds AS (
+            SELECT
+                tm.player_id,
+                tm.to_team_id AS team_id,
+                MIN(t.scoring_period_id) AS acquisition_week,
+                t.season
+            FROM transaction_moves tm
+            JOIN transactions t ON tm.transaction_id = t.id
+            WHERE tm.item_type = 'ADD'
+            AND t.transaction_type = 'WAIVER'
+            AND t.status = 'EXECUTED'
+            AND tm.player_id > 0
+            AND NOT EXISTS (
+                SELECT 1 FROM drafted_players dp
+                WHERE dp.player_id = tm.player_id
+                AND dp.season = t.season
+            )
+            GROUP BY tm.player_id, tm.to_team_id, t.season
+        ),
+        waiver_drops AS (
+            SELECT
+                tm.player_id,
+                tm.from_team_id AS team_id,
+                MIN(t.scoring_period_id) AS drop_week,
+                t.season
+            FROM transaction_moves tm
+            JOIN transactions t ON tm.transaction_id = t.id
+            WHERE tm.item_type = 'DROP'
+            AND tm.player_id > 0
+            GROUP BY tm.player_id, tm.from_team_id, t.season
+        )
+        SELECT
+            a.player_id,
+            a.team_id,
+            a.season,
+            a.acquisition_week,
+            COALESCE(d.drop_week, 18) AS drop_week
+        FROM waiver_adds a
+        LEFT JOIN waiver_drops d
+            ON a.player_id = d.player_id
+            AND a.team_id = d.team_id
+            AND a.season = d.season
+            AND d.drop_week > a.acquisition_week
     """)

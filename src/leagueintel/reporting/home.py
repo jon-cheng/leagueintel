@@ -2,7 +2,15 @@
 import os
 import boto3
 import streamlit as st
-from leagueintel.config import ALL_SEASONS, DEFAULT_DB_PATH, S3_BUCKET, S3_KEY
+from leagueintel.config import (
+    ALL_SEASONS,
+    CURRENT_YEAR,
+    DEFAULT_DB_PATH,
+    S3_BUCKET,
+    S3_KEY,
+)
+from leagueintel.storage.database import get_connection, get_max_ingested_week
+from leagueintel.analytics.availability import get_default_season
 
 # ── S3 download ───────────────────────────────────────────────────────────────
 
@@ -38,7 +46,7 @@ def check_password() -> bool:
 
     with st.form("login_form"):
         password = st.text_input(
-            "Enter league password", type="password", placeholder="ask the commissioner"
+            "Enter league password", type="password", placeholder="ask the developer"
         )
         submitted = st.form_submit_button("Enter")
 
@@ -74,7 +82,7 @@ def shared_sidebar() -> None:
     )
 
     with st.sidebar:
-        st.title("leagueintel")
+        st.title("🏈 leagueintel")
         st.caption("your league's historian and oracle")
 
         if st.button("💬 Chat", use_container_width=True, type="primary"):
@@ -88,18 +96,24 @@ def shared_sidebar() -> None:
 
         st.divider()
 
+        season_options = sorted(ALL_SEASONS, reverse=True)
+        conn = get_connection()
+        default_season = get_default_season(get_max_ingested_week(conn, CURRENT_YEAR))
+        conn.close()
+
         st.selectbox(
             "Season",
-            options=sorted(ALL_SEASONS, reverse=True),
+            options=season_options,
+            index=season_options.index(default_season),
             key="selected_season",
         )
 
         st.subheader("Season Overview")
-        st.page_link("pages/Season_Overview.py", label="🏈 Season Overview")
+        st.page_link("pages/Season_Overview.py", label="🏆 Season Overview")
 
         st.subheader("Analytics")
-        st.page_link("pages/Draft_ROI.py", label="📊 Draft ROI")
-        st.page_link("pages/Best_Waiver.py", label="📈 Best Waiver")
+        st.page_link("pages/Draft_ROI.py", label="🎯 Draft ROI")
+        st.page_link("pages/Best_Waiver.py", label="💎 Best Waiver")
 
         st.subheader("History")
         st.page_link("pages/Head_to_Head.py", label="⚔️ Head to Head")

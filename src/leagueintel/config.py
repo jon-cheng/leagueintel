@@ -33,7 +33,7 @@ SWID = _get_env("SWID")
 
 # seasons
 CURRENT_YEAR = date.today().year
-ALL_SEASONS = list(range(2019, CURRENT_YEAR))
+ALL_SEASONS = list(range(2019, CURRENT_YEAR + 1))
 
 # paths
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "raw"
@@ -57,6 +57,12 @@ BASE_URL = (
 
 # Threshold games played for consideration in draft, waiver analyses
 MIN_WEEKS = 8
+
+# Draft ROI and Best Waiver need a full season's worth of weeks to be
+# meaningful — too few weeks of the live season means small sample sizes
+# and noisy comparisons. Lock these two analyses out for the current
+# season until this many weeks have been ingested.
+LIVE_SEASON_ANALYSIS_MIN_WEEK = 12
 
 # ── chatbot token budget ──────────────────────────────────────────────────────
 # Daily token limit across all users — protects against runaway API costs.

@@ -3,213 +3,55 @@
 Waiver wire analytics — position-normalized percentile scoring.
 
 Methodology:
-  For each waiver pickup with >= 8 weeks on roster:
-    1. Select the player's top 8 scoring weeks
-    2. Sum those 8 weeks → player's total
+  For each waiver pickup with >= TOP_N_WEEKS weeks on roster:
+    1. Select the player's top TOP_N_WEEKS scoring weeks
+    2. Sum those weeks -> player's total
     3. Compare that total against all rostered players at the same
-       position over the SAME 8 weeks
-    4. Percentile = fraction of comparison players who scored less × 100
+       position over the SAME weeks
+    4. Percentile = fraction of comparison players who scored less x 100
 
 This rewards consistent performers and controls for position scarcity
 and schedule difficulty by comparing against the field over the same weeks.
 
 Originally based on espnff waiver analysis methodology.
+
+Stint boundaries (who was on which team, and when) come from the
+waiver_stints SQL view — matching add/drop transactions into date ranges
+is naturally a join and stays in SQL. Everything downstream (picking each
+stint's best weeks, building the comparison population, scoring) is pandas.
 """
 
 import pandas as pd
-from leagueintel.storage.database import get_connection
+from leagueintel.storage.database import get_connection, get_max_ingested_week
+from leagueintel.analytics.availability import check_season_ready
 
-WAIVER_SCORE_SQL = """
-WITH params AS (
-    SELECT :season AS season
-),
-drafted_players AS (
-    SELECT DISTINCT
-        tm.player_id,
-        t.season
-    FROM transaction_moves tm
-    JOIN transactions t ON tm.transaction_id = t.id
-    CROSS JOIN params p
-    WHERE t.transaction_type = 'DRAFT'
-    AND t.status = 'EXECUTED'
-    AND t.season = p.season
-    AND tm.item_type = 'DRAFT'
-    AND tm.player_id > 0
-),
-waiver_adds AS (
-    SELECT
-        tm.player_id,
-        tm.to_team_id AS team_id,
-        MIN(t.scoring_period_id) AS acquisition_week,
-        t.season
-    FROM transaction_moves tm
-    JOIN transactions t ON tm.transaction_id = t.id
-    CROSS JOIN params p
-    WHERE tm.item_type = 'ADD'
-    AND t.transaction_type = 'WAIVER'
-    AND t.status = 'EXECUTED'
-    AND t.season = p.season
-    AND tm.player_id > 0
-    AND tm.player_id NOT IN (
-        SELECT player_id FROM drafted_players
-        WHERE season = p.season
-    )
-    GROUP BY tm.player_id, tm.to_team_id, t.season
-),
-waiver_drops AS (
-    SELECT
-        tm.player_id,
-        tm.from_team_id AS team_id,
-        MIN(t.scoring_period_id) AS drop_week,
-        t.season
-    FROM transaction_moves tm
-    JOIN transactions t ON tm.transaction_id = t.id
-    CROSS JOIN params p
-    WHERE tm.item_type = 'DROP'
-    AND t.season = p.season
-    AND tm.player_id > 0
-    GROUP BY tm.player_id, tm.from_team_id, t.season
-),
-stints AS (
-    SELECT
-        a.player_id,
-        a.team_id,
-        a.season,
-        a.acquisition_week,
-        COALESCE(d.drop_week, 18) AS drop_week
-    FROM waiver_adds a
-    LEFT JOIN waiver_drops d
-        ON a.player_id = d.player_id
-        AND a.team_id = d.team_id
-        AND a.season = d.season
-        AND d.drop_week > a.acquisition_week
-),
-stint_scores AS (
-    SELECT
-        s.player_id,
-        s.team_id,
-        s.season,
-        s.acquisition_week,
-        s.drop_week,
-        bs.week,
-        bs.points,
-        bs.position
-    FROM stints s
-    JOIN box_scores bs
-        ON s.player_id = bs.player_id
-        AND s.team_id = bs.team_id
-        AND s.season = bs.season
-        AND bs.week >= s.acquisition_week
-        AND bs.week < s.drop_week
-    WHERE bs.position NOT IN ('K', 'D/ST')
-),
-top_8_weeks AS (
-    SELECT
-        player_id,
-        team_id,
-        season,
-        acquisition_week,
-        drop_week,
-        week,
-        points,
-        position,
-        ROW_NUMBER() OVER (
-            PARTITION BY player_id, team_id, season, acquisition_week
-            ORDER BY points DESC
-        ) AS week_rank
-    FROM stint_scores
-),
-top_8 AS (
-    SELECT *
-    FROM top_8_weeks
-    WHERE week_rank <= 8
-),
-player_top8_totals AS (
-    SELECT
-        player_id,
-        team_id,
-        season,
-        acquisition_week,
-        drop_week,
-        position,
-        SUM(points) AS top8_total_points,
-        COUNT(*) AS num_weeks
-    FROM top_8
-    GROUP BY player_id, team_id, season, acquisition_week, drop_week, position
-    HAVING COUNT(*) >= 8
-),
-comparison_totals AS (
-    SELECT
-        pt.player_id AS query_player_id,
-        pt.team_id AS query_team_id,
-        pt.season AS query_season,
-        pt.acquisition_week AS query_acquisition_week,
-        pt.position AS query_position,
-        pt.top8_total_points AS query_total,
-        pt.num_weeks,
-        bs.player_id AS comparison_player_id,
-        SUM(bs.points) AS comparison_total
-    FROM player_top8_totals pt
-    JOIN top_8 t8
-        ON pt.player_id = t8.player_id
-        AND pt.team_id = t8.team_id
-        AND pt.season = t8.season
-        AND pt.acquisition_week = t8.acquisition_week
-    JOIN box_scores bs
-        ON bs.week = t8.week
-        AND bs.season = pt.season
-        AND bs.position = pt.position
-    WHERE bs.position NOT IN ('K', 'D/ST')
-    GROUP BY
-        pt.player_id,
-        pt.team_id,
-        pt.season,
-        pt.acquisition_week,
-        pt.position,
-        pt.top8_total_points,
-        pt.num_weeks,
-        bs.player_id
-),
-quantile_scores AS (
-    SELECT
-        query_player_id AS player_id,
-        query_team_id AS team_id,
-        query_season AS season,
-        query_acquisition_week AS acquisition_week,
-        query_position AS position,
-        num_weeks,
-        query_total AS total_points,
-        ROUND(
-            100.0 * SUM(CASE WHEN comparison_total < query_total THEN 1 ELSE 0 END)
-            / COUNT(*),
-            1
-        ) AS waiver_score
-    FROM comparison_totals
-    GROUP BY
-        query_player_id,
-        query_team_id,
-        query_season,
-        query_acquisition_week,
-        query_position,
-        num_weeks,
-        query_total
-)
-SELECT
-    p.full_name AS player_name,
-    tm.team_name,
-    tm.owner_name,
-    qs.position,
-    qs.acquisition_week,
-    qs.num_weeks,
-    qs.total_points,
-    qs.waiver_score
-FROM quantile_scores qs
-JOIN players p ON qs.player_id = p.player_id
-JOIN teams tm
-    ON qs.team_id = tm.team_id
-    AND qs.season = tm.season
-ORDER BY qs.waiver_score DESC
+TOP_N_WEEKS = 8
+
+STINT_KEY = ["player_id", "team_id", "season", "acquisition_week"]
+
+WAIVER_STINTS_SQL = "SELECT * FROM waiver_stints WHERE season = :season"
+
+BOX_SCORES_SQL = """
+    SELECT player_id, team_id, season, week, points, position
+    FROM box_scores
+    WHERE season = :season
+    AND position NOT IN ('K', 'D/ST')
 """
+
+TEAMS_SQL = "SELECT team_id, season, team_name, owner_name FROM teams WHERE season = :season"
+
+PLAYERS_SQL = "SELECT player_id, full_name AS player_name FROM players"
+
+RESULT_COLUMNS = [
+    "player_name",
+    "team_name",
+    "owner_name",
+    "position",
+    "acquisition_week",
+    "num_weeks",
+    "total_points",
+    "waiver_score",
+]
 
 
 def get_waiver_scores(season: int) -> pd.DataFrame:
@@ -218,7 +60,7 @@ def get_waiver_scores(season: int) -> pd.DataFrame:
 
     Eligibility:
       - Player was not drafted (waiver add only)
-      - Player was rostered for at least 8 weeks
+      - Player was rostered for at least TOP_N_WEEKS weeks
       - Position is QB, RB, WR, or TE (K and D/ST excluded)
 
     Returns DataFrame with columns:
@@ -226,9 +68,111 @@ def get_waiver_scores(season: int) -> pd.DataFrame:
       acquisition_week, num_weeks, total_points, waiver_score
 
     waiver_score: 0-100 percentile — fraction of all rostered players
-    at the same position who scored less over the same 8 weeks.
+    at the same position who scored less over the same weeks.
+
+    Raises SeasonNotReadyError if the current season hasn't reached
+    LIVE_SEASON_ANALYSIS_MIN_WEEK yet.
     """
     conn = get_connection()
-    df = pd.read_sql(WAIVER_SCORE_SQL, conn, params={"season": season})
+    check_season_ready(season, get_max_ingested_week(conn, season))
+
+    stints = pd.read_sql(WAIVER_STINTS_SQL, conn, params={"season": season})
+    box_scores = pd.read_sql(BOX_SCORES_SQL, conn, params={"season": season})
+    players = pd.read_sql(PLAYERS_SQL, conn)
+    teams = pd.read_sql(TEAMS_SQL, conn, params={"season": season})
     conn.close()
-    return df
+
+    return compute_waiver_scores(stints, box_scores, players, teams)
+
+
+def compute_waiver_scores(
+    stints: pd.DataFrame,
+    box_scores: pd.DataFrame,
+    players: pd.DataFrame,
+    teams: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Compute waiver wire percentile scores from stint boundaries and weekly
+    box scores. Pure function — no DB access — so it can be tested with
+    hand-built DataFrames.
+
+    Args:
+        stints: one row per waiver stint — player_id, team_id, season,
+            acquisition_week, drop_week (from the waiver_stints view)
+        box_scores: player_id, team_id, season, week, points, position —
+            K and D/ST already excluded upstream
+        players: player_id, player_name
+        teams: team_id, season, team_name, owner_name
+    """
+    # stint_scores: each stint's box scores while actually on the roster
+    stint_scores = stints.merge(box_scores, on=["player_id", "team_id", "season"])
+    stint_scores = stint_scores[
+        (stint_scores["week"] >= stint_scores["acquisition_week"])
+        & (stint_scores["week"] < stint_scores["drop_week"])
+    ]
+
+    # top_8_weeks / top_8: each stint's best TOP_N_WEEKS scoring weeks.
+    # groupby().rank() is pandas' equivalent of a SQL window function —
+    # SQL's ROW_NUMBER() OVER (PARTITION BY ... ORDER BY points DESC)
+    # becomes "rank within each group," since pandas has no windowed,
+    # non-aggregating op outside of groupby.
+    stint_scores["week_rank"] = stint_scores.groupby(STINT_KEY)["points"].rank(
+        method="first", ascending=False
+    )
+    top8 = stint_scores[stint_scores["week_rank"] <= TOP_N_WEEKS]
+
+    # player_top8_totals: only stints with a full TOP_N_WEEKS qualify
+    totals = (
+        top8.groupby(STINT_KEY + ["drop_week", "position"])
+        .agg(total_points=("points", "sum"), num_weeks=("week", "count"))
+        .reset_index()
+    )
+    totals = totals[totals["num_weeks"] >= TOP_N_WEEKS]
+
+    if totals.empty:
+        return pd.DataFrame(columns=RESULT_COLUMNS)
+
+    # restrict to the specific stint-weeks that qualified
+    qualifying_weeks = top8.merge(totals[STINT_KEY], on=STINT_KEY)
+
+    # comparison_totals: for each qualifying stint, every player rostered
+    # at the same position during those exact weeks, summed over those weeks
+    comparisons = qualifying_weeks[STINT_KEY + ["position", "week"]].merge(
+        box_scores, on=["season", "position", "week"], suffixes=("_query", "")
+    )
+    comparison_totals = (
+        comparisons.groupby(
+            ["player_id_query", "team_id_query", "season", "acquisition_week", "position", "player_id"]
+        )["points"]
+        .sum()
+        .reset_index(name="comparison_total")
+    )
+
+    # quantile_scores: percentile = fraction of comparison players who
+    # scored less than the query player's total over those same weeks.
+    # .mean() on a boolean column is "fraction True" — the pandas shortcut
+    # for SQL's SUM(CASE WHEN ... THEN 1 ELSE 0 END) / COUNT(*).
+    scored = comparison_totals.merge(
+        totals.rename(columns={"player_id": "player_id_query", "team_id": "team_id_query"}),
+        on=["player_id_query", "team_id_query", "season", "acquisition_week", "position"],
+    )
+    scored["scored_less"] = scored["comparison_total"] < scored["total_points"]
+
+    waiver_scores = (
+        scored.groupby(
+            ["player_id_query", "team_id_query", "season", "acquisition_week",
+             "position", "num_weeks", "total_points"]
+        )["scored_less"]
+        .mean()
+        .mul(100)
+        .round(1)
+        .reset_index(name="waiver_score")
+        .rename(columns={"player_id_query": "player_id", "team_id_query": "team_id"})
+    )
+
+    result = waiver_scores.merge(players, on="player_id").merge(teams, on=["team_id", "season"])
+    return (
+        result[RESULT_COLUMNS]
+        .sort_values("waiver_score", ascending=False)
+        .reset_index(drop=True)
+    )
