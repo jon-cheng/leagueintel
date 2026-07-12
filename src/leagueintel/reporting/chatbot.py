@@ -72,6 +72,20 @@ Use for: draft order, spend by manager, pick numbers.
 Columns: season, bid_amount, team_name, owner_name, player_name,
          overall_pick_number, position
 
+### waiver_stints
+One row per continuous roster stint for a player picked up off waivers
+(drafted players are excluded — see draft_picks/draft_box_scores instead).
+Use for: ad hoc questions about waiver roster tenure, e.g. how long a
+player was rostered, or which stints were short-lived.
+Columns: player_id, team_id, season, acquisition_week, drop_week
+- acquisition_week: week the player was added via waiver
+- drop_week: week the player was dropped (exclusive), or 18 if never dropped
+- No player_name/owner_name columns — join players on player_id and
+  teams on (team_id, season) if you need those
+- For "best waiver pickup" style questions use
+  run_analysis(analysis='best_waiver_player') instead of querying this
+  directly — see Tool selection rules below
+
 ## Raw Tables
 
 ### transactions

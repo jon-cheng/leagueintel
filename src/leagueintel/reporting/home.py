@@ -2,7 +2,13 @@
 import os
 import boto3
 import streamlit as st
-from leagueintel.config import ALL_SEASONS, CURRENT_YEAR, DEFAULT_DB_PATH, S3_BUCKET, S3_KEY
+from leagueintel.config import (
+    ALL_SEASONS,
+    CURRENT_YEAR,
+    DEFAULT_DB_PATH,
+    S3_BUCKET,
+    S3_KEY,
+)
 from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.analytics.availability import get_default_season
 
@@ -40,7 +46,7 @@ def check_password() -> bool:
 
     with st.form("login_form"):
         password = st.text_input(
-            "Enter league password", type="password", placeholder="ask the commissioner"
+            "Enter league password", type="password", placeholder="ask the developer"
         )
         submitted = st.form_submit_button("Enter")
 
