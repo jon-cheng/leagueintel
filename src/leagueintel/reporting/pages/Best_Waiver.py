@@ -23,7 +23,15 @@ season = st.session_state.get("selected_season", max(ALL_SEASONS))
 st.title(f"Best Waiver Pickup: {season}")
 st.caption("Position-normalized percentile score")
 
-st.info("Waiver score analytics coming soon")
+st.info(
+    "💎 Our league awards the manager who picked up the best waiver wire player "
+    "with that player's knockoff jersey. To compare pickups fairly across "
+    "positions and ownership lengths, each waiver pickup is evaluated based on "
+    "the player's best ownership stint. The player's best eight weeks are "
+    "compared to the best eight-week performances of players at the same "
+    "position, producing a percentile (waiver score) that allows waiver "
+    "acquisitions across all positions to be compared on a common scale."
+)
 
 st.dataframe(
     pd.DataFrame(
