@@ -41,7 +41,7 @@ src/leagueintel/
   analytics/     → draft.py, waiver.py (pre-validated pandas)
   ingestion/     → espn.py (API fetchers), parse.py
   reporting/     → dashboard.py, chatbot.py, playoff_bracket.py
-                    pages/2_Chat.py
+                    pages/Chat.py
   storage/       → database.py, writer.py, views.py
   config.py      → single source of truth for constants
 

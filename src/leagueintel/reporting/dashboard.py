@@ -3,7 +3,7 @@ import os
 import boto3
 import streamlit as st
 import plotly.express as px
-from leagueintel.analytics.draft import get_draft_roi
+from leagueintel.analytics.draft import get_draft_roi, get_draft_selections
 from leagueintel.config import ALL_SEASONS, DEFAULT_DB_PATH, S3_BUCKET, S3_KEY
 
 # ── S3 download ───────────────────────────────────────────────────────────────
@@ -71,7 +71,7 @@ def plot_draft_roi(df):
         y="points_per_game",
         color="position",
         hover_data=["player_name", "owner_name", "games_started", "total_points"],
-        title="Draft ROI: Bid Amount vs Points Per Game Started (min 8 starts)",
+        title="Draft ROI: Bid Amount vs Points Per Game Started",
         labels={
             "bid_amount": "Draft Price ($)",
             "points_per_game": "Points Per Game Started",
@@ -109,19 +109,23 @@ def main():
     )
 
     st.header("Draft ROI")
-    st.caption("Bid amount vs points per game started (min 8 starts)")
+    st.caption(
+        "Auction draft return on investment (ROI) as measured by points per game, "
+        "min 8 starts"
+    )
 
     with st.spinner("Loading draft data..."):
         df = get_draft_roi(season=season)
+        all_selections = get_draft_selections(season=season)
 
     fig = plot_draft_roi(df)
     _, col, _ = st.columns([1, 4, 1])
     with col:
         st.plotly_chart(fig, use_container_width=True)
 
-    st.subheader("Data")
+    st.subheader("Draft Selections")
     st.dataframe(
-        df[
+        all_selections[
             [
                 "player_name",
                 "position",
@@ -131,7 +135,7 @@ def main():
                 "total_points",
                 "points_per_game",
             ]
-        ],
+        ].sort_values("bid_amount", ascending=False),
         use_container_width=True,
         hide_index=True,
     )

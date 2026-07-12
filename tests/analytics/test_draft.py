@@ -28,3 +28,26 @@ def test_compute_draft_roi_excludes_ir():
     )
     result = compute_draft_roi(df)
     assert "Injured Player" not in result["player_name"].values
+
+
+def test_compute_draft_roi_min_weeks_zero_includes_low_start_players():
+    """
+    The Draft Selections table shows every drafted player, unlike the ROI
+    plot which cuts off below MIN_WEEKS starts — min_weeks=0 must let a
+    player with a single start through instead of being filtered out.
+    """
+    df = pd.DataFrame(
+        [
+            {
+                "player_name": "Bench Warmer",
+                "bid_amount": 5,
+                "owner_name": "Test",
+                "position": "WR",
+                "lineup_slot": "WR",
+                "points": 8.0,
+                "week": 1,
+            }
+        ]
+    )
+    result = compute_draft_roi(df, min_weeks=0)
+    assert "Bench Warmer" in result["player_name"].values

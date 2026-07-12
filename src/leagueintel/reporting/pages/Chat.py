@@ -1,4 +1,4 @@
-# src/leagueintel/reporting/pages/2_Chat.py
+# src/leagueintel/reporting/pages/Chat.py
 """
 Chatbot UI page for leagueintel.
 Wires the chatbot engine (chatbot.py) into Streamlit's chat interface.
@@ -7,14 +7,17 @@ Wires the chatbot engine (chatbot.py) into Streamlit's chat interface.
 import re
 import streamlit as st
 from leagueintel.reporting.chatbot import ask
+from leagueintel.reporting.home import shared_sidebar
 
-st.set_page_config(page_title="leagueintel — Chat", page_icon="💬", layout="wide")
+st.set_page_config(page_title="leagueintel — Chat", page_icon="🏈", layout="wide")
 
 # ── auth gate ─────────────────────────────────────────────────────────────────
 
 if not st.session_state.get("authenticated"):
-    st.warning("Please log in from the main page first.")
+    st.switch_page("home.py")
     st.stop()
+
+shared_sidebar()
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -51,8 +54,8 @@ def clean_response(text: str) -> str:
         r"\U0001FA00-\U0001FA9F"
         r"\U00002600-\U000027BF"
         r"\U0001F600-\U0001F64F"
-        r"\u2700-\u27BF"
-        r"\u2300-\u23FF]+",
+        r"✀-➿"
+        r"⌀-⏿]+",
         "",
         text,
     )
@@ -68,8 +71,8 @@ st.caption("Ask anything about your fantasy league — 6 seasons of data")
 with st.expander("ℹ️ How to get the best results", expanded=False):
     st.markdown("""
     **Works well:**
-    - "How much FAAB did Jake spend in 2025?"
-    - "What's my all-time record against Sam?"
+    - "How much FAAB did Manager A spend in 2025?"
+    - "What's my all-time record against Manager B?"
     - "Who were the best waiver pickups in 2025?"
     - "Show me draft ROI for 2025"
     - "Who had the most regrettable drop of 2025?"
@@ -82,25 +85,6 @@ with st.expander("ℹ️ How to get the best results", expanded=False):
     Verify against the ESPN league UI — that is the source of truth.
     Complex temporal questions (before/after events) are best-effort.
     """)
-
-# ── sidebar FAQ buttons ───────────────────────────────────────────────────────
-
-st.sidebar.title("Quick questions")
-st.sidebar.caption("Click to ask")
-
-FAQ = {
-    "Best waiver pickups": "Who were the best waiver pickups in 2025?",
-    "Draft ROI": "Show me draft ROI for 2025",
-    "Most regrettable drop": "Who had the most regrettable drop in 2025?",
-    "FAAB spend by manager": "How much FAAB did each manager spend in 2025?",
-    "Head to head records": "Show me all head to head records for 2025",
-    "Highest scoring week": "What was the highest scoring week ever?",
-    "Luckiest manager": "Which manager was luckiest in 2025 based on points against?",
-}
-
-for label, question in FAQ.items():
-    if st.sidebar.button(label, use_container_width=True):
-        st.session_state.pending_question = question
 
 # ── chat history ──────────────────────────────────────────────────────────────
 
