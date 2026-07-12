@@ -3,10 +3,20 @@ import pandas as pd
 from leagueintel.analytics.standings import compute_standings
 
 
+TEAM_NAME = {
+    "Manager A": "Team Alpha",
+    "Manager B": "Team Bravo",
+    "Manager C": "Team Charlie",
+    "Manager D": "Team Delta",
+}
+
+
 def _matchup(home_manager, away_manager, home_score, away_score):
     return {
         "home_manager": home_manager,
+        "home_team_name": TEAM_NAME[home_manager],
         "away_manager": away_manager,
+        "away_team_name": TEAM_NAME[away_manager],
         "home_score": home_score,
         "away_score": away_score,
     }
@@ -69,3 +79,21 @@ def test_compute_standings_sorted_by_wins_then_points_for():
     )
     result = compute_standings(df)
     assert list(result["manager"])[:2] == ["Manager A", "Manager C"]
+
+
+def test_compute_standings_includes_team_name_as_second_column():
+    """
+    team_name rides along with manager (one team per manager per season)
+    so the Season Overview page can show it beside the manager — protects
+    against a bug that drops team_name during the groupby/aggregate step.
+    """
+    df = pd.DataFrame(
+        [
+            _matchup("Manager A", "Manager B", 120.0, 100.0),
+        ]
+    )
+    result = compute_standings(df)
+
+    assert list(result.columns)[:2] == ["manager", "team_name"]
+    assert result.set_index("manager").loc["Manager A", "team_name"] == "Team Alpha"
+    assert result.set_index("manager").loc["Manager B", "team_name"] == "Team Bravo"

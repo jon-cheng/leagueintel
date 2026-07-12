@@ -8,7 +8,9 @@ from leagueintel.storage.database import get_connection
 STANDINGS_MATCHUPS_SQL = """
     SELECT
         ht.owner_name AS home_manager,
+        ht.team_name AS home_team_name,
         at.owner_name AS away_manager,
+        at.team_name AS away_team_name,
         m.home_score,
         m.away_score
     FROM matchups m
@@ -35,26 +37,30 @@ def compute_standings(df: pd.DataFrame) -> pd.DataFrame:
     from that manager's own perspective, then grouped by manager.
 
     Args:
-        df: raw matchups with home_manager, away_manager, home_score, away_score
+        df: raw matchups with home_manager, home_team_name, away_manager,
+            away_team_name, home_score, away_score
 
     Returns:
-        DataFrame with columns: manager, wins, losses, ties, points_for,
-        points_against, point_diff — sorted by wins desc, then points_for desc.
+        DataFrame with columns: manager, team_name, wins, losses, ties,
+        points_for, points_against, point_diff — sorted by wins desc,
+        then points_for desc.
     """
     home = df.rename(
         columns={
             "home_manager": "manager",
+            "home_team_name": "team_name",
             "home_score": "points_for",
             "away_score": "points_against",
         }
-    )[["manager", "points_for", "points_against"]]
+    )[["manager", "team_name", "points_for", "points_against"]]
     away = df.rename(
         columns={
             "away_manager": "manager",
+            "away_team_name": "team_name",
             "away_score": "points_for",
             "home_score": "points_against",
         }
-    )[["manager", "points_for", "points_against"]]
+    )[["manager", "team_name", "points_for", "points_against"]]
     games = pd.concat([home, away], ignore_index=True)
 
     games["result"] = "tie"
@@ -62,7 +68,7 @@ def compute_standings(df: pd.DataFrame) -> pd.DataFrame:
     games.loc[games["points_for"] < games["points_against"], "result"] = "loss"
 
     standings = (
-        games.groupby("manager")
+        games.groupby(["manager", "team_name"])
         .agg(
             wins=("result", lambda s: (s == "win").sum()),
             losses=("result", lambda s: (s == "loss").sum()),

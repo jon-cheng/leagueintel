@@ -32,6 +32,7 @@ st.dataframe(
     hide_index=True,
     column_config={
         "manager": "Manager",
+        "team_name": "Team",
         "wins": st.column_config.NumberColumn("W"),
         "losses": st.column_config.NumberColumn("L"),
         "ties": st.column_config.NumberColumn("T"),
