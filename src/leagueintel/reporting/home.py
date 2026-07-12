@@ -2,7 +2,9 @@
 import os
 import boto3
 import streamlit as st
-from leagueintel.config import ALL_SEASONS, DEFAULT_DB_PATH, S3_BUCKET, S3_KEY
+from leagueintel.config import ALL_SEASONS, CURRENT_YEAR, DEFAULT_DB_PATH, S3_BUCKET, S3_KEY
+from leagueintel.storage.database import get_connection, get_max_ingested_week
+from leagueintel.analytics.availability import get_default_season
 
 # ── S3 download ───────────────────────────────────────────────────────────────
 
@@ -88,9 +90,15 @@ def shared_sidebar() -> None:
 
         st.divider()
 
+        season_options = sorted(ALL_SEASONS, reverse=True)
+        conn = get_connection()
+        default_season = get_default_season(get_max_ingested_week(conn, CURRENT_YEAR))
+        conn.close()
+
         st.selectbox(
             "Season",
-            options=sorted(ALL_SEASONS, reverse=True),
+            options=season_options,
+            index=season_options.index(default_season),
             key="selected_season",
         )
 

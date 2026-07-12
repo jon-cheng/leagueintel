@@ -3,8 +3,9 @@ Draft analytics — ROI analysis for auction draft picks.
 """
 
 import pandas as pd
-from leagueintel.storage.database import get_connection
+from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.config import MIN_WEEKS
+from leagueintel.analytics.availability import check_season_ready
 
 DRAFT_BOX_SCORES_SQL = """
     SELECT * FROM draft_box_scores WHERE season = :season
@@ -42,8 +43,13 @@ NON_STARTING_SLOTS = ["BE", "IR"]
 
 
 def get_draft_roi(season: int, min_weeks: int = MIN_WEEKS) -> pd.DataFrame:
-    """Fetch draft data and compute ROI metrics (QB/RB/WR/TE only)."""
+    """Fetch draft data and compute ROI metrics (QB/RB/WR/TE only).
+
+    Raises SeasonNotReadyError if the current season hasn't reached
+    LIVE_SEASON_ANALYSIS_MIN_WEEK yet.
+    """
     conn = get_connection()
+    check_season_ready(season, get_max_ingested_week(conn, season))
     df_raw = pd.read_sql(DRAFT_BOX_SCORES_SQL, conn, params={"season": season})
     conn.close()
     return compute_draft_roi(df_raw, min_weeks=min_weeks)

@@ -17,7 +17,8 @@ Originally based on espnff waiver analysis methodology.
 """
 
 import pandas as pd
-from leagueintel.storage.database import get_connection
+from leagueintel.storage.database import get_connection, get_max_ingested_week
+from leagueintel.analytics.availability import check_season_ready
 
 WAIVER_SCORE_SQL = """
 WITH params AS (
@@ -227,8 +228,12 @@ def get_waiver_scores(season: int) -> pd.DataFrame:
 
     waiver_score: 0-100 percentile — fraction of all rostered players
     at the same position who scored less over the same 8 weeks.
+
+    Raises SeasonNotReadyError if the current season hasn't reached
+    LIVE_SEASON_ANALYSIS_MIN_WEEK yet.
     """
     conn = get_connection()
+    check_season_ready(season, get_max_ingested_week(conn, season))
     df = pd.read_sql(WAIVER_SCORE_SQL, conn, params={"season": season})
     conn.close()
     return df

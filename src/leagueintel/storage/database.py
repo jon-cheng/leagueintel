@@ -12,6 +12,14 @@ def get_connection(db_path: Path = DEFAULT_DB_PATH) -> sqlite3.Connection:
     return sqlite3.connect(db_path)
 
 
+def get_max_ingested_week(conn: sqlite3.Connection, season: int) -> int:
+    """Return the latest week with matchup data ingested for a season, or 0 if none."""
+    row = conn.execute(
+        "SELECT MAX(week) FROM matchups WHERE season = ?", (season,)
+    ).fetchone()
+    return row[0] or 0
+
+
 def create_tables(conn: sqlite3.Connection) -> None:
     """Create all leagueintel tables if they don't exist."""
     _create_teams_table(conn)
