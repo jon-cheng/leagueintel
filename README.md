@@ -62,6 +62,26 @@ lost, before ESPN removes it.
 The database is stored in S3 — downloaded by Streamlit on cold start and refreshed weekly by GitHub Actions.
 ![leagueintel architecture](leagueintel.png)
 
+#### Design choices for persistent storage
+The fantasy football database (leagueintel.db) is stored in S3 and 
+downloaded to the Streamlit instance on cold start. SQLite was chosen 
+as a lightweight embedded database appropriate for the scale — ~10MB, 
+weekly updates, single writer — as opposed to heavier analytical engines 
+like DuckDB or a managed Postgres instance. The app's IAM policy is 
+read-only, eliminating any risk of the app corrupting 
+or overwriting the database — concurrency safety enforced at the 
+infrastructure level rather than in code. S3 also has no read caps, 
+making it the right choice for a database queried heavily by every user 
+on every page load.
+
+Token usage tracking requires persistent writes from the app after every 
+question, which conflicts with the read-only S3 pattern. Turso (hosted 
+SQLite) serves as a lightweight operational layer for this — persistent 
+across cold starts, writable by the app, and completely independent of 
+the weekly data refresh pipeline. Turso's free tier read caps are not a 
+concern here since the usage table is queried only once per chatbot 
+question, not on every page load.
+
 ### Tech stack 
 - **Data & Storage** — Python 3.12, SQLite, S3, boto3
 - **Ingestion** — `espn_api`, Pydantic, Click, Poetry
@@ -69,5 +89,6 @@ The database is stored in S3 — downloaded by Streamlit on cold start and refre
 - **AI** — Anthropic API (Claude)
 - **Frontend** — Streamlit
 - **CI/CD** — GitHub Actions
+- **LLM token usage tracking** - Turso 
 
 
