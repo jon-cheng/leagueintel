@@ -68,6 +68,30 @@ def record_usage(tokens_input: int, tokens_output: int) -> None:
         logger.warning(f"Turso write failed: {e}")
 
 
+def get_usage_report() -> list[tuple]:
+    """
+    Fetch daily usage and estimated cost, most recent first.
+    Unlike get_today_usage/record_usage, errors are not swallowed here —
+    this is invoked interactively via scripts/usage_report.py, where a
+    raised exception is more useful than a silently empty report.
+    """
+    conn = get_ops_connection()
+    rows = conn.execute(
+        """
+        SELECT
+            date,
+            question_count,
+            tokens_input + tokens_output AS total_tokens,
+            ROUND((tokens_input * 3.0 + tokens_output * 15.0) / 1000000, 4)
+                AS est_cost_usd
+        FROM usage
+        ORDER BY date DESC
+        """
+    ).fetchall()
+    conn.close()
+    return rows
+
+
 def check_daily_budget() -> tuple[bool, int]:
     """
     Check whether today's token budget has been exceeded.
