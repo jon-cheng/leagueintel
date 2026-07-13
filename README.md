@@ -36,6 +36,11 @@ that plague naive text-to-SQL implementations. Under the hood, the semantic laye
 
 ## How it works
 
+### Self-hosted
+
+leagueintel is self-hosted: you run your own instance
+for your own league. Your data stays with you.
+
 ### Data ingestion
 
 leagueintel ingests from ESPN's fantasy football API via
