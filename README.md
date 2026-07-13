@@ -67,7 +67,7 @@ The fantasy football database (leagueintel.db) is stored in S3 and
 downloaded to the Streamlit instance on cold start. SQLite was chosen 
 as a lightweight embedded database appropriate for the scale — ~10MB, 
 weekly updates, single writer — as opposed to heavier analytical engines 
-like DuckDB or a managed Postgres instance. The app's IAM policy is 
+like DuckDB or a managed Postgres instance. The Streamlit app's IAM policy is 
 read-only, eliminating any risk of the app corrupting 
 or overwriting the database — concurrency safety enforced at the 
 infrastructure level rather than in code. S3 also has no read caps, 
@@ -89,6 +89,6 @@ question, not on every page load.
 - **AI** — Anthropic API (Claude)
 - **Frontend** — Streamlit
 - **CI/CD** — GitHub Actions
-- **LLM token usage tracking** - Turso 
+- **LLM token usage tracking** - Turso (separate database)
 
 
