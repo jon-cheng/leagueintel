@@ -157,7 +157,7 @@ def main() -> None:
     initialize_db()
 
     if st.session_state.get("authenticated"):
-        st.switch_page("pages/Draft_ROI.py")
+        st.switch_page("pages/Chat.py")
 
     # hide sidebar nav entirely pre-login — there's nothing to navigate to yet
     st.markdown(
@@ -168,7 +168,7 @@ def main() -> None:
     _landing_hero()
 
     if check_password():
-        st.switch_page("pages/Draft_ROI.py")
+        st.switch_page("pages/Chat.py")
 
 
 if __name__ == "__main__":
