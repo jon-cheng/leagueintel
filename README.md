@@ -5,7 +5,9 @@ leagueintel ingests your league's full history and puts it behind an
 LLM-powered chatbot that answers questions no other tool can. This is especially useful for private leagues and leagues with auction draft and/or free agent budget (FAAB) rules.
 
 > "Who had the most regrettable drop of 2025?"
+> 
 > "What was the most competitive waiver auction bid of all time?"
+> 
 > "Who has had the best waiver instincts over all seasons?"
 
 These questions are answerable in seconds because leagueintel persists
