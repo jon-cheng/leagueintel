@@ -47,6 +47,11 @@ DEFAULT_DB_PATH = Path(os.getenv("DB_PATH", str(REPO_ROOT / "leagueintel.db")))
 S3_BUCKET = os.getenv("S3_BUCKET", "leagueintel-data")
 S3_KEY = os.getenv("S3_KEY", "leagueintel.db")
 
+# usage tracking DB — kept separate from leagueintel.db so the weekly
+# data refresh (which overwrites leagueintel.db from S3) never clobbers it
+USAGE_DB_PATH = Path(os.getenv("USAGE_DB_PATH", str(REPO_ROOT / "leagueintel_usage.db")))
+S3_USAGE_KEY = os.getenv("S3_USAGE_KEY", "leagueintel_usage.db")
+
 # ESPN API
 DEFAULT_MAX_WEEK = 17
 BASE_URL = (
@@ -75,3 +80,8 @@ LIVE_SEASON_ANALYSIS_MIN_WEEK = 12
 #
 # For the public demo deployment set this lower (e.g. 20,000).
 CHATBOT_DAILY_TOKEN_LIMIT = int(os.getenv("CHATBOT_DAILY_TOKEN_LIMIT", "100000"))
+
+# Turso (hosted SQLite) — leagueintel-ops DB, stores chatbot usage tracking
+# persistently across Streamlit Cloud cold starts (/tmp does not survive them)
+TURSO_OPS_URL = os.getenv("TURSO_OPS_URL")
+TURSO_OPS_TOKEN = os.getenv("TURSO_OPS_TOKEN")

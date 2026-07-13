@@ -14,9 +14,12 @@ from leagueintel.config import (
     DEFAULT_DB_PATH,
     ANTHROPIC_API_KEY,
     ALL_SEASONS,
-    CHATBOT_DAILY_TOKEN_LIMIT,
 )
 from leagueintel.ingestion.espn import get_scoring_description, get_league_context
+from leagueintel.reporting.turso_client import (
+    record_usage,
+    check_daily_budget,
+)
 from espn_api.football import League
 from leagueintel.config import LEAGUE_ID, ESPN_S2, SWID
 
@@ -371,58 +374,6 @@ def make_plot(
         return None, msg
 
 
-# ── usage tracking ───────────────────────────────────────────────────────────
-
-from datetime import date as _date
-
-
-def _get_today_usage() -> tuple[int, int, int]:
-    """Return (tokens_input, tokens_output, question_count) for today."""
-    try:
-        conn = sqlite3.connect(f"file:{DEFAULT_DB_PATH}?mode=ro", uri=True)
-        row = conn.execute(
-            "SELECT tokens_input, tokens_output, question_count "
-            "FROM usage WHERE date = ?",
-            (str(_date.today()),),
-        ).fetchone()
-        conn.close()
-        return row if row else (0, 0, 0)
-    except Exception:
-        return (0, 0, 0)
-
-
-def _record_usage(tokens_input: int, tokens_output: int) -> None:
-    """Upsert today token usage into the usage table."""
-    try:
-        conn = sqlite3.connect(DEFAULT_DB_PATH)
-        conn.execute(
-            """
-            INSERT INTO usage (date, tokens_input, tokens_output, question_count)
-            VALUES (?, ?, ?, 1)
-            ON CONFLICT(date) DO UPDATE SET
-                tokens_input   = tokens_input   + excluded.tokens_input,
-                tokens_output  = tokens_output  + excluded.tokens_output,
-                question_count = question_count + 1
-            """,
-            (str(_date.today()), tokens_input, tokens_output),
-        )
-        conn.commit()
-        conn.close()
-    except Exception as e:
-        logger.warning(f"Failed to record usage: {e}")
-
-
-def check_daily_budget() -> tuple[bool, int]:
-    """
-    Check whether today token budget has been exceeded.
-    Returns (within_budget, tokens_used_today).
-    Limit is read from config so it can be tuned without code changes.
-    """
-    tokens_in, tokens_out, _ = _get_today_usage()
-    tokens_used = tokens_in + tokens_out
-    return tokens_used < CHATBOT_DAILY_TOKEN_LIMIT, tokens_used
-
-
 # ── agent loop ────────────────────────────────────────────────────────────────
 
 
@@ -519,7 +470,7 @@ def ask(question: str) -> tuple[str, object | None]:
                 block.text for block in response.content if hasattr(block, "text")
             )
             # record token usage — best effort, never blocks the response
-            _record_usage(
+            record_usage(
                 response.usage.input_tokens,
                 response.usage.output_tokens,
             )
