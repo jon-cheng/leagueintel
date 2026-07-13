@@ -89,6 +89,6 @@ question, not on every page load.
 - **AI** — Anthropic API (Claude)
 - **Frontend** — Streamlit
 - **CI/CD** — GitHub Actions
-- **LLM token usage tracking** - Turso (separate database)
+- **LLM token usage tracking** - SQLite on Turso 
 
 
