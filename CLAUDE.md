@@ -40,8 +40,9 @@ Prioritize my understanding over speed. I want to rebuild strong habits.
 src/leagueintel/
   analytics/     → draft.py, waiver.py (pre-validated pandas)
   ingestion/     → espn.py (API fetchers), parse.py
-  reporting/     → dashboard.py, chatbot.py, playoff_bracket.py
-                    pages/Chat.py
+  reporting/     → home.py, chatbot.py, playoff_bracket.py
+                    pages/Chat.py, pages/Draft_ROI.py, pages/Best_Waiver.py,
+                    pages/Season_Overview.py, pages/Head_to_Head.py
   storage/       → database.py, writer.py, views.py
   config.py      → single source of truth for constants
 
@@ -62,5 +63,5 @@ poetry run pytest -v
 poetry run pytest tests/reporting/test_chatbot_throttling.py -v
 
 ## Deployment
-Streamlit Community Cloud → src/leagueintel/reporting/dashboard.py
+Streamlit Community Cloud → src/leagueintel/reporting/home.py
 S3 → leagueintel-data/leagueintel.db (us-west-2)
