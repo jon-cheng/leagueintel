@@ -73,6 +73,39 @@ def test_record_usage_failure_does_not_raise():
         turso_client.record_usage(100, 50)
 
 
+# ── get_usage_report ─────────────────────────────────────────────────────────
+
+
+def test_get_usage_report_returns_rows():
+    mock_conn = MagicMock()
+    mock_conn.execute.return_value.fetchall.return_value = [
+        ("2026-07-13", 3, 1500, 0.0195),
+        ("2026-07-12", 1, 800, 0.0104),
+    ]
+
+    with patch.object(turso_client, "get_ops_connection", return_value=mock_conn):
+        result = turso_client.get_usage_report()
+
+    assert result == [
+        ("2026-07-13", 3, 1500, 0.0195),
+        ("2026-07-12", 1, 800, 0.0104),
+    ]
+    mock_conn.close.assert_called_once()
+
+
+def test_get_usage_report_propagates_connection_failure():
+    with patch.object(
+        turso_client, "get_ops_connection", side_effect=ConnectionError("down")
+    ):
+        # unlike get_today_usage, this should raise rather than swallow —
+        # it's a manually-run dev tool, not on the chatbot's critical path
+        try:
+            turso_client.get_usage_report()
+            assert False, "expected ConnectionError to propagate"
+        except ConnectionError:
+            pass
+
+
 # ── check_daily_budget ────────────────────────────────────────────────────────
 
 

@@ -1,9 +1,9 @@
 # .github/workflows/refresh.yml
-# Weekly pipeline: download DB from S3 → sync ESPN data → upload back to S3
-# Runs every Tuesday at 8am UTC (Monday night US time, after MNF)
+# Daily pipeline: download DB from S3 → sync ESPN data → upload back to S3
+# Runs daily at 1am PST / 2am PDT
 # Also triggerable manually via workflow_dispatch for testing
 
-name: weekly refresh
+name: data refresh
 
 on:
   schedule:
