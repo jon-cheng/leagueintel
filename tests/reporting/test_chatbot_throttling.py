@@ -55,3 +55,57 @@ def test_ask_records_usage_after_successful_response():
 
     assert text == "Some answer"
     mock_record_usage.assert_called_once_with(1234, 567)
+
+
+def test_ask_records_usage_across_every_tool_use_round_trip():
+    """
+    A question that takes two tool calls before answering makes three
+    separate messages.create() calls. record_usage must be called once,
+    at the end, with tokens summed across all three — not just the
+    tokens from the final call. Regression guard for a bug where only
+    the last response's usage was recorded, silently under-counting
+    (and under-throttling) any multi-tool-call question.
+    """
+    tool_block = MagicMock()
+    tool_block.type = "tool_use"
+    tool_block.name = "query_db"
+    tool_block.input = {"sql": "SELECT 1"}
+    tool_block.id = "tool_1"
+
+    tool_response_1 = MagicMock()
+    tool_response_1.stop_reason = "tool_use"
+    tool_response_1.content = [tool_block]
+    tool_response_1.usage.input_tokens = 1000
+    tool_response_1.usage.output_tokens = 100
+
+    tool_response_2 = MagicMock()
+    tool_response_2.stop_reason = "tool_use"
+    tool_response_2.content = [tool_block]
+    tool_response_2.usage.input_tokens = 2000
+    tool_response_2.usage.output_tokens = 200
+
+    final_text_block = MagicMock()
+    final_text_block.text = "Final answer"
+    final_response = MagicMock()
+    final_response.stop_reason = "end_turn"
+    final_response.content = [final_text_block]
+    final_response.usage.input_tokens = 3000
+    final_response.usage.output_tokens = 300
+
+    mock_client = MagicMock()
+    mock_client.messages.create.side_effect = [
+        tool_response_1,
+        tool_response_2,
+        final_response,
+    ]
+
+    with (
+        patch.object(chatbot_module, "check_daily_budget", return_value=(True, 0)),
+        patch.object(chatbot_module, "_get_client", return_value=mock_client),
+        patch.object(chatbot_module, "query_db", return_value=("ok", None)),
+        patch.object(chatbot_module, "record_usage") as mock_record_usage,
+    ):
+        text, fig = chatbot_module.ask("A question needing two tool calls")
+
+    assert text == "Final answer"
+    mock_record_usage.assert_called_once_with(1000 + 2000 + 3000, 100 + 200 + 300)

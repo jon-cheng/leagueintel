@@ -408,6 +408,8 @@ def ask(question: str) -> tuple[str, object | None]:
     messages = [{"role": "user", "content": question}]
     last_df = None  # track most recent query result for plotting
     fig = None  # track any generated plot
+    total_input_tokens = 0
+    total_output_tokens = 0
 
     while True:
         response = _get_client().messages.create(
@@ -417,6 +419,8 @@ def ask(question: str) -> tuple[str, object | None]:
             tools=TOOLS,
             messages=messages,
         )
+        total_input_tokens += response.usage.input_tokens
+        total_output_tokens += response.usage.output_tokens
 
         if response.stop_reason == "tool_use":
             tool_results = []
@@ -469,9 +473,7 @@ def ask(question: str) -> tuple[str, object | None]:
             text = next(
                 block.text for block in response.content if hasattr(block, "text")
             )
-            # record token usage — best effort, never blocks the response
-            record_usage(
-                response.usage.input_tokens,
-                response.usage.output_tokens,
-            )
+            # record total token usage across every tool-use round trip,
+            # not just the final turn — best effort, never blocks the response
+            record_usage(total_input_tokens, total_output_tokens)
             return text, fig
