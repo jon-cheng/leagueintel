@@ -182,6 +182,156 @@ def get_arbys_winner(season: int) -> dict:
     }
 
 
+def _get_championship_game(season: int) -> pd.Series:
+    """Fetch the final-week WINNERS_BRACKET game (1st vs 2nd place)."""
+    conn = get_connection()
+    df = pd.read_sql(
+        """
+        SELECT
+            m.home_team_id,
+            m.away_team_id,
+            m.home_score,
+            m.away_score,
+            ht.owner_name AS home_owner,
+            at.owner_name AS away_owner
+        FROM matchups m
+        JOIN teams ht
+            ON m.home_team_id = ht.team_id
+            AND m.season = ht.season
+        JOIN teams at
+            ON m.away_team_id = at.team_id
+            AND m.season = at.season
+        WHERE m.matchup_type = 'WINNERS_BRACKET'
+        AND m.season = :season
+        AND m.week = (
+            SELECT MAX(week) FROM matchups
+            WHERE matchup_type = 'WINNERS_BRACKET' AND season = :season
+        )
+    """,
+        conn,
+        params={"season": season},
+    )
+    conn.close()
+
+    if df.empty:
+        raise ValueError(f"Could not find championship game for {season}")
+
+    return df.iloc[0]
+
+
+def _get_semifinal_losers(season: int) -> set[int]:
+    """
+    Team ids that lost in the semifinal round of the WINNERS_BRACKET
+    (the round immediately before the championship). These two teams
+    play each other for 3rd place.
+    """
+    conn = get_connection()
+    df = pd.read_sql(
+        """
+        SELECT home_team_id, away_team_id, home_score, away_score
+        FROM matchups
+        WHERE matchup_type = 'WINNERS_BRACKET'
+        AND season = :season
+        AND week = (
+            SELECT MAX(week) FROM matchups
+            WHERE matchup_type = 'WINNERS_BRACKET' AND season = :season
+        ) - 1
+    """,
+        conn,
+        params={"season": season},
+    )
+    conn.close()
+
+    losers = set()
+    for _, game in df.iterrows():
+        if game["home_score"] < game["away_score"]:
+            losers.add(game["home_team_id"])
+        else:
+            losers.add(game["away_team_id"])
+    return losers
+
+
+def _get_third_place_game(season: int) -> pd.Series:
+    """
+    Fetch the final-week WINNERS_CONSOLATION_LADDER game between the
+    two semifinal losers (the true 3rd place game, as opposed to any
+    other consolation-ladder placement game in the same week).
+    """
+    semifinal_losers = _get_semifinal_losers(season)
+
+    conn = get_connection()
+    df = pd.read_sql(
+        """
+        SELECT
+            m.home_team_id,
+            m.away_team_id,
+            m.home_score,
+            m.away_score,
+            ht.owner_name AS home_owner,
+            at.owner_name AS away_owner
+        FROM matchups m
+        JOIN teams ht
+            ON m.home_team_id = ht.team_id
+            AND m.season = ht.season
+        JOIN teams at
+            ON m.away_team_id = at.team_id
+            AND m.season = at.season
+        WHERE m.matchup_type = 'WINNERS_CONSOLATION_LADDER'
+        AND m.season = :season
+        AND m.week = (
+            SELECT MAX(week) FROM matchups
+            WHERE matchup_type = 'WINNERS_BRACKET' AND season = :season
+        )
+    """,
+        conn,
+        params={"season": season},
+    )
+    conn.close()
+
+    third_place_game = df[
+        df.apply(
+            lambda g: {g["home_team_id"], g["away_team_id"]} == semifinal_losers,
+            axis=1,
+        )
+    ]
+
+    if third_place_game.empty:
+        raise ValueError(f"Could not find 3rd place game for {season}")
+
+    return third_place_game.iloc[0]
+
+
+def get_medal_standings(season: int) -> dict:
+    """
+    Final 1st, 2nd, and 3rd place finishers for a season.
+    1st/2nd come from the championship game; 3rd comes from the
+    3rd place game between the two semifinal losers.
+    """
+    champ_game = _get_championship_game(season)
+    if champ_game["home_score"] > champ_game["away_score"]:
+        first, first_score = champ_game["home_owner"], champ_game["home_score"]
+        second, second_score = champ_game["away_owner"], champ_game["away_score"]
+    else:
+        first, first_score = champ_game["away_owner"], champ_game["away_score"]
+        second, second_score = champ_game["home_owner"], champ_game["home_score"]
+
+    third_game = _get_third_place_game(season)
+    if third_game["home_score"] > third_game["away_score"]:
+        third, third_score = third_game["home_owner"], third_game["home_score"]
+    else:
+        third, third_score = third_game["away_owner"], third_game["away_score"]
+
+    return {
+        "season": season,
+        "first": first,
+        "first_score": first_score,
+        "second": second,
+        "second_score": second_score,
+        "third": third,
+        "third_score": third_score,
+    }
+
+
 def get_toilet_bowl_history(seasons: list[int]) -> pd.DataFrame:
     """Last place finisher across multiple seasons."""
     rows = []

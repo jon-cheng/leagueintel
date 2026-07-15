@@ -117,6 +117,7 @@ def shared_sidebar() -> None:
 
         st.subheader("History")
         st.page_link("pages/Head_to_Head.py", label="⚔️ Head to Head")
+        st.page_link("pages/Podium.py", label="🥇 Podium")
 
 
 # ── landing page ──────────────────────────────────────────────────────────────
