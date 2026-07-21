@@ -14,10 +14,11 @@ from leagueintel.config import (
     DEFAULT_DB_PATH,
     ANTHROPIC_API_KEY,
     ALL_SEASONS,
+    ENABLE_PROMPT_CACHING,
 )
 from leagueintel.ingestion.espn import get_scoring_description, get_league_context
 from leagueintel.reporting.turso_client import (
-    record_usage,
+    log_question,
     check_daily_budget,
 )
 from espn_api.football import League
@@ -388,6 +389,60 @@ def _get_client() -> anthropic.Anthropic:
     return anthropic.Anthropic(api_key=api_key)
 
 
+def _build_system_param():
+    """
+    Return the system prompt, marked with a cache breakpoint when caching
+    is enabled. Because tools/system/messages are cached as one prefix up
+    to the breakpoint, marking this block also covers TOOLS for free —
+    both are static across every question, so this is the biggest win.
+    """
+    if ENABLE_PROMPT_CACHING:
+        return [
+            {
+                "type": "text",
+                "text": SYSTEM_PROMPT,
+                "cache_control": {"type": "ephemeral"},
+            }
+        ]
+    return SYSTEM_PROMPT
+
+
+def _add_cache_breakpoint(messages: list) -> list:
+    """
+    Return a copy of `messages` with a cache breakpoint on the last
+    content block of the last message. This lets the growing agent-loop
+    conversation (tool calls + results) be read from cache on each
+    subsequent round trip within the same question, instead of
+    reprocessing everything from scratch each time.
+
+    Does not mutate `messages` — the caller keeps appending plain
+    dicts/blocks to the real list; this is only applied to the copy
+    handed to messages.create().
+    """
+    if not ENABLE_PROMPT_CACHING or not messages:
+        return messages
+
+    messages = list(messages)
+    last = dict(messages[-1])
+    content = last["content"]
+
+    if isinstance(content, str):
+        content = [
+            {
+                "type": "text",
+                "text": content,
+                "cache_control": {"type": "ephemeral"},
+            }
+        ]
+    else:
+        content = [dict(block) for block in content]
+        content[-1]["cache_control"] = {"type": "ephemeral"}
+
+    last["content"] = content
+    messages[-1] = last
+    return messages
+
+
 def ask(question: str) -> tuple[str, object | None]:
     """
     Run one question through the chatbot agent loop.
@@ -408,19 +463,28 @@ def ask(question: str) -> tuple[str, object | None]:
     messages = [{"role": "user", "content": question}]
     last_df = None  # track most recent query result for plotting
     fig = None  # track any generated plot
-    total_input_tokens = 0
-    total_output_tokens = 0
+    total_input = 0
+    total_output = 0
+    total_cache_write = 0
+    total_cache_read = 0
+    last_tool_used = None
+    last_analysis_used = None
 
     while True:
-        response = _get_client().messages.create(
+        request_kwargs = dict(
             model="claude-sonnet-4-6",
             max_tokens=4096,
-            system=SYSTEM_PROMPT,
+            system=_build_system_param(),
             tools=TOOLS,
-            messages=messages,
+            messages=_add_cache_breakpoint(messages),
         )
-        total_input_tokens += response.usage.input_tokens
-        total_output_tokens += response.usage.output_tokens
+        response = _get_client().messages.create(**request_kwargs)
+
+        u = response.usage
+        total_input += u.input_tokens
+        total_output += u.output_tokens
+        total_cache_write += getattr(u, "cache_creation_input_tokens", 0) or 0
+        total_cache_read += getattr(u, "cache_read_input_tokens", 0) or 0
 
         if response.stop_reason == "tool_use":
             tool_results = []
@@ -428,10 +492,14 @@ def ask(question: str) -> tuple[str, object | None]:
             for block in response.content:
                 if block.type == "tool_use":
 
+                    if block.name in ("query_db", "run_analysis", "make_plot"):
+                        last_tool_used = block.name
+
                     if block.name == "query_db":
                         result, last_df = query_db(block.input["sql"])
 
                     elif block.name == "run_analysis":
+                        last_analysis_used = block.input.get("analysis")
                         result, last_df = run_analysis(
                             analysis=block.input["analysis"],
                             season=block.input["season"],
@@ -473,7 +541,15 @@ def ask(question: str) -> tuple[str, object | None]:
             text = next(
                 block.text for block in response.content if hasattr(block, "text")
             )
-            # record total token usage across every tool-use round trip,
-            # not just the final turn — best effort, never blocks the response
-            record_usage(total_input_tokens, total_output_tokens)
+            # log total usage across every tool-use round trip for this
+            # question, not just the final turn — best effort, never
+            # blocks the response
+            log_question(
+                tool_used=last_tool_used,
+                analysis_used=last_analysis_used,
+                tokens_input=total_input,
+                tokens_output=total_output,
+                cache_write_tokens=total_cache_write,
+                cache_read_tokens=total_cache_read,
+            )
             return text, fig
