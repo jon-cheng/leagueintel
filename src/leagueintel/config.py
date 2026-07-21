@@ -85,3 +85,8 @@ CHATBOT_DAILY_TOKEN_LIMIT = int(os.getenv("CHATBOT_DAILY_TOKEN_LIMIT", "100000")
 # persistently across Streamlit Cloud cold starts (/tmp does not survive them)
 TURSO_OPS_URL = os.getenv("TURSO_OPS_URL")
 TURSO_OPS_TOKEN = os.getenv("TURSO_OPS_TOKEN")
+
+# Dev flag to A/B the chatbot with/without prompt caching, so the same
+# golden question set can be run twice (see scripts/cache_benchmark.py)
+# and the real before/after cost difference measured directly.
+ENABLE_PROMPT_CACHING = os.getenv("ENABLE_PROMPT_CACHING", "true").lower() == "true"

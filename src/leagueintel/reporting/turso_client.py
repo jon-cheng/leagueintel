@@ -23,9 +23,48 @@ def get_ops_connection():
     )
 
 
+def log_question(
+    tool_used: str | None,
+    analysis_used: str | None,
+    tokens_input: int,
+    tokens_output: int,
+    cache_write_tokens: int = 0,
+    cache_read_tokens: int = 0,
+) -> None:
+    """
+    Log one question's usage as a row in chat_log.
+    Best effort — never raises; failures are logged as warnings only,
+    since usage tracking must never block the chatbot response.
+    """
+    try:
+        conn = get_ops_connection()
+        conn.execute(
+            """
+            INSERT INTO chat_log (
+                tool_used, analysis_used,
+                tokens_input, tokens_output,
+                cache_write_tokens, cache_read_tokens
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                tool_used,
+                analysis_used,
+                tokens_input,
+                tokens_output,
+                cache_write_tokens,
+                cache_read_tokens,
+            ),
+        )
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        logger.warning(f"Turso write failed: {e}")
+
+
 def get_today_usage() -> tuple[int, int, int]:
     """
-    Read today's usage from Turso usage table.
+    Read today's aggregate usage from the `usage` view.
     Returns (tokens_input, tokens_output, question_count).
     Returns (0, 0, 0) on any error — never blocks the chatbot.
     """
@@ -43,35 +82,10 @@ def get_today_usage() -> tuple[int, int, int]:
         return (0, 0, 0)
 
 
-def record_usage(tokens_input: int, tokens_output: int) -> None:
-    """
-    Upsert today's token usage into Turso.
-    Best effort — never blocks the chatbot response.
-    Uses same INSERT OR REPLACE pattern as leagueintel.db writes.
-    """
-    try:
-        conn = get_ops_connection()
-        conn.execute(
-            """
-            INSERT INTO usage (date, tokens_input, tokens_output, question_count)
-            VALUES (?, ?, ?, 1)
-            ON CONFLICT(date) DO UPDATE SET
-                tokens_input   = tokens_input   + excluded.tokens_input,
-                tokens_output  = tokens_output  + excluded.tokens_output,
-                question_count = question_count + 1
-            """,
-            (str(date.today()), tokens_input, tokens_output),
-        )
-        conn.commit()
-        conn.close()
-    except Exception as e:
-        logger.warning(f"Turso write failed: {e}")
-
-
 def get_usage_report() -> list[tuple]:
     """
     Fetch daily usage and estimated cost, most recent first.
-    Unlike get_today_usage/record_usage, errors are not swallowed here —
+    Unlike get_today_usage/log_question, errors are not swallowed here —
     this is invoked interactively via scripts/usage_report.py, where a
     raised exception is more useful than a silently empty report.
     """
@@ -81,9 +95,11 @@ def get_usage_report() -> list[tuple]:
         SELECT
             date,
             question_count,
-            tokens_input + tokens_output AS total_tokens,
-            ROUND((tokens_input * 3.0 + tokens_output * 15.0) / 1000000, 4)
-                AS est_cost_usd
+            tokens_input,
+            tokens_output,
+            cache_write_tokens,
+            cache_read_tokens,
+            est_cost_usd
         FROM usage
         ORDER BY date DESC
         """

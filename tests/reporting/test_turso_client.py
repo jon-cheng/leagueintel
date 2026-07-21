@@ -47,30 +47,56 @@ def test_get_today_usage_connection_failure_returns_zeros():
     assert result == (0, 0, 0)
 
 
-# ── record_usage ──────────────────────────────────────────────────────────────
+# ── log_question ─────────────────────────────────────────────────────────────
 
 
-def test_record_usage_executes_upsert_and_commits():
+def test_log_question_executes_insert_and_commits():
     mock_conn = MagicMock()
 
     with patch.object(turso_client, "get_ops_connection", return_value=mock_conn):
-        turso_client.record_usage(1820, 450)
+        turso_client.log_question(
+            tool_used="run_analysis",
+            analysis_used="draft_roi",
+            tokens_input=1820,
+            tokens_output=450,
+            cache_write_tokens=900,
+            cache_read_tokens=300,
+        )
 
     args, _ = mock_conn.execute.call_args
     sql, params = args
-    assert "INSERT INTO usage" in sql
-    assert "ON CONFLICT" in sql
-    assert params[1:] == (1820, 450)
+    assert "INSERT INTO chat_log" in sql
+    assert params == ("run_analysis", "draft_roi", 1820, 450, 900, 300)
     mock_conn.commit.assert_called_once()
     mock_conn.close.assert_called_once()
 
 
-def test_record_usage_failure_does_not_raise():
+def test_log_question_defaults_cache_tokens_to_zero():
+    mock_conn = MagicMock()
+
+    with patch.object(turso_client, "get_ops_connection", return_value=mock_conn):
+        turso_client.log_question(
+            tool_used="query_db",
+            analysis_used=None,
+            tokens_input=100,
+            tokens_output=50,
+        )
+
+    _, params = mock_conn.execute.call_args[0]
+    assert params[-2:] == (0, 0)
+
+
+def test_log_question_failure_does_not_raise():
     with patch.object(
         turso_client, "get_ops_connection", side_effect=ConnectionError("down")
     ):
         # should swallow the error and simply log a warning
-        turso_client.record_usage(100, 50)
+        turso_client.log_question(
+            tool_used=None,
+            analysis_used=None,
+            tokens_input=100,
+            tokens_output=50,
+        )
 
 
 # ── get_usage_report ─────────────────────────────────────────────────────────
@@ -79,16 +105,16 @@ def test_record_usage_failure_does_not_raise():
 def test_get_usage_report_returns_rows():
     mock_conn = MagicMock()
     mock_conn.execute.return_value.fetchall.return_value = [
-        ("2026-07-13", 3, 1500, 0.0195),
-        ("2026-07-12", 1, 800, 0.0104),
+        ("2026-07-13", 3, 1500, 400, 900, 300, 0.0195),
+        ("2026-07-12", 1, 800, 200, 0, 0, 0.0104),
     ]
 
     with patch.object(turso_client, "get_ops_connection", return_value=mock_conn):
         result = turso_client.get_usage_report()
 
     assert result == [
-        ("2026-07-13", 3, 1500, 0.0195),
-        ("2026-07-12", 1, 800, 0.0104),
+        ("2026-07-13", 3, 1500, 400, 900, 300, 0.0195),
+        ("2026-07-12", 1, 800, 200, 0, 0, 0.0104),
     ]
     mock_conn.close.assert_called_once()
 
