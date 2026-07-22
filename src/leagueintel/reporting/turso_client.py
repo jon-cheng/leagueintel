@@ -108,6 +108,34 @@ def get_usage_report() -> list[tuple]:
     return rows
 
 
+def get_question_cost_report() -> list[tuple]:
+    """
+    Fetch per-question usage and estimated cost, most recent first.
+    Unlike get_today_usage/log_question, errors are not swallowed here —
+    this is invoked interactively via scripts/usage_report.py, where a
+    raised exception is more useful than a silently empty report.
+    """
+    conn = get_ops_connection()
+    rows = conn.execute(
+        """
+        SELECT
+            id,
+            created_at,
+            tool_used,
+            analysis_used,
+            tokens_input,
+            tokens_output,
+            cache_write_tokens,
+            cache_read_tokens,
+            est_cost_usd
+        FROM question_cost
+        ORDER BY created_at DESC
+        """
+    ).fetchall()
+    conn.close()
+    return rows
+
+
 def check_daily_budget() -> tuple[bool, int]:
     """
     Check whether today's token budget has been exceeded.
