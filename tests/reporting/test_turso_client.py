@@ -132,6 +132,39 @@ def test_get_usage_report_propagates_connection_failure():
             pass
 
 
+# ── get_question_cost_report ─────────────────────────────────────────────────
+
+
+def test_get_question_cost_report_returns_rows():
+    mock_conn = MagicMock()
+    mock_conn.execute.return_value.fetchall.return_value = [
+        (2, "2026-07-13 10:05:00", "run_analysis", "draft_roi", 1500, 400, 900, 300, 0.0195),
+        (1, "2026-07-13 10:00:00", "query_db", None, 800, 200, 0, 0, 0.0104),
+    ]
+
+    with patch.object(turso_client, "get_ops_connection", return_value=mock_conn):
+        result = turso_client.get_question_cost_report()
+
+    assert result == [
+        (2, "2026-07-13 10:05:00", "run_analysis", "draft_roi", 1500, 400, 900, 300, 0.0195),
+        (1, "2026-07-13 10:00:00", "query_db", None, 800, 200, 0, 0, 0.0104),
+    ]
+    mock_conn.close.assert_called_once()
+
+
+def test_get_question_cost_report_propagates_connection_failure():
+    with patch.object(
+        turso_client, "get_ops_connection", side_effect=ConnectionError("down")
+    ):
+        # same as get_usage_report — a manually-run dev tool, so a raised
+        # exception here is more useful than a silently empty report
+        try:
+            turso_client.get_question_cost_report()
+            assert False, "expected ConnectionError to propagate"
+        except ConnectionError:
+            pass
+
+
 # ── check_daily_budget ────────────────────────────────────────────────────────
 
 
