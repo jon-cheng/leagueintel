@@ -10,6 +10,8 @@ from leagueintel.ingestion.espn import (
     _summarize,
     fetch_transactions_all,
     fetch_teams_all,
+    fetch_matchups_all,
+    build_leagues,
 )
 
 
@@ -140,6 +142,37 @@ def test_fetch_transactions_all_missing_credentials():
                 fetch_transactions_all(year=2024, week=1)
 
 
+def test_fetch_transactions_all_bounds_weeks_to_final_scoring_period(
+    sample_response, tmp_path
+):
+    """
+    Simulates being mid-season: ESPN reports finalScoringPeriod = 3, so only
+    3 weeks have occurred so far. fetch_transactions_all should stop there
+    instead of requesting all the way up to max_week/DEFAULT_MAX_WEEK.
+    """
+    fake_league = MagicMock()
+    fake_league.finalScoringPeriod = 3
+
+    with patch("leagueintel.ingestion.espn.LEAGUE_ID", "123"):
+        with patch("leagueintel.ingestion.espn.ESPN_S2", "abc"):
+            with patch("leagueintel.ingestion.espn.SWID", "{xyz}"):
+                with patch(
+                    "leagueintel.ingestion.espn.League", return_value=fake_league
+                ):
+                    with patch(
+                        "leagueintel.ingestion.espn._fetch_week"
+                    ) as mock_fetch:
+                        with patch("leagueintel.ingestion.espn.time.sleep"):
+                            mock_fetch.return_value = sample_response
+
+                            fetch_transactions_all(
+                                year=2026, output_dir=str(tmp_path)
+                            )
+
+    weeks_fetched = [c.args[1] for c in mock_fetch.call_args_list]
+    assert weeks_fetched == [1, 2, 3]
+
+
 def test_fetch_transactions_all_saves_file(sample_response, tmp_path):
     with patch("leagueintel.ingestion.espn.LEAGUE_ID", "123"):
         with patch("leagueintel.ingestion.espn.ESPN_S2", "abc"):
@@ -151,3 +184,86 @@ def test_fetch_transactions_all_saves_file(sample_response, tmp_path):
 
                     saved = tmp_path / "2024" / "week01.json"
                     assert saved.exists()
+
+
+# ── fetch_matchups_all: partial in-season finalScoringPeriod ─────────────────
+
+
+def _fake_matchup():
+    """A minimal stand-in for espn_api's BoxScore/Matchup object."""
+    matchup = MagicMock()
+    matchup.home_team.team_id = 1
+    matchup.away_team.team_id = 2
+    matchup.home_score = 100.0
+    matchup.away_score = 90.0
+    matchup.home_projected = 95.0
+    matchup.away_projected = 88.0
+    matchup.is_playoff = False
+    matchup.matchup_type = "NONE"
+    return matchup
+
+
+def test_build_leagues_constructs_one_league_per_season():
+    fake_league_2025 = MagicMock()
+    fake_league_2026 = MagicMock()
+
+    with patch(
+        "leagueintel.ingestion.espn.League",
+        side_effect=[fake_league_2025, fake_league_2026],
+    ) as mock_league_cls:
+        leagues = build_leagues([2025, 2026])
+
+    assert leagues == {2025: fake_league_2025, 2026: fake_league_2026}
+    assert mock_league_cls.call_count == 2
+
+
+def test_fetch_matchups_all_reuses_passed_in_league(tmp_path):
+    """
+    When a leagues dict is supplied (as sync does), fetch_matchups_all must
+    reuse it instead of constructing its own League — that's the whole
+    point of sharing one League per season across all fetch_*_all calls.
+    """
+    fake_league = MagicMock()
+    fake_league.finalScoringPeriod = 1
+    fake_league.box_scores.return_value = []
+
+    with patch("leagueintel.ingestion.espn.get_connection") as mock_get_conn:
+        with patch("leagueintel.ingestion.espn.create_tables"):
+            with patch("leagueintel.ingestion.espn.write_matchups"):
+                with patch("leagueintel.ingestion.espn.time.sleep"):
+                    with patch(
+                        "leagueintel.ingestion.espn.League"
+                    ) as mock_league_cls:
+                        mock_get_conn.return_value = MagicMock()
+
+                        fetch_matchups_all(
+                            seasons=[2026], leagues={2026: fake_league}
+                        )
+
+    mock_league_cls.assert_not_called()
+    fake_league.box_scores.assert_called_once_with(1)
+
+
+def test_fetch_matchups_all_only_processes_weeks_through_final_scoring_period(
+    tmp_path,
+):
+    """
+    Simulates being mid-season: ESPN reports finalScoringPeriod = 5, meaning
+    only 5 weeks have occurred so far. fetch_matchups_all should stop there
+    instead of trying (and failing on) weeks 6+, which don't exist yet.
+    """
+    fake_league = MagicMock()
+    fake_league.finalScoringPeriod = 5
+    fake_league.box_scores.return_value = [_fake_matchup()]
+
+    with patch("leagueintel.ingestion.espn.League", return_value=fake_league):
+        with patch("leagueintel.ingestion.espn.get_connection") as mock_get_conn:
+            with patch("leagueintel.ingestion.espn.create_tables"):
+                with patch("leagueintel.ingestion.espn.write_matchups") as mock_write:
+                    with patch("leagueintel.ingestion.espn.time.sleep"):
+                        mock_get_conn.return_value = MagicMock()
+
+                        fetch_matchups_all(seasons=[2026])
+
+    weeks_written = [call.args[0][0]["week"] for call in mock_write.call_args_list]
+    assert weeks_written == [1, 2, 3, 4, 5]

@@ -129,11 +129,18 @@ def write_players(players: list[dict], conn: sqlite3.Connection) -> None:
 
 
 def write_transactions(transactions: list[dict], conn: sqlite3.Connection) -> None:
+    """
+    Write transaction records to SQLite.
+
+    Uses INSERT OR REPLACE so re-parsing a transaction (e.g. a daily
+    in-season refresh) picks up status changes — PENDING -> EXECUTED/FAILED —
+    instead of freezing whatever status existed on first ingestion.
+    """
     _write_records(
         transactions,
         TransactionRecord,
         """
-        INSERT OR IGNORE INTO transactions
+        INSERT OR REPLACE INTO transactions
         (id, season, transaction_type, status, bid_amount, team_id,
          scoring_period_id, execution_type, proposed_date, process_date,
          related_transaction_id)
@@ -144,6 +151,15 @@ def write_transactions(transactions: list[dict], conn: sqlite3.Connection) -> No
 
 
 def write_transaction_moves(moves: list[dict], conn: sqlite3.Connection) -> None:
+    """
+    Write transaction move records to SQLite.
+
+    There's no UNIQUE constraint on transaction_moves, so re-parsing the same
+    transaction (e.g. a daily in-season refresh re-reading raw JSON) would
+    duplicate every move row on each run. Delete existing moves for the
+    transaction_ids in this batch before inserting, matching the DELETE+INSERT
+    pattern used for matchups/box_scores.
+    """
     rows = []
     skipped = 0
 
@@ -164,9 +180,15 @@ def write_transaction_moves(moves: list[dict], conn: sqlite3.Connection) -> None
             logger.warning(f"Skipping invalid move: {e}")
             skipped += 1
 
+    transaction_ids = {row[0] for row in rows}
+    conn.executemany(
+        "DELETE FROM transaction_moves WHERE transaction_id = ?",
+        [(tid,) for tid in transaction_ids],
+    )
+
     conn.executemany(
         """
-        INSERT OR IGNORE INTO transaction_moves
+        INSERT INTO transaction_moves
         (transaction_id, item_type, player_id, from_team_id,
          to_team_id, overall_pick_number)
         VALUES (?, ?, ?, ?, ?, ?)
@@ -178,18 +200,45 @@ def write_transaction_moves(moves: list[dict], conn: sqlite3.Connection) -> None
 
 
 def write_box_scores(box_scores: list[dict], conn: sqlite3.Connection) -> None:
-    _write_records(
-        box_scores,
-        BoxScoreRecord,
+    """
+    Write box score records to SQLite.
+
+    Uses DELETE + INSERT instead of INSERT OR IGNORE so re-ingesting a week
+    (e.g. a daily in-season refresh) picks up updated points/projections
+    instead of freezing whatever was captured on the first fetch.
+    """
+    rows = []
+    skipped = 0
+
+    for box_score in box_scores:
+        try:
+            record = BoxScoreRecord(**box_score)
+            rows.append(tuple(record.model_dump().values()))
+        except ValidationError as e:
+            logger.warning(f"Skipping invalid box score: {e}")
+            skipped += 1
+
+    conn.executemany(
         """
-        INSERT OR IGNORE INTO box_scores
+        DELETE FROM box_scores
+        WHERE season = ? AND week = ? AND player_id = ?
+        """,
+        [(r[0], r[1], r[3]) for r in rows],
+    )
+
+    conn.executemany(
+        """
+        INSERT INTO box_scores
         (season, week, team_id, player_id, player_name, position,
          lineup_slot, pro_team, points, projected_points,
          on_bye_week, game_played)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """,
-        conn,
+        rows,
     )
+
+    conn.commit()
+    logger.info(f"Wrote {len(rows)} box scores, skipped {skipped}")
 
 
 def write_matchups(matchups: list[dict], conn: sqlite3.Connection) -> None:

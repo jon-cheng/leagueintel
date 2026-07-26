@@ -33,6 +33,21 @@ def _get_weeks(max_week: int = DEFAULT_MAX_WEEK) -> list[int]:
     return list(range(1, max_week + 1))
 
 
+def build_leagues(seasons: list[int] = None) -> dict[int, League]:
+    """
+    Build one League per season, for reuse across multiple fetch_*_all calls.
+
+    Each League(...) construction makes its own ESPN API call, so passing a
+    shared dict into fetch_teams_all/fetch_players_all/fetch_box_scores_all/
+    fetch_matchups_all/fetch_transactions_all avoids rebuilding it per call.
+    """
+    seasons = seasons or ALL_SEASONS
+    return {
+        year: League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
+        for year in seasons
+    }
+
+
 def _fetch_week(year: int, week: int) -> dict:
     """Fetch raw transaction data from ESPN API for a given year and week."""
     url = BASE_URL.format(year=year, league_id=LEAGUE_ID)
@@ -78,6 +93,7 @@ def fetch_transactions_all(
     week: int = None,
     max_week: int = DEFAULT_MAX_WEEK,
     output_dir: str = None,
+    leagues: dict[int, League] = None,
 ) -> None:
     """Fetch ESPN transaction data for given year/week and save as raw JSON."""
     if not all([LEAGUE_ID, ESPN_S2, SWID]):
@@ -88,19 +104,25 @@ def fetch_transactions_all(
         return
 
     years = [year] if year else ALL_SEASONS
-    weeks = [week] if week else _get_weeks(max_week)
+    leagues = leagues or {}
     output_dir = output_dir or DEFAULT_OUTPUT_DIR
-
-    logger.info(
-        f"Fetching {len(years)} season(s) × {len(weeks)} week(s) "
-        f"= {len(years) * len(weeks)} requests"
-    )
     logger.info(f"Output directory: {output_dir}")
 
     success, errors = 0, 0
 
     for y in years:
-        logger.info(f"=== Season {y} ===")
+        if week:
+            weeks = [week]
+        else:
+            # bound to finalScoringPeriod like fetch_box_scores_all/
+            # fetch_matchups_all, so an in-progress season doesn't request
+            # weeks that haven't happened yet
+            league = leagues.get(y) or League(
+                league_id=LEAGUE_ID, year=y, espn_s2=ESPN_S2, swid=SWID
+            )
+            weeks = _get_weeks(min(max_week, league.finalScoringPeriod))
+
+        logger.info(f"=== Season {y}: {len(weeks)} week(s) ===")
         for w in weeks:
             try:
                 data = _fetch_week(y, w)
@@ -159,15 +181,20 @@ def fetch_teams(league: League, season: int) -> list[dict]:
     return [_extract_team(team, season) for team in league.teams]
 
 
-def fetch_teams_all(seasons: list[int] = None) -> None:
+def fetch_teams_all(
+    seasons: list[int] = None, leagues: dict[int, League] = None
+) -> None:
     """Fetch team data for all seasons and write to SQLite."""
     seasons = seasons or ALL_SEASONS
+    leagues = leagues or {}
     conn = get_connection()
     create_tables(conn)
 
     logger.info(f"Fetching teams for {len(seasons)} seasons")
     for year in seasons:
-        league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
+        league = leagues.get(year) or League(
+            league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID
+        )
         teams = fetch_teams(league, season=year)
         write_teams(teams, conn)
         logger.info(f"Season {year}: wrote {len(teams)} teams")
@@ -187,9 +214,12 @@ def fetch_players(league: League) -> list[dict]:
     ]
 
 
-def fetch_players_all(seasons: list[int] = None) -> None:
+def fetch_players_all(
+    seasons: list[int] = None, leagues: dict[int, League] = None
+) -> None:
     """Fetch player map across all seasons and write to SQLite."""
     seasons = seasons or ALL_SEASONS
+    leagues = leagues or {}
     conn = get_connection()
     create_tables(conn)
 
@@ -197,7 +227,9 @@ def fetch_players_all(seasons: list[int] = None) -> None:
 
     logger.info(f"Fetching players across {len(seasons)} seasons")
     for year in seasons:
-        league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
+        league = leagues.get(year) or League(
+            league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID
+        )
         players = fetch_players(league)
         for p in players:
             if p["player_id"] not in all_players:
@@ -252,15 +284,19 @@ def fetch_box_scores(league: League, week: int, season: int) -> list[dict]:
 
 def fetch_box_scores_all(
     seasons: list[int] = None,
+    leagues: dict[int, League] = None,
 ) -> None:
     """Fetch box scores for all seasons and weeks and write to SQLite."""
     seasons = seasons or ALL_SEASONS
+    leagues = leagues or {}
     conn = get_connection()
     create_tables(conn)
 
     for year in seasons:
         logger.info(f"=== Season {year} ===")
-        league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
+        league = leagues.get(year) or League(
+            league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID
+        )
         weeks = _get_weeks(league.finalScoringPeriod)
 
         for week in weeks:
@@ -316,15 +352,19 @@ def fetch_matchups(league: League, week: int, season: int) -> list[dict]:
 
 def fetch_matchups_all(
     seasons: list[int] = None,
+    leagues: dict[int, League] = None,
 ) -> None:
     """Fetch matchup results for all seasons and weeks and write to SQLite."""
     seasons = seasons or ALL_SEASONS
+    leagues = leagues or {}
     conn = get_connection()
     create_tables(conn)
 
     for year in seasons:
         logger.info(f"=== Season {year} ===")
-        league = League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
+        league = leagues.get(year) or League(
+            league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID
+        )
         weeks = _get_weeks(league.finalScoringPeriod)
 
         for week in weeks:

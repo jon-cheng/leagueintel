@@ -24,6 +24,7 @@ from leagueintel.ingestion.espn import (
     fetch_players_all,
     fetch_box_scores_all,
     fetch_matchups_all,
+    build_leagues,
 )
 from leagueintel.ingestion.parse import parse_transactions_all
 
@@ -150,12 +151,27 @@ def fetch_matchups(seasons):
     help="Seasons to sync. If omitted, syncs all seasons.",
 )
 def sync(seasons):
-    """Run the full data pipeline: teams, players, box scores, and matchups."""
+    """Run the full data pipeline: teams, players, box scores, matchups, and transactions."""
     seasons_list = list(seasons) if seasons else None
-    fetch_teams_all(seasons=seasons_list)
-    fetch_players_all(seasons=seasons_list)
-    fetch_box_scores_all(seasons=seasons_list)
-    fetch_matchups_all(seasons=seasons_list)
+
+    # Build one League per season and reuse it across all five fetch steps —
+    # each League(...) construction is its own ESPN API call, so sharing
+    # avoids re-fetching the same season's league data five times over.
+    leagues = build_leagues(seasons_list)
+
+    fetch_teams_all(seasons=seasons_list, leagues=leagues)
+    fetch_players_all(seasons=seasons_list, leagues=leagues)
+    fetch_box_scores_all(seasons=seasons_list, leagues=leagues)
+    fetch_matchups_all(seasons=seasons_list, leagues=leagues)
+
+    # fetch_transactions_all takes a single year (not a list), unlike the
+    # other fetch_*_all functions — loop when specific seasons are requested.
+    if seasons_list:
+        for year in seasons_list:
+            fetch_transactions_all(year=year, leagues=leagues)
+    else:
+        fetch_transactions_all(leagues=leagues)
+    parse_transactions_all(seasons=seasons_list)
 
 
 if __name__ == "__main__":
