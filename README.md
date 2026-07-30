@@ -27,7 +27,7 @@ transaction since the first season with available data.
 - Best Waiver Pickup — position-normalized percentile score across all eligible adds
 - Season Overview — standings, playoff bracket, last place (toilet bowl) history
 - All-Time Head to Head — full win/loss matrix across every regular season game
-- Podium — all-time top 3 finishers and consolation winners per season
+- Podium — all-time top 3 finishers, consolation and last place finishers per season
 
 **Chatbot:**
 Ask anything in plain English. The chatbot routes simple questions to
