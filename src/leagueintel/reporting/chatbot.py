@@ -100,8 +100,10 @@ Columns: season, bid_amount, team_name, owner_name, player_name,
 ### waiver_stints
 One row per continuous roster stint for a player picked up off waivers
 (drafted players are excluded — see draft_picks/draft_box_scores instead).
-Use for: ad hoc questions about waiver roster tenure, e.g. how long a
-player was rostered, or which stints were short-lived.
+Use for: ad hoc questions specifically about WAIVER roster tenure, e.g.
+how long a waiver pickup was rostered, or which waiver stints were
+short-lived. For "regrettable drop" questions spanning any acquisition
+type (draft, waiver, free agent, trade), use roster_stints instead.
 Columns: player_id, team_id, season, acquisition_week, drop_week, duration_weeks
 - acquisition_week: week the player was added via waiver
 - drop_week: week the player was dropped by that SAME team, or 18 if
@@ -109,15 +111,42 @@ Columns: player_id, team_id, season, acquisition_week, drop_week, duration_weeks
 - duration_weeks: drop_week - acquisition_week
 - duration_weeks = 0 means the team added and dropped the player in the
   SAME scoring week — a real, deliberate stint, not a data artifact.
-  For "regrettable drop" questions (team picked up a player and
-  immediately cut him, who then became relevant elsewhere), filter
-  duration_weeks = 0. For normal tenure questions, filter
-  duration_weeks > 0 to exclude these same-week stints.
+  For normal tenure questions, filter duration_weeks > 0 to exclude
+  these same-week stints.
 - No player_name/owner_name columns — join players on player_id and
   teams on (team_id, season) if you need those
 - For "best waiver pickup" style questions use
   run_analysis(analysis='best_waiver_player') instead of querying this
   directly — see Tool selection rules below
+
+### roster_stints
+One row per continuous roster stint for a player on a team, across EVERY
+acquisition path — draft, waiver, free agent, and trade. Unlike
+waiver_stints, drafted players ARE included here.
+Use for: roster tenure or "regrettable drop"/"regrettable move" questions
+that should span all acquisition types, e.g. a team drafting a player and
+cutting him before Week 1, not just waiver pickups.
+Columns: player_id, team_id, season, acquisition_type, acquisition_week,
+         drop_week, duration_weeks
+- acquisition_type: 'DRAFT', 'WAIVER', 'FREEAGENT', or 'TRADE' — how the
+  player arrived on this team
+- acquisition_week: week the player arrived. Drafted players always show
+  acquisition_week = 1.
+- drop_week: week the SAME team's next departure (drop OR traded away)
+  happened, or 18 if the team still has the player
+- duration_weeks: drop_week - acquisition_week
+- duration_weeks = 0 means the team acquired and gave up the player in
+  the SAME scoring week — e.g. drafted and immediately cut before Week 1
+  games, or a same-week waiver add/drop. This is the general
+  "regrettable move" signal — filter duration_weeks = 0 for these
+  questions, regardless of acquisition_type. For normal tenure
+  questions, filter duration_weeks > 0.
+- No player_name/owner_name columns — join players on player_id and
+  teams on (team_id, season) if you need those
+- For waiver-pickup VALUE/eligibility questions (which must exclude
+  drafted players) use waiver_stints or
+  run_analysis(analysis='best_waiver_player') instead — see Tool
+  selection rules below
 
 ## Raw Tables
 
@@ -217,12 +246,47 @@ Tool selection rules:
   best draft pick, draft steals, who overpaid in the draft
   → ALWAYS use run_analysis(analysis='draft_roi')
   → NEVER use query_db for this
+- was acquiring a specific player worth it regardless of how they were
+  acquired, value of one draft pick or trade, "was X a good pickup/
+  trade/pick", "did we get fleeced/robbed in that trade", "how good
+  was picking up X", "value of that trade for X", who won a trade,
+  best/worst move of the season, smartest/dumbest add
+  → ALWAYS use run_analysis(analysis='roster_value')
+  → NEVER use query_db for this
+- most regrettable drop, worst drop, biggest drop mistake, "who cut a
+  player who then blew up elsewhere"
+  → TWO acquisition patterns both count as "regrettable" — check both:
+    1. Same-week regret (added/drafted and cut before ever playing a
+       week): query_db against roster_stints WHERE duration_weeks = 0.
+       No further steps needed — the drop itself IS the regret, there's
+       no "did well elsewhere" to measure.
+    2. Cut-then-thrived regret (a normal stint, duration_weeks > 0,
+       where the player was dropped and went on to score well for
+       ANOTHER team): this needs two tool calls combined —
+       a. query_db against roster_stints to find the drop event
+          (team_id, player_id, drop_week) and that same player's NEXT
+          stint (next acquisition_week for that player_id in a later
+          team_id, same season)
+       b. run_analysis(analysis='roster_value') for that season, then
+          look up that player's value_score for the NEXT stint you
+          found in step a — a high value_score there means the drop
+          was regrettable
+    Consider both patterns unless the question clearly means only one
+    (e.g. "same-week cut" implies only pattern 1)
 - everything else → use query_db
 
 Accuracy rules:
 - For complex temporal questions add a brief note to verify
   surprising results against the ESPN league UI — source of truth
 - Never say verify against memory — use the ESPN UI
+- run_analysis(analysis='roster_value') results can be based on very
+  few weeks (as little as 1) since it scores any single acquisition,
+  not just established waiver pickups. Check the num_weeks value for
+  each result you cite: if num_weeks is small (well below 8), ALWAYS
+  add a brief caveat noting the small sample size in your response
+  (e.g. "based on just 2 weeks, so this could be noisy") — do not
+  present a low-num_weeks score with the same confidence as a
+  full-season one
 """
 
 # ── tools ─────────────────────────────────────────────────────────────────────
@@ -254,6 +318,19 @@ TOOLS = [
           who got value in the draft, draft steals, bid vs performance
           → analysis='draft_roi'
 
+        - was acquiring a specific player a good move regardless of HOW
+          they were acquired (drafted, waiver, free agent, or traded for),
+          value of a single draft pick or trade, comparing acquisition
+          value across different acquisition types, who won a trade,
+          "did we get fleeced/robbed in that trade", best/worst move
+          of the season, smartest/dumbest add
+          → analysis='roster_value'
+          Unlike best_waiver_player, this includes drafted and traded
+          players and scores stints with as little as 1 qualifying week —
+          use it for single-player/single-move questions, not for ranking
+          the best waiver pickups of the season (use best_waiver_player
+          for that instead, since it's the validated, larger-sample view).
+
         Do NOT try to write SQL for these via query_db —
         the logic is complex, validated, and handles known edge cases
         (IR exclusion, stint deduplication, position normalization).
@@ -263,7 +340,7 @@ TOOLS = [
             "properties": {
                 "analysis": {
                     "type": "string",
-                    "enum": ["best_waiver_player", "draft_roi"],
+                    "enum": ["best_waiver_player", "draft_roi", "roster_value"],
                     "description": "Which pre-built analysis to run",
                 },
                 "season": {
@@ -347,6 +424,12 @@ def run_analysis(
             from leagueintel.analytics.draft import get_draft_roi
 
             df = get_draft_roi(season=season)
+            return df.to_json(orient="records"), df
+
+        elif analysis == "roster_value":
+            from leagueintel.analytics.roster_value import get_roster_value_scores
+
+            df = get_roster_value_scores(season=season)
             return df.to_json(orient="records"), df
 
         else:
