@@ -83,7 +83,7 @@ def shared_sidebar() -> None:
 
     with st.sidebar:
         st.title("🏈 leagueintel")
-        st.caption("your league's historian and oracle")
+        st.caption("your league's historian and intelligence layer")
 
         if st.button("💬 Chat", use_container_width=True, type="primary"):
             st.switch_page("pages/Chat.py")
@@ -124,31 +124,44 @@ def shared_sidebar() -> None:
 
 
 def _landing_hero() -> None:
-    st.title("leagueintel")
+    st.title("🏈 leagueintel")
     st.subheader("Your fantasy league's historian and intelligence layer")
     st.caption(
         f"{min(ALL_SEASONS)}–{max(ALL_SEASONS)} seasons of data. "
-        "Queryable in plain English."
+        "Queryable in plain English. Knows your real manager names."
     )
 
     left, right = st.columns(2)
-    with left:
+    with right:
         st.markdown("**Try asking:**")
         st.markdown(
-            '- "How much FAAB did Manager A spend last season?"\n'
-            '- "What\'s my all-time record against Manager B?"\n'
-            '- "Who were the best waiver pickups this year?"\n'
-            '- "Show me draft ROI for this season"'
+            '- "What was our most regrettable drop of all time?"\n'
+            '- "Did Manager A get fleeced in that trade with Manager B?"\n'
+            '- "Roast everyone\'s team names of all time"\n'
+            '- "What were closest games between Manager A and Manager C?"'
         )
-    with right:
-        st.markdown("**What's available:**")
+    with left:
+        st.markdown("**What data is available:**")
         st.markdown(
-            f"- Draft results & bid amounts, {min(ALL_SEASONS)}–{max(ALL_SEASONS)}\n"
-            "- Weekly matchups & scores\n"
-            "- Waiver/FAAB transactions\n"
-            "- Head-to-head records\n"
-            "- Playoff brackets"
+            f"- All league data {min(ALL_SEASONS)}–{max(ALL_SEASONS)}\n"
+            "- Draft results & bid amounts, including draft pick order\n"
+            "- Weekly matchups, scores, including players projected and actual scores\n"
+            "- Roster status (starter/bench/IR) and weekly participation, but not pre-week injury designations\n"
+            "- Waiver/FAAB transactions and trade history\n"
+            "- Playoff brackets\n"
+            "- League current scoring rules\n"
+            "- Manager and fantasy team names\n"
+            "- Multi-season player performance across their time in the league\n"
         )
+
+    st.markdown("**Ready-made analyses available:**")
+    st.markdown(
+        "- 🏆 Season Overview\n"
+        "- 🎯 Draft ROI\n"
+        "- 💎 Best Waiver\n"
+        "- ⚔️ Head to Head\n"
+        "- 🥇 Podium"
+    )
 
 
 def main() -> None:

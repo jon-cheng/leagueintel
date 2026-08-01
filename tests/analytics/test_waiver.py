@@ -86,3 +86,37 @@ def test_compute_waiver_scores_only_uses_weeks_on_roster():
     result = compute_waiver_scores(stints, box_scores, players, teams)
 
     assert result.iloc[0]["total_points"] == 80  # 8 weeks x 10, not inflated by the pre-add 100s
+
+
+def test_compute_waiver_scores_ignores_same_week_add_drop_stints():
+    """
+    A stint with acquisition_week == drop_week (duration_weeks == 0) is a
+    same-week add/drop — a real "regrettable drop" row in waiver_stints,
+    but zero actual weeks on the roster. It must be excluded entirely from
+    waiver value scoring, not scored as a 0-week stint or allowed to leak
+    box scores into another team's later stint for the same player.
+    """
+    stints = pd.DataFrame(
+        [
+            {"player_id": 100, "team_id": 1, "season": 2024, "acquisition_week": 6, "drop_week": 6},
+            {"player_id": 100, "team_id": 2, "season": 2024, "acquisition_week": 7, "drop_week": 15},
+        ]
+    )
+    box_scores = pd.DataFrame(
+        [_box_score(100, 1, 6, 999)]  # same-week stint's box score — must not leak in
+        + [_box_score(100, 2, w, 10) for w in range(7, 15)]  # 8 weeks on the real stint
+    )
+    players = pd.DataFrame([{"player_id": 100, "player_name": "Cut Same Week"}])
+    teams = pd.DataFrame(
+        [
+            {"team_id": 1, "season": 2024, "team_name": "Team A", "owner_name": "Alice"},
+            {"team_id": 2, "season": 2024, "team_name": "Team B", "owner_name": "Bob"},
+        ]
+    )
+
+    result = compute_waiver_scores(stints, box_scores, players, teams)
+
+    assert len(result) == 1
+    row = result.iloc[0]
+    assert row["team_name"] == "Team B"
+    assert row["total_points"] == 80  # 8 weeks x 10, not the 999 from the same-week stint
