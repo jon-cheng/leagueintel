@@ -62,6 +62,27 @@ Always reference managers by owner_name, never by team_id.
 
 ## Views (prefer these over raw tables)
 
+### matchups_long
+One row per TEAM per game (not one row per game), including bye
+weeks as a single row with NULL opponent fields.
+Use for: any question about a specific team's matchup history,
+results, or scores — who won, team point totals, closest/biggest-
+margin games, head-to-head records, week-by-week season results.
+Columns: id, season, week, team_id, opponent_team_id, score,
+         opponent_score, projected, opponent_projected,
+         designation, is_playoff, matchup_type
+- Query with a simple WHERE team_id = X — no need to check both
+  home_team_id and away_team_id like the raw matchups table
+- opponent_team_id/opponent_score/opponent_projected can be NULL
+  on bye weeks — handle that case rather than assuming an
+  opponent always exists
+- Prefer this over matchups for team-centric questions. Getting
+  the home/away pairing wrong when using matchups directly is a
+  known source of incorrect winner/score attribution — default
+  to matchups_long unless you specifically need both teams' info
+  in the same row (e.g. event-level facts not tied to one team's
+  perspective)
+
 ### draft_box_scores
 One row per drafted player per week.
 Use for: draft ROI, bid amount vs performance.
@@ -128,7 +149,9 @@ Common patterns:
   Did not play:     game_played = 0 AND on_bye_week = 0
 
 ### matchups
-One row per matchup per week.
+One row per matchup per week. Use only when you need event-level
+facts not tied to one team's perspective (both teams' info in the
+same row) — for team-centric questions use matchups_long instead.
 Columns: season, week, home_team_id, away_team_id,
          home_score, away_score, home_projected, away_projected,
          is_playoff, matchup_type
