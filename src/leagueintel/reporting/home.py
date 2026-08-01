@@ -83,7 +83,7 @@ def shared_sidebar() -> None:
 
     with st.sidebar:
         st.title("🏈 leagueintel")
-        st.caption("your league's historian and oracle")
+        st.caption("your league's historian and intelligence layer")
 
         if st.button("💬 Chat", use_container_width=True, type="primary"):
             st.switch_page("pages/Chat.py")
@@ -124,7 +124,7 @@ def shared_sidebar() -> None:
 
 
 def _landing_hero() -> None:
-    st.title("leagueintel")
+    st.title("🏈 leagueintel")
     st.subheader("Your fantasy league's historian and intelligence layer")
     st.caption(
         f"{min(ALL_SEASONS)}–{max(ALL_SEASONS)} seasons of data. "

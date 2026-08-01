@@ -66,7 +66,7 @@ def clean_response(text: str) -> str:
 # ── page ──────────────────────────────────────────────────────────────────────
 
 st.title("💬 Ask leagueintel")
-st.caption("Ask anything about your fantasy league — 6 seasons of data")
+st.caption("Ask anything about your fantasy league")
 
 with st.expander("ℹ️ How to get the best results", expanded=False):
     st.markdown("""

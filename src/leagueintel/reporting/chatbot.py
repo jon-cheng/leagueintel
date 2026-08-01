@@ -102,9 +102,17 @@ One row per continuous roster stint for a player picked up off waivers
 (drafted players are excluded — see draft_picks/draft_box_scores instead).
 Use for: ad hoc questions about waiver roster tenure, e.g. how long a
 player was rostered, or which stints were short-lived.
-Columns: player_id, team_id, season, acquisition_week, drop_week
+Columns: player_id, team_id, season, acquisition_week, drop_week, duration_weeks
 - acquisition_week: week the player was added via waiver
-- drop_week: week the player was dropped (exclusive), or 18 if never dropped
+- drop_week: week the player was dropped by that SAME team, or 18 if
+  never dropped by that team
+- duration_weeks: drop_week - acquisition_week
+- duration_weeks = 0 means the team added and dropped the player in the
+  SAME scoring week — a real, deliberate stint, not a data artifact.
+  For "regrettable drop" questions (team picked up a player and
+  immediately cut him, who then became relevant elsewhere), filter
+  duration_weeks = 0. For normal tenure questions, filter
+  duration_weeks > 0 to exclude these same-week stints.
 - No player_name/owner_name columns — join players on player_id and
   teams on (team_id, season) if you need those
 - For "best waiver pickup" style questions use

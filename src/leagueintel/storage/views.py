@@ -105,8 +105,18 @@ def _create_waiver_stints_view(conn: sqlite3.Connection) -> None:
     players are excluded; they're covered by draft_picks/draft_box_scores).
 
     acquisition_week: first scoring period the player was added via waiver
-    drop_week: first scoring period the player was dropped after that
-               acquisition, or 18 (past the season) if never dropped
+    drop_week: scoring period the player was dropped by the SAME team that
+               added them, or 18 (past the season) if never dropped
+    duration_weeks: drop_week - acquisition_week. 0 means the team added
+                     and dropped the player within the same scoring week
+                     (a "regrettable drop" — kept as a real, visible stint
+                     rather than merged or discarded; filter
+                     duration_weeks > 0 downstream to exclude these)
+
+    Each add is paired with that SAME team's next drop by rank (1st add with
+    that team pairs with their 1st drop, 2nd with 2nd, etc.) — not with the
+    next drop event for the player globally, which could belong to a
+    different team and produce overlapping stints across teams.
 
     Use for: waiver value analyses — join to box_scores on
     (player_id, team_id, season) and filter week within [acquisition_week, drop_week).
@@ -128,8 +138,12 @@ def _create_waiver_stints_view(conn: sqlite3.Connection) -> None:
             SELECT
                 tm.player_id,
                 tm.to_team_id AS team_id,
-                MIN(t.scoring_period_id) AS acquisition_week,
-                t.season
+                t.season,
+                t.scoring_period_id AS acquisition_week,
+                ROW_NUMBER() OVER (
+                    PARTITION BY tm.player_id, tm.to_team_id, t.season
+                    ORDER BY t.scoring_period_id
+                ) AS stint_seq
             FROM transaction_moves tm
             JOIN transactions t ON tm.transaction_id = t.id
             WHERE tm.item_type = 'ADD'
@@ -141,30 +155,35 @@ def _create_waiver_stints_view(conn: sqlite3.Connection) -> None:
                 WHERE dp.player_id = tm.player_id
                 AND dp.season = t.season
             )
-            GROUP BY tm.player_id, tm.to_team_id, t.season
+            GROUP BY tm.player_id, tm.to_team_id, t.season, t.scoring_period_id
         ),
         waiver_drops AS (
             SELECT
                 tm.player_id,
                 tm.from_team_id AS team_id,
-                MIN(t.scoring_period_id) AS drop_week,
-                t.season
+                t.season,
+                t.scoring_period_id AS drop_week,
+                ROW_NUMBER() OVER (
+                    PARTITION BY tm.player_id, tm.from_team_id, t.season
+                    ORDER BY t.scoring_period_id
+                ) AS stint_seq
             FROM transaction_moves tm
             JOIN transactions t ON tm.transaction_id = t.id
             WHERE tm.item_type = 'DROP'
             AND tm.player_id > 0
-            GROUP BY tm.player_id, tm.from_team_id, t.season
+            GROUP BY tm.player_id, tm.from_team_id, t.season, t.scoring_period_id
         )
         SELECT
             a.player_id,
             a.team_id,
             a.season,
             a.acquisition_week,
-            COALESCE(d.drop_week, 18) AS drop_week
+            COALESCE(d.drop_week, 18) AS drop_week,
+            COALESCE(d.drop_week, 18) - a.acquisition_week AS duration_weeks
         FROM waiver_adds a
         LEFT JOIN waiver_drops d
             ON a.player_id = d.player_id
             AND a.team_id = d.team_id
             AND a.season = d.season
-            AND d.drop_week > a.acquisition_week
+            AND a.stint_seq = d.stint_seq
     """)

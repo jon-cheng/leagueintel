@@ -104,6 +104,13 @@ def compute_waiver_scores(
         players: player_id, player_name
         teams: team_id, season, team_name, owner_name
     """
+    # Same-week add/drop stints (duration_weeks == 0) never had a real week
+    # on the roster — they're kept as visible rows in waiver_stints for
+    # "regrettable drop" analyses, but contribute nothing to waiver value.
+    # Excluded explicitly rather than relying on the week-range filter below
+    # degenerating to empty for them.
+    stints = stints[stints["drop_week"] > stints["acquisition_week"]]
+
     # stint_scores: each stint's box scores while actually on the roster
     stint_scores = stints.merge(box_scores, on=["player_id", "team_id", "season"])
     stint_scores = stint_scores[
