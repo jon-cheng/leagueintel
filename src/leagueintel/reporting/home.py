@@ -128,17 +128,17 @@ def _landing_hero() -> None:
     st.subheader("Your fantasy league's historian and intelligence layer")
     st.caption(
         f"{min(ALL_SEASONS)}–{max(ALL_SEASONS)} seasons of data. "
-        "Queryable in plain English."
+        "Queryable in plain English. Knows your real manager names."
     )
 
     left, right = st.columns(2)
     with right:
         st.markdown("**Try asking:**")
         st.markdown(
-            '- "How much FAAB did Manager A spend last season?"\n'
-            '- "What\'s Manager A\'s all-time record against Manager B?"\n'
-            '- "Who were the best waiver pickups this year?"\n'
-            '- "Show me draft ROI for this season"'
+            '- "What was our most regrettable drop of all time?"\n'
+            '- "Did Manager A get fleeced in that trade with Manager B?"\n'
+            '- "Roast everyone\'s team names of all time"\n'
+            '- "What were closest games between Manager A and Manager C?"'
         )
     with left:
         st.markdown("**What data is available:**")
@@ -148,13 +148,20 @@ def _landing_hero() -> None:
             "- Weekly matchups, scores, including players projected and actual scores\n"
             "- Roster status (starter/bench/IR) and weekly participation, but not pre-week injury designations\n"
             "- Waiver/FAAB transactions and trade history\n"
-            "- Bye weeks\n"
-            "- Head-to-head records\n"
             "- Playoff brackets\n"
-            "- League current (and historical) scoring rules\n"
+            "- League current scoring rules\n"
             "- Manager and fantasy team names\n"
             "- Multi-season player performance across their time in the league\n"
         )
+
+    st.markdown("**Ready-made analyses available:**")
+    st.markdown(
+        "- 🏆 Season Overview\n"
+        "- 🎯 Draft ROI\n"
+        "- 💎 Best Waiver\n"
+        "- ⚔️ Head to Head\n"
+        "- 🥇 Podium"
+    )
 
 
 def main() -> None:
