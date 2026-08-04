@@ -82,10 +82,19 @@ def _create_transaction_moves_table(conn: sqlite3.Connection) -> None:
             from_team_id INTEGER,
             to_team_id INTEGER,
             overall_pick_number INTEGER,
+            source TEXT NOT NULL DEFAULT 'ESPN',
             FOREIGN KEY (transaction_id) REFERENCES transactions(id),
             FOREIGN KEY (player_id) REFERENCES players(player_id)
         )
     """)
+    # migration for DBs created before the source column existed
+    existing_columns = {
+        row[1] for row in conn.execute("PRAGMA table_info(transaction_moves)")
+    }
+    if "source" not in existing_columns:
+        conn.execute(
+            "ALTER TABLE transaction_moves ADD COLUMN source TEXT NOT NULL DEFAULT 'ESPN'"
+        )
 
 
 def _create_box_scores_table(conn: sqlite3.Connection) -> None:

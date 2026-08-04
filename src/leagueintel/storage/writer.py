@@ -43,6 +43,7 @@ class TransactionMoveRecord(BaseModel):
     from_team_id: int = 0
     to_team_id: int = 0
     overall_pick_number: int | None = None
+    source: str = "ESPN"
 
 
 class BoxScoreRecord(BaseModel):
@@ -174,6 +175,7 @@ def write_transaction_moves(moves: list[dict], conn: sqlite3.Connection) -> None
                     record.from_team_id,
                     record.to_team_id,
                     record.overall_pick_number,
+                    record.source,
                 )
             )
         except ValidationError as e:
@@ -190,8 +192,8 @@ def write_transaction_moves(moves: list[dict], conn: sqlite3.Connection) -> None
         """
         INSERT INTO transaction_moves
         (transaction_id, item_type, player_id, from_team_id,
-         to_team_id, overall_pick_number)
-        VALUES (?, ?, ?, ?, ?, ?)
+         to_team_id, overall_pick_number, source)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     """,
         rows,
     )

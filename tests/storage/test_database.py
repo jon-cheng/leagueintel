@@ -39,3 +39,43 @@ def test_get_max_ingested_week_ignores_other_seasons(conn):
     _insert_matchup(conn, season=2025, week=17)
     _insert_matchup(conn, season=2026, week=4)
     assert get_max_ingested_week(conn, season=2026) == 4
+
+
+def test_create_tables_migrates_transaction_moves_missing_source_column():
+    """
+    Older DBs were created before `source` existed on transaction_moves.
+    create_tables() must add the column via ALTER TABLE without touching
+    existing rows, and those rows should default to 'ESPN' (real ingested
+    data, not inferred).
+    """
+    connection = sqlite3.connect(":memory:")
+    connection.execute("""
+        CREATE TABLE transaction_moves (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            transaction_id TEXT NOT NULL,
+            item_type TEXT,
+            player_id INTEGER,
+            from_team_id INTEGER,
+            to_team_id INTEGER,
+            overall_pick_number INTEGER
+        )
+    """)
+    connection.execute(
+        """
+        INSERT INTO transaction_moves
+        (transaction_id, item_type, player_id, from_team_id, to_team_id)
+        VALUES ('tx-1', 'TRADE', 15818, 6, 10)
+        """
+    )
+    connection.commit()
+
+    create_tables(connection)
+
+    columns = {row[1] for row in connection.execute("PRAGMA table_info(transaction_moves)")}
+    assert "source" in columns
+
+    row = connection.execute(
+        "SELECT source FROM transaction_moves WHERE transaction_id = 'tx-1'"
+    ).fetchone()
+    assert row[0] == "ESPN"
+    connection.close()
