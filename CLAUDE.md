@@ -39,7 +39,7 @@ Prioritize my understanding over speed. I want to rebuild strong habits.
 ## Repo structure
 src/leagueintel/
   analytics/     → draft.py, waiver.py (pre-validated pandas)
-  ingestion/     → espn.py (API fetchers), parse.py
+  ingestion/     → espn.py (API fetchers), parse.py, trade_inference.py
   reporting/     → home.py, chatbot.py, playoff_bracket.py
                     pages/Chat.py, pages/Draft_ROI.py, pages/Best_Waiver.py,
                     pages/Season_Overview.py, pages/Head_to_Head.py
@@ -57,6 +57,10 @@ src/leagueintel/
 
 ## Known bugs / deferred
 - COALESCE(drop_week, 18) sentinel slightly wrong pre-2021
+- trade_inference.py can't resolve a player traded twice in the same week
+  (e.g. A→B then B→C) — the intermediate team's roster shows no net change
+  for that week, so neither leg matches and it's silently skipped (logged
+  as "could not reconstruct"). Rare in practice; not yet handled.
 
 ## Testing
 poetry run pytest -v

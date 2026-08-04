@@ -15,6 +15,7 @@ Usage:
     leagueintel parse-transactions
     leagueintel fetch-box-scores [--seasons 2024]
     leagueintel fetch-matchups [--seasons 2024]
+    leagueintel infer-trades [--seasons 2024]
 """
 
 import click
@@ -27,6 +28,7 @@ from leagueintel.ingestion.espn import (
     build_leagues,
 )
 from leagueintel.ingestion.parse import parse_transactions_all
+from leagueintel.ingestion.trade_inference import infer_missing_trade_items_all
 
 
 @click.group()
@@ -148,6 +150,19 @@ def fetch_matchups(seasons):
     multiple=True,
     type=int,
     default=None,
+    help="Seasons to infer. If omitted, infers for all seasons.",
+)
+def infer_trades(seasons):
+    """Reconstruct trade items ESPN's API dropped, by diffing team rosters."""
+    infer_missing_trade_items_all(seasons=list(seasons) if seasons else None)
+
+
+@cli.command()
+@click.option(
+    "--seasons",
+    multiple=True,
+    type=int,
+    default=None,
     help="Seasons to sync. If omitted, syncs all seasons.",
 )
 def sync(seasons):
@@ -172,6 +187,7 @@ def sync(seasons):
     else:
         fetch_transactions_all(leagues=leagues)
     parse_transactions_all(seasons=seasons_list)
+    infer_missing_trade_items_all(seasons=seasons_list)
 
 
 if __name__ == "__main__":
