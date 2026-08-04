@@ -224,6 +224,213 @@ def test_handles_one_team_trading_with_two_different_counterparties_same_week(co
     ]
 
 
+def test_does_not_duplicate_when_a_second_leg_already_has_real_items(conn):
+    """
+    Regression test for a real 2021 trade (Jarvis Landry / Courtland
+    Sutton): ESPN gave team 2 TWO separate transaction rows for this
+    trade -- one with the real items attached (a TRADE_ACCEPT), and a
+    second, otherwise-identical-looking TRADE_ACCEPT with no items of
+    its own. That second row still counts as "unresolved" by itself,
+    and pairs up with team 4's own unresolved leg to form a matchable
+    2-team pool -- so diffing would happily re-derive Landry/Sutton and
+    write a duplicate on top of the real ESPN data. The player-level
+    already-recorded check must catch this and skip both players.
+    """
+    # team 2's leg WITH real items
+    _insert_transaction(
+        conn, "team2-leg-with-items", 2021, "TRADE_ACCEPT", "EXECUTED", 2, 16, None
+    )
+    conn.execute(
+        """
+        INSERT INTO transaction_moves
+        (transaction_id, item_type, player_id, from_team_id, to_team_id, source)
+        VALUES ('team2-leg-with-items', 'TRADE', 3128429, 4, 2, 'ESPN')
+        """
+    )
+    conn.execute(
+        """
+        INSERT INTO transaction_moves
+        (transaction_id, item_type, player_id, from_team_id, to_team_id, source)
+        VALUES ('team2-leg-with-items', 'TRADE', 16790, 2, 4, 'ESPN')
+        """
+    )
+
+    # team 2's SECOND leg for the same trade, no items of its own
+    _insert_transaction(
+        conn, "team2-leg-empty", 2021, "TRADE_ACCEPT", None, 2, 16, None
+    )
+    # team 4's only leg, also no items
+    _insert_transaction(
+        conn, "team4-leg-empty", 2021, "TRADE_UPHOLD", "EXECUTED", 4, 16, None
+    )
+
+    # rosters reflect the same real swap
+    _insert_box_score(conn, 2021, 15, 4, 3128429)
+    _insert_box_score(conn, 2021, 15, 2, 16790)
+    _insert_box_score(conn, 2021, 16, 4, 16790)
+    _insert_box_score(conn, 2021, 16, 2, 3128429)
+
+    conn.commit()
+
+    infer_missing_trade_items(conn, season=2021)
+
+    moves = conn.execute(
+        """
+        SELECT item_type, player_id, from_team_id, to_team_id, source
+        FROM transaction_moves
+        ORDER BY player_id
+        """
+    ).fetchall()
+
+    assert moves == [
+        ("TRADE", 16790, 2, 4, "ESPN"),
+        ("TRADE", 3128429, 4, 2, "ESPN"),
+    ]
+
+
+def test_canceled_proposal_for_same_player_week_does_not_block_real_trade(conn):
+    """
+    Regression test for a real 2022 trade: a CANCELED TRADE_PROPOSAL for
+    Tua Tagovailoa existed in the same week as (but unrelated to) a real
+    3-player trade that also included Tua. The already-recorded check
+    matched on item_type='TRADE' + player_id + week alone, without
+    checking status/transaction_type, so it mistook the canceled,
+    never-completed proposal for "this player's trade already has real
+    data" and wrongly excluded Tua from the real, executed trade.
+    """
+    # unrelated CANCELED proposal touching the same player/week
+    _insert_transaction(
+        conn, "unrelated-proposal", 2022, "TRADE_PROPOSAL", "CANCELED", 1, 16, None
+    )
+    conn.execute(
+        """
+        INSERT INTO transaction_moves
+        (transaction_id, item_type, player_id, from_team_id, to_team_id, source)
+        VALUES ('unrelated-proposal', 'TRADE', 4241479, 1, 12, 'ESPN')
+        """
+    )
+
+    # the real trade: team 9 sends Tua (4241479) to team 1 for Watson (3122840)
+    _insert_transaction(conn, "team9-leg", 2022, "TRADE_UPHOLD", "EXECUTED", 9, 16, None)
+    _insert_transaction(conn, "team1-leg", 2022, "TRADE_UPHOLD", "EXECUTED", 1, 16, None)
+
+    _insert_box_score(conn, 2022, 15, 9, 4241479)
+    _insert_box_score(conn, 2022, 15, 1, 3122840)
+    _insert_box_score(conn, 2022, 16, 9, 3122840)
+    _insert_box_score(conn, 2022, 16, 1, 4241479)
+
+    conn.commit()
+
+    infer_missing_trade_items(conn, season=2022)
+
+    inferred = conn.execute(
+        """
+        SELECT item_type, player_id, from_team_id, to_team_id, source
+        FROM transaction_moves
+        WHERE source = 'INFERRED'
+        ORDER BY player_id
+        """
+    ).fetchall()
+
+    assert inferred == [
+        ("TRADE", 3122840, 1, 9, "INFERRED"),
+        ("TRADE", 4241479, 9, 1, "INFERRED"),
+    ]
+
+
+def test_resolves_trade_when_partner_has_no_transaction_row_at_all(conn):
+    """
+    Regression test for a real 2024 trade (Baker Mayfield / Rachaad
+    White): team 1's leg was linked via related_transaction_id to team
+    6 -- a completely unrelated team that never received or sent either
+    player -- while team 9, the real partner, had ZERO transaction rows
+    for this trade at all. Grouping must diff every team in the league
+    that week (not just teams with their own leftover leg), and must
+    anchor team 9's inferred move to SOME valid transaction row even
+    though team 9 has none of its own.
+    """
+    # team 1's leg, misleadingly linked to team 6 via related_transaction_id
+    _insert_transaction(conn, "team1-leg", 2024, "TRADE_ACCEPT", None, 1, 13, "shared-id")
+    # team 6's leg -- same related_transaction_id, but team 6 is NOT
+    # actually involved in this trade at all
+    _insert_transaction(conn, "team6-leg", 2024, "TRADE_UPHOLD", "EXECUTED", 6, 13, "shared-id")
+    # team 9 (the real partner) has NO transaction row whatsoever
+
+    # rosters: team1 gives up Mayfield, gets White; team9 gives up White, gets Mayfield
+    _insert_box_score(conn, 2024, 12, 1, 3052587)  # team1 has Mayfield
+    _insert_box_score(conn, 2024, 12, 9, 4697815)  # team9 has White
+    _insert_box_score(conn, 2024, 12, 6, 99999)  # team6 uninvolved, unrelated player
+
+    _insert_box_score(conn, 2024, 13, 1, 4697815)  # team1 now has White
+    _insert_box_score(conn, 2024, 13, 9, 3052587)  # team9 now has Mayfield
+    _insert_box_score(conn, 2024, 13, 6, 99999)  # team6 unchanged
+
+    conn.commit()
+
+    infer_missing_trade_items(conn, season=2024)
+
+    moves = conn.execute(
+        """
+        SELECT item_type, player_id, from_team_id, to_team_id, source
+        FROM transaction_moves
+        ORDER BY player_id
+        """
+    ).fetchall()
+
+    assert moves == [
+        ("TRADE", 3052587, 1, 9, "INFERRED"),
+        ("TRADE", 4697815, 9, 1, "INFERRED"),
+    ]
+
+
+def test_canceled_waiver_attempt_does_not_block_real_trade_leg(conn):
+    """
+    Regression test for a real 2024 trade (Kareem Hunt / Christian Kirk):
+    a CANCELED waiver DROP attempt for Christian Kirk existed for the
+    same team/week as his real trade departure. _already_explained_players
+    checked item_type + team + week without checking status, so it
+    treated the canceled, never-executed waiver attempt as "already
+    explains this departure" and wrongly excluded Kirk from the real
+    trade -- only Hunt's side of the swap got inferred, not Kirk's.
+    """
+    _insert_transaction(conn, "team3-leg", 2024, "TRADE_ACCEPT", None, 3, 6, None)
+    _insert_transaction(conn, "team13-leg", 2024, "TRADE_UPHOLD", "EXECUTED", 13, 6, None)
+
+    # unrelated CANCELED waiver drop attempt for the same player/team/week
+    _insert_transaction(conn, "canceled-waiver", 2024, "WAIVER", "CANCELED", 3, 6, None)
+    conn.execute(
+        """
+        INSERT INTO transaction_moves
+        (transaction_id, item_type, player_id, from_team_id, to_team_id, source)
+        VALUES ('canceled-waiver', 'DROP', 3895856, 3, 0, 'ESPN')
+        """
+    )
+
+    # real trade: team3 gives Kirk (3895856) for team13's Hunt (3059915)
+    _insert_box_score(conn, 2024, 5, 3, 3895856)
+    _insert_box_score(conn, 2024, 5, 13, 3059915)
+    _insert_box_score(conn, 2024, 6, 3, 3059915)
+    _insert_box_score(conn, 2024, 6, 13, 3895856)
+
+    conn.commit()
+
+    infer_missing_trade_items(conn, season=2024)
+
+    moves = conn.execute(
+        """
+        SELECT item_type, player_id, from_team_id, to_team_id, source
+        FROM transaction_moves
+        WHERE source = 'INFERRED'
+        ORDER BY player_id
+        """
+    ).fetchall()
+
+    assert moves == [
+        ("TRADE", 3059915, 13, 3, "INFERRED"),
+        ("TRADE", 3895856, 3, 13, "INFERRED"),
+    ]
+
+
 def test_skips_trade_that_already_has_real_items(conn):
     """A trade ESPN already gave us items for should be left alone, not re-inferred."""
     _insert_transaction(
