@@ -219,8 +219,11 @@ def _create_roster_stints_view(conn: sqlite3.Connection) -> None:
     acquisition types. For waiver-pickup value/eligibility specifically
     (which must exclude drafted players), use waiver_stints instead.
     """
+    # DROP + CREATE (not IF NOT EXISTS) so changes to this view's SQL take
+    # effect on DBs where it was already created with an older definition
+    conn.execute("DROP VIEW IF EXISTS roster_stints")
     conn.execute("""
-        CREATE VIEW IF NOT EXISTS roster_stints AS
+        CREATE VIEW roster_stints AS
         WITH roster_adds AS (
             SELECT
                 tm.player_id,
@@ -276,8 +279,12 @@ def _create_roster_stints_view(conn: sqlite3.Connection) -> None:
             FROM transaction_moves tm
             JOIN transactions t ON tm.transaction_id = t.id
             WHERE tm.item_type = 'TRADE'
-            AND t.transaction_type = 'TRADE_ACCEPT'
-            AND t.status = 'EXECUTED'
+            AND t.transaction_type IN ('TRADE_ACCEPT', 'TRADE_UPHOLD')
+            -- TRADE_ACCEPT legs can have status=NULL (ESPN never marks the
+            -- per-team accept vote EXECUTED the way it does other
+            -- transactions) — COALESCE treats NULL as EXECUTED so real
+            -- trades aren't dropped, while CANCELED/PENDING still exclude
+            AND COALESCE(t.status, 'EXECUTED') = 'EXECUTED'
             AND tm.player_id > 0
         ),
         roster_adds_ranked AS (
@@ -311,8 +318,8 @@ def _create_roster_stints_view(conn: sqlite3.Connection) -> None:
             FROM transaction_moves tm
             JOIN transactions t ON tm.transaction_id = t.id
             WHERE tm.item_type = 'TRADE'
-            AND t.transaction_type = 'TRADE_ACCEPT'
-            AND t.status = 'EXECUTED'
+            AND t.transaction_type IN ('TRADE_ACCEPT', 'TRADE_UPHOLD')
+            AND COALESCE(t.status, 'EXECUTED') = 'EXECUTED'
             AND tm.player_id > 0
         ),
         roster_drops_ranked AS (
