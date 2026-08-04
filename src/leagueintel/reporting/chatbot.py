@@ -154,22 +154,37 @@ Columns: player_id, team_id, season, acquisition_type, acquisition_week,
 One row per transaction event.
 Columns: id, season, transaction_type, status, bid_amount,
          team_id, scoring_period_id, related_transaction_id
-- transaction_type: WAIVER, DRAFT, FREEAGENT, TRADE_ACCEPT, ROSTER
+- transaction_type: WAIVER, DRAFT, FREEAGENT, ROSTER, and for trades:
+  TRADE_PROPOSAL, TRADE_ACCEPT, TRADE_UPHOLD, TRADE_DECLINE, TRADE_VETO
 - status: EXECUTED=won, FAILED_PLAYERALREADYDROPPED=lost bid,
           CANCELED, PENDING
-- related_transaction_id: on losing bids, links to winning bid id
+- related_transaction_id: on losing bids, links to winning bid id.
+  For trades, links TRADE_ACCEPT/TRADE_UPHOLD legs back to the same
+  proposal — do not rely on this to find trade contents, see below
+- TRADE_ACCEPT's own status is often NULL even for a real, completed
+  trade (ESPN never marks that leg EXECUTED) — treat NULL as executed
+  for trades: COALESCE(status, 'EXECUTED') = 'EXECUTED'
 
 Common patterns:
   Successful waiver adds: transaction_type='WAIVER' AND status='EXECUTED'
   All bids on a player:   transaction_type='WAIVER' AND status != 'CANCELED'
   Losing bids only:       status LIKE 'FAILED%'
+  Completed trades:       transaction_type IN ('TRADE_ACCEPT','TRADE_UPHOLD')
+                          AND COALESCE(status,'EXECUTED')='EXECUTED'
+                          — but prefer roster_stints (acquisition_type=
+                          'TRADE') over querying trades from raw tables
+                          directly, it already handles these gotchas
 
 ### transaction_moves
 One row per player movement within a transaction.
 Columns: transaction_id, item_type, player_id,
-         from_team_id, to_team_id, overall_pick_number
-- item_type: ADD, DROP, DRAFT
+         from_team_id, to_team_id, overall_pick_number, source
+- item_type: ADD, DROP, DRAFT, TRADE
 - from_team_id/to_team_id: 0 = free agency
+- source: 'ESPN' (from the API directly) or 'INFERRED' (ESPN dropped the
+  trade's player data after it resolved; reconstructed by diffing
+  rosters week-over-week). If a trade question turns on INFERRED rows,
+  mention the trade detail is reconstructed, not directly from ESPN
 
 ### box_scores
 One row per player per week per fantasy team.
