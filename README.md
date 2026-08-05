@@ -4,7 +4,12 @@ An ESPN fantasy football analytics and competitive intelligence
 platform. leagueintel ingests your league's full history and puts
 an LLM-powered chatbot in front of it, so you can ask open-ended
 questions about your league instead of digging through spreadsheets
-or ESPN's own limited UI (league data gets deleted after the season). Now you can back up your trash talk with
+or ESPN's own limited UI (league data gets deleted after the season). Every year I'd manually pull together reports: draft grades,
+waiver wire wins, and other trends. My leaguemates had all sorts of other analytical questions. So I built a
+tool that lets everyone ask their own questions, whenever they
+want, about anything in our ESPN league's history.
+
+Now you can back up your trash talk with
 cold hard facts: draft value, waiver pickups, FAAB spending, and
 head-to-head history, all in one place.
 
