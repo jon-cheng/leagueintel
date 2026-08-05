@@ -4,7 +4,12 @@ An ESPN fantasy football analytics and competitive intelligence
 platform. leagueintel ingests your league's full history and puts
 an LLM-powered chatbot in front of it, so you can ask open-ended
 questions about your league instead of digging through spreadsheets
-or ESPN's own limited UI (league data gets deleted after the season). Now you can back up your trash talk with
+or ESPN's own limited UI (league data gets deleted after the season). Every year I'd manually pull together reports: draft grades,
+waiver wire wins, and other trends. My leaguemates had all sorts of other analytical questions. So I built a
+tool that lets everyone ask their own questions, whenever they
+want, about anything in our ESPN league's history.
+
+Now you can back up your trash talk with
 cold hard facts: draft value, waiver pickups, FAAB spending, and
 head-to-head history, all in one place.
 
@@ -21,9 +26,8 @@ data ESPN deletes — including FAAB bid history, losing bids, and
 weekly box scores going back to your league's founding.
 
 > **🔗 [Live App](https://leagueintel.streamlit.app/)**
-> Private, password-protected — this is a real deployment used
-> by my actual fantasy league, not a public demo. See screenshots
-> below and the [full writeup](#) for a walkthrough of what it does.
+> Private, password-protected, this is a real deployment used
+> by my actual fantasy league, not a public demo. 
 
 ---
 
@@ -52,7 +56,7 @@ _ad-hoc_ SQL and complex validated analytics (waiver scores, draft ROI)
 to pre-built pandas pipelines, preventing the confident hallucinations
 that plague naive text-to-SQL implementations. Under the hood, the semantic layer (views, well-documented schema descriptions) guides the LLM queries.
 
-Here some examples from my fantasy football league, manager names are anonymized with US Presidents:
+Here are some example questions from my fantasy football league, manager names are anonymized with US Presidents:
 
 #### Simple question
 > _"what was the highest scoring game ever?"_

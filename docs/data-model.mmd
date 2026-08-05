@@ -1,0 +1,76 @@
+erDiagram
+  TEAMS ||--o{ TRANSACTIONS : executes
+  TEAMS ||--o{ BOX_SCORES : "weekly performance"
+  TEAMS ||--o{ MATCHUPS : "home team"
+  TEAMS ||--o{ MATCHUPS : "away team"
+  PLAYERS ||--o{ BOX_SCORES : appears_in
+  PLAYERS ||--o{ TRANSACTION_MOVES : "involved in"
+  TRANSACTIONS ||--o{ TRANSACTION_MOVES : contains
+
+  TEAMS {
+    int team_id PK
+    int season PK
+    string team_name
+    string team_abbrev
+    string owner_name
+  }
+
+  PLAYERS {
+    int player_id PK
+    string full_name
+  }
+
+  TRANSACTIONS {
+    text id PK
+    int season
+    string transaction_type
+    string status
+    int bid_amount
+    int team_id FK
+    int scoring_period_id
+    string execution_type
+    int proposed_date
+    int process_date
+    text related_transaction_id
+  }
+
+  TRANSACTION_MOVES {
+    int id PK
+    text transaction_id FK
+    string item_type
+    int player_id FK
+    int from_team_id
+    int to_team_id
+    int overall_pick_number
+    string source
+  }
+
+  BOX_SCORES {
+    int id PK
+    int season
+    int week
+    int team_id FK
+    int player_id FK
+    string player_name
+    string position
+    string lineup_slot
+    string pro_team
+    real points
+    real projected_points
+    int on_bye_week
+    int game_played
+  }
+
+  MATCHUPS {
+    int id PK
+    int season
+    int week
+    int home_team_id FK
+    int away_team_id FK
+    real home_score
+    real away_score
+    real home_projected
+    real away_projected
+    int is_playoff
+    string matchup_type
+  }
