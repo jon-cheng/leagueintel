@@ -56,7 +56,7 @@ _ad-hoc_ SQL and complex validated analytics (waiver scores, draft ROI)
 to pre-built pandas pipelines, preventing the confident hallucinations
 that plague naive text-to-SQL implementations. Under the hood, the semantic layer (views, well-documented schema descriptions) guides the LLM queries.
 
-Here some examples from my fantasy football league, manager names are anonymized with US Presidents:
+Here are some example questions from my fantasy football league, manager names are anonymized with US Presidents:
 
 #### Simple question
 > _"what was the highest scoring game ever?"_
