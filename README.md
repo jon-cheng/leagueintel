@@ -33,18 +33,58 @@ leagueintel is built for a single league. It knows your managers by
 name, your league's scoring rules, your auction budget, and every
 transaction since the first season with available data.
 
-**Dashboard:**
+### Dashboard:
+Pre-baked analyses per season
 - Draft ROI — bid amount vs points per game started, with position breakdown
+
+![draft roi](docs/figures/draft_roi_fig.png)
 - Best Waiver Pickup — position-normalized percentile score across all eligible adds
+
+![best waiver](docs/figures/best_waiver.png)
+
 - Season Overview — standings, playoff bracket, last place (toilet bowl) history
 - All-Time Head to Head — full win/loss matrix across every regular season game
 - Podium — all-time top 3 finishers, consolation and last place finishers per season
 
-**Chatbot:**
+### Chatbot:
 Ask anything in plain English. The chatbot routes simple questions to
 _ad-hoc_ SQL and complex validated analytics (waiver scores, draft ROI)
 to pre-built pandas pipelines, preventing the confident hallucinations
 that plague naive text-to-SQL implementations. Under the hood, the semantic layer (views, well-documented schema descriptions) guides the LLM queries.
+
+Here some examples from my fantasy football league, manager names are anonymized with US Presidents:
+
+#### Simple question
+> _"what was the highest scoring game ever?"_
+
+![highest scoring game](docs/figures/highest_scoring_game.png)
+
+
+#### Answer guided by `run_analysis` tool routing 
+> _"who were most regrettable drops of 2025?"_
+
+Queries route to either deterministic `run_analysis` pipelines (specified in the system prompt) or ad-hoc SQL generation depending on complexity. For example, "most regrettable drop" splits into two patterns: same-week drops route to pure SQL lookups since the drop itself is the regret, while cut-then-thrived regret requires a two-step flow — SQL finds the drop event and next stint, then `run_analysis` scores the player's post-drop performance to quantify how bad the decision looks in retrospect.
+
+![regrettable drops](docs/figures/regrettable_drops.png)
+
+
+<!-- scoring_trend -->
+
+#### Answer uses established plotting tool
+> _"plot Franklin Roosevelt's scoring trend in 2025 versus league median"_
+
+![scoring trend](docs/figures/scoring_trend.png)
+
+
+
+#### Somewhat ambiguous
+> _"who was the biggest draft bust of all time?"_
+
+
+"Biggest draft bust" is ambiguous, it could mean the highest-drafted player who scored the fewest total points, the largest gap between draft position value and actual production, or the player who most consistently underperformed their weekly projections. The agent resolves this by defaulting to the most analytically meaningful interpretation (draft position value delta against actual season points). So, the LLM will give a best-effort answer while stating its assumptions.
+
+![draft bust](docs/figures/draft_bust.png)
+
 
 ---
 
