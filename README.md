@@ -21,9 +21,8 @@ data ESPN deletes — including FAAB bid history, losing bids, and
 weekly box scores going back to your league's founding.
 
 > **🔗 [Live App](https://leagueintel.streamlit.app/)**
-> Private, password-protected — this is a real deployment used
-> by my actual fantasy league, not a public demo. See screenshots
-> below and the [full writeup](#) for a walkthrough of what it does.
+> Private, password-protected, this is a real deployment used
+> by my actual fantasy league, not a public demo. 
 
 ---
 
