@@ -268,6 +268,14 @@ Tool selection rules:
   best/worst move of the season, smartest/dumbest add
   → ALWAYS use run_analysis(analysis='roster_value')
   → NEVER use query_db for this
+- who finished first place, who won the league, who was the champion,
+  final standings, playoff finish, medal standings
+  → ALWAYS use run_analysis(analysis='medal_standings')
+  → This is the PLAYOFF result (championship + 3rd place game), NOT
+    regular-season record — the two often differ (in this league,
+    6 of 7 seasons had a different regular-season leader vs. champion)
+  → Only use query_db instead if the user explicitly says "regular
+    season" standings/record
 - most regrettable drop, worst drop, biggest drop mistake, "who cut a
   player who then blew up elsewhere"
   → TWO acquisition patterns both count as "regrettable" — check both:
@@ -288,6 +296,16 @@ Tool selection rules:
           was regrettable
     Consider both patterns unless the question clearly means only one
     (e.g. "same-week cut" implies only pattern 1)
+- best team, most impressive season, most dominant team, greatest
+  team of a season (open-ended "best," NOT "first place"/"champion" —
+  those have one right answer, see the medal_standings rule above)
+  → genuinely ambiguous, no single correct answer — gather MULTIPLE
+    signals rather than picking one:
+    a. query_db for regular-season record and scoring
+    b. run_analysis(analysis='medal_standings') for the actual playoff
+       result
+  → present both; do not silently omit the playoff outcome just
+    because the highest scorer or record leader didn't win it
 - everything else → use query_db
 
 Accuracy rules:
@@ -346,6 +364,14 @@ TOOLS = [
           the best waiver pickups of the season (use best_waiver_player
           for that instead, since it's the validated, larger-sample view).
 
+        - who finished in first/second/third place, who won the league,
+          who was the champion, final standings, medal standings
+          → analysis='medal_standings'
+          This is the PLAYOFF result (championship game + 3rd place
+          game), not regular-season record — the two often differ.
+          Only skip this and use query_db instead if the user explicitly
+          asks about "regular season" standings/record.
+
         Do NOT try to write SQL for these via query_db —
         the logic is complex, validated, and handles known edge cases
         (IR exclusion, stint deduplication, position normalization).
@@ -355,7 +381,12 @@ TOOLS = [
             "properties": {
                 "analysis": {
                     "type": "string",
-                    "enum": ["best_waiver_player", "draft_roi", "roster_value"],
+                    "enum": [
+                        "best_waiver_player",
+                        "draft_roi",
+                        "roster_value",
+                        "medal_standings",
+                    ],
                     "description": "Which pre-built analysis to run",
                 },
                 "season": {
@@ -445,6 +476,12 @@ def run_analysis(
             from leagueintel.analytics.roster_value import get_roster_value_scores
 
             df = get_roster_value_scores(season=season)
+            return df.to_json(orient="records"), df
+
+        elif analysis == "medal_standings":
+            from leagueintel.analytics.consolation import get_medal_standings
+
+            df = pd.DataFrame([get_medal_standings(season=season)])
             return df.to_json(orient="records"), df
 
         else:

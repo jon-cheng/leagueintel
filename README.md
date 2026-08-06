@@ -92,6 +92,21 @@ Queries route to either deterministic `run_analysis` pipelines (specified in the
 
 ---
 
+## Chatbot Evaluation
+
+`tests/golden_questions.py` holds real questions paired with a
+known-correct answer, used to catch regressions when the system prompt
+or schema description changes.
+
+For example, "who finished in first place in 2024?" is ambiguous: the
+regular-season leader (team_id 8, best win/loss record) and the playoff
+champion (team_id 7) are different teams in 6 of the league's 7 seasons.
+The golden entry pins the correct default (playoff champion) and pairs
+it with a second question ("best *regular season* record") to confirm
+explicit phrasing still routes to the other answer.
+
+---
+
 ## How it works
 
 ### Self-hosted
@@ -152,6 +167,9 @@ across cold starts, writable by the app, and completely independent of
 the daily data refresh pipeline. Turso's free tier read caps are not a 
 concern here since the usage table is queried only once per chatbot 
 question, not on every page load.
+
+#### Token usage tracking and cost control
+The chatbot calls the Anthropic API which costs real dollars. To control cost, we monitor token usage using the Turso SQLite database, and set a daily limit. Additionally, we use [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) to cache the parts of the input such as the system prompt, applicable during bursts of questions within 5 minutes of each other. 
 
 ### Tech stack 
 - **Python 3.12**
