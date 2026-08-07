@@ -1,0 +1,59 @@
+# .github/workflows/update_readme.yml
+# Recomputes the "Live metrics from my league" table in README.md and
+# commits it if anything changed. Runs after the daily data refresh
+# workflow completes, so it always reads a freshly synced DB — kept as
+# a separate job from refresh.yml so a stats/formatting bug here can
+# never fail the actual ESPN data sync.
+# Also triggerable manually via workflow_dispatch for testing.
+
+name: update readme metrics
+
+on:
+  workflow_run:
+    workflows: ["data refresh"]
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: poetry install --with reporting
+
+      - name: Download DB from S3
+        run: aws s3 cp s3://leagueintel-data/leagueintel.db leagueintel.db
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_REFRESH }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_REFRESH }}
+          AWS_DEFAULT_REGION: us-west-2
+
+      - name: Update README metrics table
+        run: poetry run python scripts/update_readme_metrics.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet README.md; then
+            echo "No metric changes — nothing to commit"
+          else
+            git add README.md
+            git commit -m "chore: update live league metrics in README"
+            git push
+          fi

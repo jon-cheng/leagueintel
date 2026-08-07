@@ -13,6 +13,47 @@ Now you can back up your trash talk with
 cold hard facts: draft value, waiver pickups, FAAB spending, and
 head-to-head history, all in one place.
 
+### Live metrics from my league
+
+<!-- METRICS_TABLE_START -->
+<table align="center">
+<tr>
+<td align="center">
+<h3>2014-2026 (13)</h3>
+<sub>Seasons</sub>
+</td>
+<td align="center">
+<h3>2019-2026</h3>
+<sub>Rich-Data Seasons</sub>
+</td>
+<td align="center">
+<h3>12</h3>
+<sub>Current Managers</sub>
+</td>
+<td align="center">
+<h3>593</h3>
+<sub>Rostered Players</sub>
+</td>
+</tr>
+<tr>
+<td align="center">
+<h3>5,661</h3>
+<sub>Waiver Bids Placed</sub>
+</td>
+<td align="center">
+<h3>1,989</h3>
+<sub>Successful Adds</sub>
+</td>
+<td align="center">
+<h3>695</h3>
+<sub>Matchups Played</sub>
+</td>
+</tr>
+</table>
+
+<p align="center"><sub><i>Current season in progress — figures reflect all completed data.</i></sub></p>
+<!-- METRICS_TABLE_END -->
+
 > "Who had the most regrettable drop of 2025?"
 > 
 > "What was the most competitive waiver auction bid of all time?"
