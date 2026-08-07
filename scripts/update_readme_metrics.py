@@ -11,6 +11,7 @@ Usage:
 
 import re
 import sqlite3
+from datetime import datetime, timezone
 
 from leagueintel.config import ALL_SEASONS, DEFAULT_DB_PATH, REPO_ROOT
 
@@ -95,6 +96,8 @@ def _render_stat_grid(m: dict) -> str:
         for i in range(0, len(cells), row_size)
     ]
 
+    updated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M GMT")
+
     lines = [
         START_MARKER,
         '<table align="center">',
@@ -103,6 +106,7 @@ def _render_stat_grid(m: dict) -> str:
         "",
         "<p align=\"center\"><sub><i>Current season in progress — "
         "figures reflect all completed data.</i></sub></p>",
+        f'<p align="center"><sub>Last updated: {updated_at}</sub></p>',
         END_MARKER,
     ]
     return "\n".join(lines)

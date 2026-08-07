@@ -51,7 +51,7 @@ head-to-head history, all in one place.
 </tr>
 </table>
 
-<p align="center"><sub><i>Current season in progress — figures reflect all completed data.</i></sub></p>
+<p align="center"><sub>Last updated: 2026-08-07 05:44 GMT</sub></p>
 <!-- METRICS_TABLE_END -->
 
 > "Who had the most regrettable drop of 2025?"
