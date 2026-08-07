@@ -116,15 +116,19 @@ for your own league. Your data stays with you.
 
 ### Data ingestion
 
-leagueintel ingests from ESPN's fantasy football API via
-[`espn_api`](https://github.com/cwendt94/espn-api), a community-built
-Python wrapper around ESPN's undocumented endpoints.
+leagueintel ingests from ESPN's fantasy football API via [`espn_api`](https://github.com/cwendt94/espn-api), a community-built Python wrapper around ESPN's undocumented endpoints.
 
-One piece of data ESPN deletes after each season: FAAB bid history,
-including losing bids. leagueintel recovers this via an undocumented
-`scoringPeriodId` parameter on ESPN's `mTransactions2` endpoint —
-capturing the full bid history, including what every manager bid and
-lost, before ESPN removes it.
+FAAB bid history — including losing bids — isn't retrievable through `espn_api`'s standard interface. Originally, this was [possible](https://github.com/cwendt94/espn-api/discussions/170) via `recent_activity` in the API, but this path has failed, at least for historical data. leagueintel recovers it by calling ESPN's API directly and passing an undocumented `scoringPeriodId` parameter on the `mTransactions2` endpoint, capturing full bid history — what every manager bid and lost, not just the winning bids.
+
+Trade data has a similar gap: `espn_api`'s `recent_activity()`
+endpoint — the standard way to pull trade history — reliably fails
+with a false "league does not exist" error even with fully valid
+credentials that work for every other endpoint ([known upstream
+issue](https://github.com/cwendt94/espn-api/issues/546)). leagueintel
+works around this by reconstructing trades from roster diffs
+week-over-week, flagging these reconstructed records with
+`source = 'INFERRED'` rather than `'ESPN'` so provenance stays
+traceable.
 
 
 ### Data model
