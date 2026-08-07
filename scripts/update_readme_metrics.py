@@ -52,6 +52,7 @@ def _fetch_metrics(conn: sqlite3.Connection) -> dict:
         "seasons": f"{min_season}-{max_season}",
         "seasons_count": num_seasons,
         "rich_data_seasons": f"{min(ALL_SEASONS)}-{max(ALL_SEASONS)}",
+        "rich_data_seasons_count": len(ALL_SEASONS),
         "current_managers": num_current_managers,
         "players": num_players,
         "bids": num_bids,
@@ -76,7 +77,10 @@ def _stat_row(cells: list[str]) -> str:
 def _render_stat_grid(m: dict) -> str:
     stats = [
         (f"{m['seasons']} ({m['seasons_count']})", "Seasons"),
-        (m["rich_data_seasons"], "Rich-Data Seasons"),
+        (
+            f"{m['rich_data_seasons']} ({m['rich_data_seasons_count']})",
+            "Rich-Data Seasons",
+        ),
         (m["current_managers"], "Current Managers"),
         (m["players"], "Rostered Players"),
         (f"{m['bids']:,}", "Waiver Bids Placed"),

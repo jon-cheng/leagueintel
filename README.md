@@ -23,7 +23,7 @@ head-to-head history, all in one place.
 <sub>Seasons</sub>
 </td>
 <td align="center">
-<h3>2019-2026</h3>
+<h3>2019-2026 (8)</h3>
 <sub>Rich-Data Seasons</sub>
 </td>
 <td align="center">
