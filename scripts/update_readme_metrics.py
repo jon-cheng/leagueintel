@@ -104,8 +104,6 @@ def _render_stat_grid(m: dict) -> str:
         *rows,
         "</table>",
         "",
-        "<p align=\"center\"><sub><i>Current season in progress — "
-        "figures reflect all completed data.</i></sub></p>",
         f'<p align="center"><sub>Last updated: {updated_at}</sub></p>',
         END_MARKER,
     ]
