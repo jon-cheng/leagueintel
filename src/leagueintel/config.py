@@ -9,7 +9,13 @@ from dotenv import load_dotenv, find_dotenv
 import streamlit as st
 
 REPO_ROOT = Path(find_dotenv()).parent
-load_dotenv(REPO_ROOT / ".env")
+
+# override=True: `streamlit run` pre-populates os.environ from
+# .streamlit/secrets.toml before this script even starts (not just on
+# first st.secrets access), so a plain load_dotenv() would silently
+# refuse to apply .env — .env is the file meant to be edited per
+# instance, so it must win over whatever secrets.toml already set.
+load_dotenv(REPO_ROOT / ".env", override=True)
 
 
 def _get_env(key: str, default: str = None) -> str:

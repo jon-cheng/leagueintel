@@ -11,6 +11,7 @@ from leagueintel.config import (
 )
 from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.analytics.availability import get_default_season
+from leagueintel.ingestion.espn import discover_seasons
 
 # ── S3 download ───────────────────────────────────────────────────────────────
 
@@ -36,13 +37,50 @@ def initialize_db() -> None:
         s3.download_file(S3_BUCKET, S3_KEY, db_path)
 
 
+@st.cache_resource
+def get_available_seasons() -> list[int]:
+    """
+    League history, discovered from ESPN rather than assuming this
+    codebase's original 2019 founding year. Cached per process lifetime,
+    same as initialize_db — a league's history doesn't change mid-session.
+    Falls back to ALL_SEASONS if ESPN is unreachable.
+    """
+    try:
+        return discover_seasons()
+    except Exception:
+        return ALL_SEASONS
+
+
 # ── password gate ─────────────────────────────────────────────────────────────
 
 
+def _get_league_password() -> str:
+    league_password = os.getenv("LEAGUE_PASSWORD")
+    if league_password:
+        return league_password
+    # st.secrets.get() raises StreamlitSecretNotFoundError (not just a
+    # missing-key default) when no secrets.toml exists anywhere — the
+    # normal case for a fresh fork with no LEAGUE_PASSWORD set.
+    try:
+        return st.secrets.get("LEAGUE_PASSWORD")
+    except Exception:
+        return None
+
+
 def check_password() -> bool:
-    """Simple password gate for league access."""
+    """Simple password gate for league access. Always required — if
+    LEAGUE_PASSWORD isn't configured, access is blocked outright rather
+    than silently letting everyone in."""
     if st.session_state.get("authenticated"):
         return True
+
+    league_password = _get_league_password()
+    if not league_password:
+        st.error(
+            "LEAGUE_PASSWORD is not set. Set it in .env (or secrets.toml) "
+            "before this app can be accessed."
+        )
+        return False
 
     with st.form("login_form"):
         password = st.text_input(
@@ -51,9 +89,6 @@ def check_password() -> bool:
         submitted = st.form_submit_button("Enter")
 
     if submitted:
-        league_password = os.getenv("LEAGUE_PASSWORD") or st.secrets.get(
-            "LEAGUE_PASSWORD"
-        )
         if password == league_password:
             st.session_state.authenticated = True
             st.rerun()
@@ -96,7 +131,7 @@ def shared_sidebar() -> None:
 
         st.divider()
 
-        season_options = sorted(ALL_SEASONS, reverse=True)
+        season_options = sorted(get_available_seasons(), reverse=True)
         conn = get_connection()
         default_season = get_default_season(get_max_ingested_week(conn, CURRENT_YEAR))
         conn.close()
@@ -124,10 +159,11 @@ def shared_sidebar() -> None:
 
 
 def _landing_hero() -> None:
+    seasons = get_available_seasons()
     st.title("🏈 leagueintel")
     st.subheader("Your fantasy league's historian and intelligence layer")
     st.caption(
-        f"{min(ALL_SEASONS)}–{max(ALL_SEASONS)} seasons of data. "
+        f"{min(seasons)}–{max(seasons)} seasons of data. "
         "Queryable in plain English. Knows your real manager names."
     )
 
@@ -143,7 +179,7 @@ def _landing_hero() -> None:
     with left:
         st.markdown("**What data is available:**")
         st.markdown(
-            f"- All league data {min(ALL_SEASONS)}–{max(ALL_SEASONS)}\n"
+            f"- All league data {min(seasons)}–{max(seasons)}\n"
             "- Draft results & bid amounts, including draft pick order\n"
             "- Weekly matchups, scores, including players projected and actual scores\n"
             "- Roster status (starter/bench/IR) and weekly participation, but not pre-week injury designations\n"

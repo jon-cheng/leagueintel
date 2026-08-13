@@ -16,6 +16,7 @@ from leagueintel.config import (
     ESPN_S2,
     SWID,
     ALL_SEASONS,
+    CURRENT_YEAR,
     DEFAULT_OUTPUT_DIR,
     DEFAULT_MAX_WEEK,
     BASE_URL,
@@ -46,6 +47,23 @@ def build_leagues(seasons: list[int] = None) -> dict[int, League]:
         year: League(league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID)
         for year in seasons
     }
+
+
+def discover_seasons(year: int = None) -> list[int]:
+    """
+    Ask ESPN which seasons this league actually has history for, via
+    status.previousSeasons in the mSettings view — avoids hardcoding a
+    league's founding year (ALL_SEASONS assumes 2019, which is only
+    correct for this codebase's original league).
+    """
+    year = year or CURRENT_YEAR
+    url = BASE_URL.format(year=year, league_id=LEAGUE_ID)
+    params = {"view": "mSettings"}
+    cookies = {"espn_s2": ESPN_S2, "SWID": SWID}
+    response = requests.get(url, params=params, cookies=cookies, timeout=10)
+    response.raise_for_status()
+    previous_seasons = response.json()["status"]["previousSeasons"]
+    return sorted(previous_seasons + [year])
 
 
 def _fetch_week(year: int, week: int) -> dict:
@@ -96,11 +114,8 @@ def fetch_transactions_all(
     leagues: dict[int, League] = None,
 ) -> None:
     """Fetch ESPN transaction data for given year/week and save as raw JSON."""
-    if not all([LEAGUE_ID, ESPN_S2, SWID]):
-        logger.error(
-            "Missing credentials. Ensure LEAGUE_ID, ESPN_S2, SWID "
-            "are set in your .env file."
-        )
+    if not LEAGUE_ID:
+        logger.error("Missing credentials. Ensure LEAGUE_ID is set in your .env file.")
         return
 
     years = [year] if year else ALL_SEASONS
