@@ -29,6 +29,8 @@ from leagueintel.ingestion.espn import (
 )
 from leagueintel.ingestion.parse import parse_transactions_all
 from leagueintel.ingestion.trade_inference import infer_missing_trade_items_all
+from leagueintel.storage.database import get_connection
+from leagueintel.storage.views import create_views
 
 
 @click.group()
@@ -188,6 +190,12 @@ def sync(seasons):
         fetch_transactions_all(leagues=leagues)
     parse_transactions_all(seasons=seasons_list)
     infer_missing_trade_items_all(seasons=seasons_list)
+
+    # Views are derived from tables just populated above (box_scores,
+    # transactions, transaction_moves) — cheap DDL, safe to rerun every sync.
+    conn = get_connection()
+    create_views(conn)
+    conn.close()
 
 
 if __name__ == "__main__":
