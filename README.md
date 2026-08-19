@@ -193,6 +193,33 @@ season).
 The database is stored in S3 — downloaded by Streamlit on cold start and refreshed daily by GitHub Actions.
 ![leagueintel architecture](leagueintel.png)
 
+#### Chatbot query routing architecture
+
+![leagueintel routing: run_analysis versus query_db](docs/figures/leagueintel_full_routing_flow.svg)
+
+Every question is routed by Claude via native tool-use — not
+a separate classifier — between two paths: `run_analysis`, a fixed
+enum of pre-validated, tested Python functions for known-error-prone
+question types, and `query_db`, ad-hoc LLM-generated SQL for
+everything else. `run_analysis` currently covers four analyses:
+`best_waiver_player` (position-normalized waiver value), `draft_roi`
+(bid amount vs. season performance), `roster_value` (acquisition
+value for a single player/move across any acquisition type — draft,
+waiver, free agent, or trade), and `medal_standings` (actual playoff
+result, distinct from regular-season record — the two differ in 6 of
+7 seasons in this league). The system prompt encodes explicit,
+failure-driven routing rules ("ALWAYS use run_analysis for X... NEVER
+use query_db for Y") derived from real bugs — a home/away attribution
+swap in `query_db`-generated SQL, a multi-season aggregation that got
+stuck — each of which now has a dedicated validated function and a
+documented rule steering future questions away from the same
+mistake. Some question types require chaining both tools (e.g.
+"regrettable drop" needs a `query_db` scan of roster stints followed
+by `run_analysis(roster_value)` to score the outcome), and
+ambiguous questions (e.g. "best team") deliberately gather multiple
+signals — regular-season record via `query_db` *and* playoff result
+via `run_analysis`.
+
 #### Design choices for persistent storage
 The fantasy football database (leagueintel.db) is stored in S3 and 
 downloaded to the Streamlit instance on cold start. SQLite was chosen 
