@@ -195,7 +195,7 @@ The database is stored in S3 — downloaded by Streamlit on cold start and refre
 
 #### Chatbot query routing architecture
 
-![leagueintel routing: run_analysis versus query_db](docs/figures/leagueintel_full_routing_flow.svg)
+![leagueintel routing: run_analysis versus query_db](docs/figures/leagueintel_full_routing_flow.png)
 
 Every question is routed by Claude via native tool-use — not
 a separate classifier — between two paths: `run_analysis`, a fixed
