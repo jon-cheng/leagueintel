@@ -626,6 +626,8 @@ def ask(question: str) -> tuple[str, object | None]:
             None,
         )
 
+    MAX_ITERATIONS = 10  # LangGraph enforces this natively; here it's manual
+
     messages = [{"role": "user", "content": question}]
     last_df = None  # track most recent query result for plotting
     fig = None  # track any generated plot
@@ -635,8 +637,26 @@ def ask(question: str) -> tuple[str, object | None]:
     total_cache_read = 0
     last_tool_used = None
     last_analysis_used = None
+    iteration_count = 0
 
     while True:
+        iteration_count += 1
+        if iteration_count > MAX_ITERATIONS:
+            logger.warning(f"Exceeded {MAX_ITERATIONS} tool-call iterations: {question!r}")
+            log_question(
+                tool_used=last_tool_used,
+                analysis_used=last_analysis_used,
+                tokens_input=total_input,
+                tokens_output=total_output,
+                cache_write_tokens=total_cache_write,
+                cache_read_tokens=total_cache_read,
+            )
+            return (
+                "I wasn't able to converge on an answer after several tool "
+                "calls — try rephrasing the question.",
+                None,
+            )
+
         request_kwargs = dict(
             model="claude-sonnet-4-6",
             max_tokens=4096,
