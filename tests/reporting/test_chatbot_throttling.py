@@ -123,3 +123,48 @@ def test_ask_records_usage_across_every_tool_use_round_trip():
         cache_write_tokens=0,
         cache_read_tokens=0,
     )
+
+
+def test_ask_stops_at_max_iterations():
+    """
+    If the model keeps calling tools forever (never returns stop_reason
+    "end_turn"), ask() must bail out with an error message instead of
+    looping/calling the API indefinitely. Regression guard for the
+    missing MAX_ITERATIONS guardrail: without it, a non-converging model
+    response would spin the loop and rack up unbounded API calls.
+    """
+    tool_block = MagicMock()
+    tool_block.type = "tool_use"
+    tool_block.name = "query_db"
+    tool_block.input = {"sql": "SELECT 1"}
+    tool_block.id = "tool_1"
+
+    # every call returns tool_use — the model never stops asking for tools
+    tool_response = _mock_response("tool_use", [tool_block], 100, 10)
+
+    mock_client = MagicMock()
+    mock_client.messages.create.return_value = tool_response
+
+    with (
+        patch.object(chatbot_module, "check_daily_budget", return_value=(True, 0)),
+        patch.object(chatbot_module, "_get_client", return_value=mock_client),
+        patch.object(chatbot_module, "query_db", return_value=("ok", None)),
+        patch.object(chatbot_module, "log_question") as mock_log_question,
+    ):
+        text, fig = chatbot_module.ask("A question that never converges")
+
+    # exactly MAX_ITERATIONS API calls — no wasted N+1 call after the cap trips
+    assert mock_client.messages.create.call_count == 10
+
+    assert "try rephrasing" in text.lower()
+    assert fig is None
+
+    # usage up to the cutoff is still logged, not silently dropped
+    mock_log_question.assert_called_once_with(
+        tool_used="query_db",
+        analysis_used=None,
+        tokens_input=100 * 10,
+        tokens_output=10 * 10,
+        cache_write_tokens=0,
+        cache_read_tokens=0,
+    )
