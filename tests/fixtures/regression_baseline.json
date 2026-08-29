@@ -1,0 +1,6607 @@
+{
+  "2019": {
+    "get_arbys_winner": {
+      "arbys_winner": "manager_21",
+      "loser_score": 77.5,
+      "opponent": "manager_2",
+      "season": 2019,
+      "winner_score": 96.0
+    },
+    "get_draft_roi": {
+      "records": [
+        {
+          "bid_amount": 3,
+          "games_started": 13,
+          "owner_name": "manager_23",
+          "player_name": "Lamar Jackson",
+          "points_per_game": 27.9,
+          "position": "QB",
+          "total_points": 362.7
+        },
+        {
+          "bid_amount": 79,
+          "games_started": 15,
+          "owner_name": "manager_3",
+          "player_name": "Christian McCaffrey",
+          "points_per_game": 26.26,
+          "position": "RB",
+          "total_points": 393.90000000000003
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 11,
+          "owner_name": "manager_2",
+          "player_name": "Deshaun Watson",
+          "points_per_game": 22.02,
+          "position": "QB",
+          "total_points": 242.20000000000002
+        },
+        {
+          "bid_amount": 25,
+          "games_started": 13,
+          "owner_name": "manager_21",
+          "player_name": "Patrick Mahomes",
+          "points_per_game": 21.47,
+          "position": "QB",
+          "total_points": 279.1
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Russell Wilson",
+          "points_per_game": 20.65,
+          "position": "QB",
+          "total_points": 309.7
+        },
+        {
+          "bid_amount": 71,
+          "games_started": 15,
+          "owner_name": "manager_6",
+          "player_name": "Michael Thomas",
+          "points_per_game": 19.63,
+          "position": "WR",
+          "total_points": 294.4
+        },
+        {
+          "bid_amount": 48,
+          "games_started": 14,
+          "owner_name": "manager_10",
+          "player_name": "Dalvin Cook",
+          "points_per_game": 18.99,
+          "position": "RB",
+          "total_points": 265.9
+        },
+        {
+          "bid_amount": 33,
+          "games_started": 13,
+          "owner_name": "manager_1",
+          "player_name": "Aaron Jones",
+          "points_per_game": 18.25,
+          "position": "RB",
+          "total_points": 237.20000000000002
+        },
+        {
+          "bid_amount": 32,
+          "games_started": 14,
+          "owner_name": "manager_1",
+          "player_name": "Derrick Henry",
+          "points_per_game": 17.61,
+          "position": "RB",
+          "total_points": 246.5
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 15,
+          "owner_name": "manager_1",
+          "player_name": "Aaron Rodgers",
+          "points_per_game": 17.47,
+          "position": "QB",
+          "total_points": 262.0
+        },
+        {
+          "bid_amount": 64,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Ezekiel Elliott",
+          "points_per_game": 17.25,
+          "position": "RB",
+          "total_points": 258.8
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 13,
+          "owner_name": "manager_3",
+          "player_name": "Austin Ekeler",
+          "points_per_game": 16.8,
+          "position": "RB",
+          "total_points": 218.4
+        },
+        {
+          "bid_amount": 20,
+          "games_started": 14,
+          "owner_name": "manager_2",
+          "player_name": "Chris Godwin",
+          "points_per_game": 16.65,
+          "position": "WR",
+          "total_points": 233.1
+        },
+        {
+          "bid_amount": 79,
+          "games_started": 12,
+          "owner_name": "manager_7",
+          "player_name": "Saquon Barkley",
+          "points_per_game": 16.58,
+          "position": "RB",
+          "total_points": 198.9
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 15,
+          "owner_name": "manager_12",
+          "player_name": "Tom Brady",
+          "points_per_game": 16.51,
+          "position": "QB",
+          "total_points": 247.60000000000002
+        },
+        {
+          "bid_amount": 54,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "Nick Chubb",
+          "points_per_game": 15.5,
+          "position": "RB",
+          "total_points": 232.5
+        },
+        {
+          "bid_amount": 52,
+          "games_started": 13,
+          "owner_name": "manager_23",
+          "player_name": "Mike Evans",
+          "points_per_game": 15.32,
+          "position": "WR",
+          "total_points": 199.2
+        },
+        {
+          "bid_amount": 21,
+          "games_started": 15,
+          "owner_name": "manager_6",
+          "player_name": "Mark Ingram",
+          "points_per_game": 15.3,
+          "position": "RB",
+          "total_points": 229.5
+        },
+        {
+          "bid_amount": 43,
+          "games_started": 15,
+          "owner_name": "manager_7",
+          "player_name": "Leonard Fournette",
+          "points_per_game": 15.03,
+          "position": "RB",
+          "total_points": 225.4
+        },
+        {
+          "bid_amount": 81,
+          "games_started": 13,
+          "owner_name": "manager_9",
+          "player_name": "Alvin Kamara",
+          "points_per_game": 14.55,
+          "position": "RB",
+          "total_points": 189.2
+        },
+        {
+          "bid_amount": 71,
+          "games_started": 15,
+          "owner_name": "manager_12",
+          "player_name": "DeAndre Hopkins",
+          "points_per_game": 14.43,
+          "position": "WR",
+          "total_points": 216.5
+        },
+        {
+          "bid_amount": 36,
+          "games_started": 15,
+          "owner_name": "manager_2",
+          "player_name": "Chris Carson",
+          "points_per_game": 14.27,
+          "position": "RB",
+          "total_points": 214.1
+        },
+        {
+          "bid_amount": 71,
+          "games_started": 15,
+          "owner_name": "manager_12",
+          "player_name": "Julio Jones",
+          "points_per_game": 14.22,
+          "position": "WR",
+          "total_points": 213.3
+        },
+        {
+          "bid_amount": 23,
+          "games_started": 15,
+          "owner_name": "manager_23",
+          "player_name": "Cooper Kupp",
+          "points_per_game": 13.87,
+          "position": "WR",
+          "total_points": 208.1
+        },
+        {
+          "bid_amount": 59,
+          "games_started": 11,
+          "owner_name": "manager_7",
+          "player_name": "Davante Adams",
+          "points_per_game": 13.85,
+          "position": "WR",
+          "total_points": 152.4
+        },
+        {
+          "bid_amount": 23,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Kenny Golladay",
+          "points_per_game": 13.79,
+          "position": "WR",
+          "total_points": 206.8
+        },
+        {
+          "bid_amount": 45,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Travis Kelce",
+          "points_per_game": 13.46,
+          "position": "TE",
+          "total_points": 201.9
+        },
+        {
+          "bid_amount": 36,
+          "games_started": 13,
+          "owner_name": "manager_1",
+          "player_name": "Keenan Allen",
+          "points_per_game": 13.38,
+          "position": "WR",
+          "total_points": 173.9
+        },
+        {
+          "bid_amount": 39,
+          "games_started": 15,
+          "owner_name": "manager_6",
+          "player_name": "Amari Cooper",
+          "points_per_game": 13.28,
+          "position": "WR",
+          "total_points": 199.20000000000002
+        },
+        {
+          "bid_amount": 12,
+          "games_started": 11,
+          "owner_name": "manager_2",
+          "player_name": "DJ Moore",
+          "points_per_game": 13.26,
+          "position": "WR",
+          "total_points": 145.9
+        },
+        {
+          "bid_amount": 27,
+          "games_started": 14,
+          "owner_name": "manager_2",
+          "player_name": "Josh Jacobs",
+          "points_per_game": 12.97,
+          "position": "RB",
+          "total_points": 181.6
+        },
+        {
+          "bid_amount": 56,
+          "games_started": 15,
+          "owner_name": "manager_6",
+          "player_name": "Todd Gurley",
+          "points_per_game": 12.93,
+          "position": "RB",
+          "total_points": 194.0
+        },
+        {
+          "bid_amount": 56,
+          "games_started": 10,
+          "owner_name": "manager_2",
+          "player_name": "Tyreek Hill",
+          "points_per_game": 12.87,
+          "position": "WR",
+          "total_points": 128.7
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 11,
+          "owner_name": "manager_3",
+          "player_name": "Calvin Ridley",
+          "points_per_game": 12.74,
+          "position": "WR",
+          "total_points": 140.1
+        },
+        {
+          "bid_amount": 36,
+          "games_started": 12,
+          "owner_name": "manager_12",
+          "player_name": "Devonta Freeman",
+          "points_per_game": 12.62,
+          "position": "RB",
+          "total_points": 151.4
+        },
+        {
+          "bid_amount": 35,
+          "games_started": 11,
+          "owner_name": "manager_16",
+          "player_name": "Melvin Gordon",
+          "points_per_game": 12.6,
+          "position": "RB",
+          "total_points": 138.6
+        },
+        {
+          "bid_amount": 33,
+          "games_started": 12,
+          "owner_name": "manager_16",
+          "player_name": "Julian Edelman",
+          "points_per_game": 12.58,
+          "position": "WR",
+          "total_points": 151.0
+        },
+        {
+          "bid_amount": 10,
+          "games_started": 11,
+          "owner_name": "manager_23",
+          "player_name": "James White",
+          "points_per_game": 12.44,
+          "position": "RB",
+          "total_points": 136.8
+        },
+        {
+          "bid_amount": 59,
+          "games_started": 14,
+          "owner_name": "manager_10",
+          "player_name": "Le'Veon Bell",
+          "points_per_game": 12.27,
+          "position": "RB",
+          "total_points": 171.8
+        },
+        {
+          "bid_amount": 26,
+          "games_started": 13,
+          "owner_name": "manager_16",
+          "player_name": "Stefon Diggs",
+          "points_per_game": 12.11,
+          "position": "WR",
+          "total_points": 157.4
+        },
+        {
+          "bid_amount": 10,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "Tyler Lockett",
+          "points_per_game": 12.01,
+          "position": "WR",
+          "total_points": 180.1
+        },
+        {
+          "bid_amount": 46,
+          "games_started": 15,
+          "owner_name": "manager_16",
+          "player_name": "Joe Mixon",
+          "points_per_game": 11.85,
+          "position": "RB",
+          "total_points": 177.8
+        },
+        {
+          "bid_amount": 33,
+          "games_started": 8,
+          "owner_name": "manager_21",
+          "player_name": "Adam Thielen",
+          "points_per_game": 11.84,
+          "position": "WR",
+          "total_points": 94.7
+        },
+        {
+          "bid_amount": 60,
+          "games_started": 9,
+          "owner_name": "manager_21",
+          "player_name": "David Johnson",
+          "points_per_game": 11.78,
+          "position": "RB",
+          "total_points": 106.0
+        },
+        {
+          "bid_amount": 51,
+          "games_started": 11,
+          "owner_name": "manager_23",
+          "player_name": "James Conner",
+          "points_per_game": 11.68,
+          "position": "RB",
+          "total_points": 128.5
+        },
+        {
+          "bid_amount": 37,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Zach Ertz",
+          "points_per_game": 11.44,
+          "position": "TE",
+          "total_points": 171.6
+        },
+        {
+          "bid_amount": 29,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Robert Woods",
+          "points_per_game": 11.39,
+          "position": "WR",
+          "total_points": 170.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_6",
+          "player_name": "Austin Hooper",
+          "points_per_game": 11.25,
+          "position": "TE",
+          "total_points": 90.0
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 11,
+          "owner_name": "manager_16",
+          "player_name": "Marvin Jones",
+          "points_per_game": 11.08,
+          "position": "WR",
+          "total_points": 121.9
+        },
+        {
+          "bid_amount": 9,
+          "games_started": 8,
+          "owner_name": "manager_21",
+          "player_name": "Evan Engram",
+          "points_per_game": 10.92,
+          "position": "TE",
+          "total_points": 87.4
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 12,
+          "owner_name": "manager_10",
+          "player_name": "Phillip Lindsay",
+          "points_per_game": 10.9,
+          "position": "RB",
+          "total_points": 130.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 13,
+          "owner_name": "manager_6",
+          "player_name": "Mark Andrews",
+          "points_per_game": 10.86,
+          "position": "TE",
+          "total_points": 141.2
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 9,
+          "owner_name": "manager_7",
+          "player_name": "DK Metcalf",
+          "points_per_game": 10.83,
+          "position": "WR",
+          "total_points": 97.5
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 10,
+          "owner_name": "manager_3",
+          "player_name": "Sony Michel",
+          "points_per_game": 9.96,
+          "position": "RB",
+          "total_points": 99.6
+        },
+        {
+          "bid_amount": 71,
+          "games_started": 13,
+          "owner_name": "manager_9",
+          "player_name": "Odell Beckham Jr.",
+          "points_per_game": 9.67,
+          "position": "WR",
+          "total_points": 125.7
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 9,
+          "owner_name": "manager_12",
+          "player_name": "Matt Breida",
+          "points_per_game": 9.47,
+          "position": "RB",
+          "total_points": 85.2
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_21",
+          "player_name": "Tyrell Williams",
+          "points_per_game": 9.24,
+          "position": "WR",
+          "total_points": 73.9
+        },
+        {
+          "bid_amount": 9,
+          "games_started": 9,
+          "owner_name": "manager_12",
+          "player_name": "Hunter Henry",
+          "points_per_game": 9.11,
+          "position": "TE",
+          "total_points": 82.0
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_2",
+          "player_name": "Royce Freeman",
+          "points_per_game": 8.51,
+          "position": "RB",
+          "total_points": 68.1
+        },
+        {
+          "bid_amount": 14,
+          "games_started": 10,
+          "owner_name": "manager_23",
+          "player_name": "David Montgomery",
+          "points_per_game": 8.46,
+          "position": "RB",
+          "total_points": 84.6
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 8,
+          "owner_name": "manager_2",
+          "player_name": "Jared Cook",
+          "points_per_game": 4.54,
+          "position": "TE",
+          "total_points": 36.3
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 9,
+          "owner_name": "manager_16",
+          "player_name": "Trey Burton",
+          "points_per_game": 1.71,
+          "position": "TE",
+          "total_points": 15.4
+        }
+      ]
+    },
+    "get_medal_standings": {
+      "first": "manager_6",
+      "first_score": 163.6,
+      "season": 2019,
+      "second": "manager_9",
+      "second_score": 126.9,
+      "third": "manager_3",
+      "third_score": 83.5
+    },
+    "get_standings": {
+      "records": [
+        {
+          "losses": 3,
+          "manager": "manager_3",
+          "point_diff": 199.29999999999995,
+          "points_against": 1348.7,
+          "points_for": 1548.0,
+          "team_name": "Build That Waller",
+          "ties": 0,
+          "wins": 10
+        },
+        {
+          "losses": 5,
+          "manager": "manager_1",
+          "point_diff": 29.200000000000045,
+          "points_against": 1402.2,
+          "points_for": 1431.4,
+          "team_name": "Jonesin' for a big Mack",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 5,
+          "manager": "manager_23",
+          "point_diff": 56.80000000000018,
+          "points_against": 1351.1,
+          "points_for": 1407.9,
+          "team_name": "Fumble .",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_10",
+          "point_diff": 44.5,
+          "points_against": 1369.5,
+          "points_for": 1414.0,
+          "team_name": "Metlife Kitty",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 6,
+          "manager": "manager_6",
+          "point_diff": 75.10000000000014,
+          "points_against": 1272.3,
+          "points_for": 1347.4,
+          "team_name": "We Going Tyreeking!!",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 6,
+          "manager": "manager_9",
+          "point_diff": -8.799999999999955,
+          "points_against": 1334.1,
+          "points_for": 1325.3,
+          "team_name": "William Clawallace",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_2",
+          "point_diff": -17.5,
+          "points_against": 1392.0,
+          "points_for": 1374.5,
+          "team_name": "Let me be frankel",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 7,
+          "manager": "manager_14",
+          "point_diff": 26.90000000000009,
+          "points_against": 1316.5,
+          "points_for": 1343.4,
+          "team_name": "Travis Seltzce Zekeberry Blast",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 7,
+          "manager": "manager_21",
+          "point_diff": 2.2000000000000455,
+          "points_against": 1293.7,
+          "points_for": 1295.9,
+          "team_name": "A lil Thielen  in my Chubb",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 8,
+          "manager": "manager_7",
+          "point_diff": -75.29999999999995,
+          "points_against": 1509.7,
+          "points_for": 1434.4,
+          "team_name": "Santa Rosa Guy Fieris",
+          "ties": 0,
+          "wins": 5
+        },
+        {
+          "losses": 9,
+          "manager": "manager_12",
+          "point_diff": -123.09999999999991,
+          "points_against": 1328.1,
+          "points_for": 1205.0,
+          "team_name": "Drake never learned to Reed",
+          "ties": 0,
+          "wins": 4
+        },
+        {
+          "losses": 9,
+          "manager": "manager_16",
+          "point_diff": -209.29999999999995,
+          "points_against": 1403.3,
+          "points_for": 1194.0,
+          "team_name": "Favre's Wranglers",
+          "ties": 0,
+          "wins": 4
+        }
+      ]
+    },
+    "get_toilet_bowl_loser": {
+      "last_place": "manager_16",
+      "last_place_score": 66.6,
+      "opponent": "manager_12",
+      "opponent_score": 130.0,
+      "season": 2019
+    },
+    "get_waiver_scores": {
+      "records": [
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Darren Waller",
+          "position": "TE",
+          "team_name": "team_16",
+          "total_points": 114.80000000000001,
+          "waiver_score": 93.3
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Kyler Murray",
+          "position": "QB",
+          "team_name": "team_89",
+          "total_points": 176.1,
+          "waiver_score": 92.0
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Josh Allen",
+          "position": "QB",
+          "team_name": "team_35",
+          "total_points": 168.29999999999998,
+          "waiver_score": 92.0
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "DJ Chark",
+          "position": "WR",
+          "team_name": "team_16",
+          "total_points": 117.0,
+          "waiver_score": 90.0
+        },
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Carlos Hyde",
+          "position": "RB",
+          "team_name": "team_89",
+          "total_points": 99.8,
+          "waiver_score": 79.7
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Dallas Goedert",
+          "position": "TE",
+          "team_name": "team_45",
+          "total_points": 74.2,
+          "waiver_score": 76.0
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_12",
+          "player_name": "Jason Witten",
+          "position": "TE",
+          "team_name": "team_27",
+          "total_points": 67.1,
+          "waiver_score": 75.9
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "Jacoby Brissett",
+          "position": "QB",
+          "team_name": "team_94",
+          "total_points": 126.0,
+          "waiver_score": 74.1
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Devin Singletary",
+          "position": "RB",
+          "team_name": "team_35",
+          "total_points": 93.9,
+          "waiver_score": 72.1
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Terry McLaurin",
+          "position": "WR",
+          "team_name": "team_56",
+          "total_points": 74.7,
+          "waiver_score": 68.1
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Jamaal Williams",
+          "position": "RB",
+          "team_name": "team_89",
+          "total_points": 78.6,
+          "waiver_score": 65.1
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Marquise Brown",
+          "position": "WR",
+          "team_name": "team_35",
+          "total_points": 76.7,
+          "waiver_score": 63.8
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "John Brown",
+          "position": "WR",
+          "team_name": "team_89",
+          "total_points": 71.9,
+          "waiver_score": 60.9
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Mecole Hardman",
+          "position": "WR",
+          "team_name": "team_3",
+          "total_points": 68.2,
+          "waiver_score": 59.4
+        },
+        {
+          "acquisition_week": 1,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Alexander Mattison",
+          "position": "RB",
+          "team_name": "team_56",
+          "total_points": 56.2,
+          "waiver_score": 54.5
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_12",
+          "player_name": "Rex Burkhead",
+          "position": "RB",
+          "team_name": "team_27",
+          "total_points": 12.7,
+          "waiver_score": 15.9
+        }
+      ]
+    }
+  },
+  "2020": {
+    "get_arbys_winner": {
+      "arbys_winner": "manager_12",
+      "loser_score": 77.1,
+      "opponent": "manager_2",
+      "season": 2020,
+      "winner_score": 128.6
+    },
+    "get_draft_roi": {
+      "records": [
+        {
+          "bid_amount": 6,
+          "games_started": 14,
+          "owner_name": "manager_9",
+          "player_name": "Kyler Murray",
+          "points_per_game": 25.76,
+          "position": "QB",
+          "total_points": 360.7
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 15,
+          "owner_name": "manager_12",
+          "player_name": "Josh Allen",
+          "points_per_game": 25.27,
+          "position": "QB",
+          "total_points": 379.1
+        },
+        {
+          "bid_amount": 29,
+          "games_started": 15,
+          "owner_name": "manager_7",
+          "player_name": "Patrick Mahomes",
+          "points_per_game": 25.16,
+          "position": "QB",
+          "total_points": 377.4
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 15,
+          "owner_name": "manager_1",
+          "player_name": "Aaron Rodgers",
+          "points_per_game": 23.73,
+          "position": "QB",
+          "total_points": 356.0
+        },
+        {
+          "bid_amount": 79,
+          "games_started": 14,
+          "owner_name": "manager_21",
+          "player_name": "Dalvin Cook",
+          "points_per_game": 22.84,
+          "position": "RB",
+          "total_points": 319.8
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Russell Wilson",
+          "points_per_game": 22.72,
+          "position": "QB",
+          "total_points": 340.8
+        },
+        {
+          "bid_amount": 72,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "Alvin Kamara",
+          "points_per_game": 22.42,
+          "position": "RB",
+          "total_points": 336.3
+        },
+        {
+          "bid_amount": 54,
+          "games_started": 13,
+          "owner_name": "manager_1",
+          "player_name": "Davante Adams",
+          "points_per_game": 22.1,
+          "position": "WR",
+          "total_points": 287.3
+        },
+        {
+          "bid_amount": 35,
+          "games_started": 11,
+          "owner_name": "manager_2",
+          "player_name": "Lamar Jackson",
+          "points_per_game": 21.99,
+          "position": "QB",
+          "total_points": 241.9
+        },
+        {
+          "bid_amount": 70,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Derrick Henry",
+          "points_per_game": 19.77,
+          "position": "RB",
+          "total_points": 296.6
+        },
+        {
+          "bid_amount": 52,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Tyreek Hill",
+          "points_per_game": 19.29,
+          "position": "WR",
+          "total_points": 289.40000000000003
+        },
+        {
+          "bid_amount": 58,
+          "games_started": 12,
+          "owner_name": "manager_16",
+          "player_name": "Aaron Jones",
+          "points_per_game": 17.38,
+          "position": "RB",
+          "total_points": 208.5
+        },
+        {
+          "bid_amount": 44,
+          "games_started": 15,
+          "owner_name": "manager_7",
+          "player_name": "Travis Kelce",
+          "points_per_game": 17.34,
+          "position": "TE",
+          "total_points": 260.1
+        },
+        {
+          "bid_amount": 25,
+          "games_started": 13,
+          "owner_name": "manager_12",
+          "player_name": "Calvin Ridley",
+          "points_per_game": 17.25,
+          "position": "WR",
+          "total_points": 224.2
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Stefon Diggs",
+          "points_per_game": 16.93,
+          "position": "WR",
+          "total_points": 254.0
+        },
+        {
+          "bid_amount": 54,
+          "games_started": 10,
+          "owner_name": "manager_16",
+          "player_name": "Nick Chubb",
+          "points_per_game": 16.43,
+          "position": "RB",
+          "total_points": 164.3
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 10,
+          "owner_name": "manager_10",
+          "player_name": "David Montgomery",
+          "points_per_game": 16.42,
+          "position": "RB",
+          "total_points": 164.2
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 12,
+          "owner_name": "manager_16",
+          "player_name": "Matthew Stafford",
+          "points_per_game": 15.49,
+          "position": "QB",
+          "total_points": 185.9
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 15,
+          "owner_name": "manager_6",
+          "player_name": "DK Metcalf",
+          "points_per_game": 15.08,
+          "position": "WR",
+          "total_points": 226.2
+        },
+        {
+          "bid_amount": 56,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "DeAndre Hopkins",
+          "points_per_game": 14.99,
+          "position": "WR",
+          "total_points": 224.8
+        },
+        {
+          "bid_amount": 35,
+          "games_started": 14,
+          "owner_name": "manager_10",
+          "player_name": "Adam Thielen",
+          "points_per_game": 14.95,
+          "position": "WR",
+          "total_points": 209.3
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 10,
+          "owner_name": "manager_14",
+          "player_name": "Will Fuller V",
+          "points_per_game": 14.9,
+          "position": "WR",
+          "total_points": 149.0
+        },
+        {
+          "bid_amount": 20,
+          "games_started": 12,
+          "owner_name": "manager_7",
+          "player_name": "Jonathan Taylor",
+          "points_per_game": 14.72,
+          "position": "RB",
+          "total_points": 176.6
+        },
+        {
+          "bid_amount": 19,
+          "games_started": 9,
+          "owner_name": "manager_12",
+          "player_name": "Keenan Allen",
+          "points_per_game": 14.72,
+          "position": "WR",
+          "total_points": 132.5
+        },
+        {
+          "bid_amount": 21,
+          "games_started": 14,
+          "owner_name": "manager_1",
+          "player_name": "Allen Robinson",
+          "points_per_game": 14.24,
+          "position": "WR",
+          "total_points": 199.4
+        },
+        {
+          "bid_amount": 43,
+          "games_started": 12,
+          "owner_name": "manager_16",
+          "player_name": "Mike Evans",
+          "points_per_game": 14.08,
+          "position": "WR",
+          "total_points": 168.9
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 12,
+          "owner_name": "manager_7",
+          "player_name": "A.J. Brown",
+          "points_per_game": 14.06,
+          "position": "WR",
+          "total_points": 168.7
+        },
+        {
+          "bid_amount": 9,
+          "games_started": 10,
+          "owner_name": "manager_6",
+          "player_name": "D'Andre Swift",
+          "points_per_game": 14.01,
+          "position": "RB",
+          "total_points": 140.1
+        },
+        {
+          "bid_amount": 61,
+          "games_started": 14,
+          "owner_name": "manager_3",
+          "player_name": "Josh Jacobs",
+          "points_per_game": 13.85,
+          "position": "RB",
+          "total_points": 193.9
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 15,
+          "owner_name": "manager_3",
+          "player_name": "Darren Waller",
+          "points_per_game": 13.79,
+          "position": "TE",
+          "total_points": 206.9
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 9,
+          "owner_name": "manager_16",
+          "player_name": "Antonio Gibson",
+          "points_per_game": 13.69,
+          "position": "RB",
+          "total_points": 123.2
+        },
+        {
+          "bid_amount": 52,
+          "games_started": 9,
+          "owner_name": "manager_1",
+          "player_name": "Julio Jones",
+          "points_per_game": 13.4,
+          "position": "WR",
+          "total_points": 120.6
+        },
+        {
+          "bid_amount": 64,
+          "games_started": 8,
+          "owner_name": "manager_6",
+          "player_name": "Austin Ekeler",
+          "points_per_game": 13.22,
+          "position": "RB",
+          "total_points": 105.8
+        },
+        {
+          "bid_amount": 78,
+          "games_started": 14,
+          "owner_name": "manager_7",
+          "player_name": "Ezekiel Elliott",
+          "points_per_game": 13.15,
+          "position": "RB",
+          "total_points": 184.1
+        },
+        {
+          "bid_amount": 65,
+          "games_started": 12,
+          "owner_name": "manager_9",
+          "player_name": "Miles Sanders",
+          "points_per_game": 13.03,
+          "position": "RB",
+          "total_points": 156.4
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 14,
+          "owner_name": "manager_3",
+          "player_name": "Kareem Hunt",
+          "points_per_game": 13.01,
+          "position": "RB",
+          "total_points": 182.2
+        },
+        {
+          "bid_amount": 10,
+          "games_started": 15,
+          "owner_name": "manager_3",
+          "player_name": "Robert Woods",
+          "points_per_game": 12.97,
+          "position": "WR",
+          "total_points": 194.5
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 12,
+          "owner_name": "manager_7",
+          "player_name": "Robby Anderson",
+          "points_per_game": 12.22,
+          "position": "WR",
+          "total_points": 146.6
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 13,
+          "owner_name": "manager_23",
+          "player_name": "Diontae Johnson",
+          "points_per_game": 12.16,
+          "position": "WR",
+          "total_points": 158.1
+        },
+        {
+          "bid_amount": 34,
+          "games_started": 12,
+          "owner_name": "manager_16",
+          "player_name": "DJ Moore",
+          "points_per_game": 11.96,
+          "position": "WR",
+          "total_points": 143.5
+        },
+        {
+          "bid_amount": 23,
+          "games_started": 13,
+          "owner_name": "manager_10",
+          "player_name": "Amari Cooper",
+          "points_per_game": 11.78,
+          "position": "WR",
+          "total_points": 153.2
+        },
+        {
+          "bid_amount": 23,
+          "games_started": 12,
+          "owner_name": "manager_9",
+          "player_name": "Terry McLaurin",
+          "points_per_game": 11.59,
+          "position": "WR",
+          "total_points": 139.1
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_21",
+          "player_name": "Jamison Crowder",
+          "points_per_game": 11.55,
+          "position": "WR",
+          "total_points": 92.4
+        },
+        {
+          "bid_amount": 27,
+          "games_started": 14,
+          "owner_name": "manager_12",
+          "player_name": "Chris Carson",
+          "points_per_game": 11.43,
+          "position": "RB",
+          "total_points": 160.0
+        },
+        {
+          "bid_amount": 37,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "JuJu Smith-Schuster",
+          "points_per_game": 11.34,
+          "position": "WR",
+          "total_points": 170.1
+        },
+        {
+          "bid_amount": 70,
+          "games_started": 14,
+          "owner_name": "manager_14",
+          "player_name": "Clyde Edwards-Helaire",
+          "points_per_game": 11.29,
+          "position": "RB",
+          "total_points": 158.0
+        },
+        {
+          "bid_amount": 45,
+          "games_started": 8,
+          "owner_name": "manager_3",
+          "player_name": "Chris Godwin",
+          "points_per_game": 11.25,
+          "position": "WR",
+          "total_points": 90.0
+        },
+        {
+          "bid_amount": 65,
+          "games_started": 11,
+          "owner_name": "manager_9",
+          "player_name": "Kenyan Drake",
+          "points_per_game": 11.03,
+          "position": "RB",
+          "total_points": 121.3
+        },
+        {
+          "bid_amount": 30,
+          "games_started": 13,
+          "owner_name": "manager_3",
+          "player_name": "Cooper Kupp",
+          "points_per_game": 11.02,
+          "position": "WR",
+          "total_points": 143.2
+        },
+        {
+          "bid_amount": 14,
+          "games_started": 8,
+          "owner_name": "manager_10",
+          "player_name": "Melvin Gordon",
+          "points_per_game": 10.8,
+          "position": "RB",
+          "total_points": 86.4
+        },
+        {
+          "bid_amount": 24,
+          "games_started": 14,
+          "owner_name": "manager_12",
+          "player_name": "Tyler Lockett",
+          "points_per_game": 10.21,
+          "position": "WR",
+          "total_points": 142.9
+        },
+        {
+          "bid_amount": 39,
+          "games_started": 8,
+          "owner_name": "manager_2",
+          "player_name": "George Kittle",
+          "points_per_game": 9.95,
+          "position": "TE",
+          "total_points": 79.6
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 14,
+          "owner_name": "manager_12",
+          "player_name": "Mark Andrews",
+          "points_per_game": 9.74,
+          "position": "TE",
+          "total_points": 136.4
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 14,
+          "owner_name": "manager_23",
+          "player_name": "T.J. Hockenson",
+          "points_per_game": 9.68,
+          "position": "TE",
+          "total_points": 135.5
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 11,
+          "owner_name": "manager_12",
+          "player_name": "James Conner",
+          "points_per_game": 9.47,
+          "position": "RB",
+          "total_points": 104.2
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 13,
+          "owner_name": "manager_2",
+          "player_name": "Marvin Jones",
+          "points_per_game": 8.98,
+          "position": "WR",
+          "total_points": 116.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 13,
+          "owner_name": "manager_16",
+          "player_name": "Hunter Henry",
+          "points_per_game": 8.58,
+          "position": "TE",
+          "total_points": 111.5
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 13,
+          "owner_name": "manager_21",
+          "player_name": "Noah Fant",
+          "points_per_game": 8.44,
+          "position": "TE",
+          "total_points": 109.7
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 14,
+          "owner_name": "manager_6",
+          "player_name": "Rob Gronkowski",
+          "points_per_game": 8.22,
+          "position": "TE",
+          "total_points": 115.1
+        },
+        {
+          "bid_amount": 71,
+          "games_started": 8,
+          "owner_name": "manager_6",
+          "player_name": "Michael Thomas",
+          "points_per_game": 7.99,
+          "position": "WR",
+          "total_points": 63.9
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_16",
+          "player_name": "Mike Williams",
+          "points_per_game": 6.45,
+          "position": "WR",
+          "total_points": 51.599999999999994
+        },
+        {
+          "bid_amount": 9,
+          "games_started": 13,
+          "owner_name": "manager_2",
+          "player_name": "T.Y. Hilton",
+          "points_per_game": 6.15,
+          "position": "WR",
+          "total_points": 79.9
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 14,
+          "owner_name": "manager_2",
+          "player_name": "James White",
+          "points_per_game": 5.46,
+          "position": "RB",
+          "total_points": 76.5
+        }
+      ]
+    },
+    "get_medal_standings": {
+      "first": "manager_14",
+      "first_score": 127.1,
+      "season": 2020,
+      "second": "manager_7",
+      "second_score": 116.2,
+      "third": "manager_9",
+      "third_score": 138.2
+    },
+    "get_standings": {
+      "records": [
+        {
+          "losses": 2,
+          "manager": "manager_7",
+          "point_diff": 468.5,
+          "points_against": 1167.3,
+          "points_for": 1635.8,
+          "team_name": "Ice City USA",
+          "ties": 0,
+          "wins": 11
+        },
+        {
+          "losses": 4,
+          "manager": "manager_14",
+          "point_diff": 134.10000000000014,
+          "points_against": 1285.5,
+          "points_for": 1419.6000000000001,
+          "team_name": "Sweetless in Seattle",
+          "ties": 0,
+          "wins": 9
+        },
+        {
+          "losses": 5,
+          "manager": "manager_3",
+          "point_diff": 126.5,
+          "points_against": 1252.2,
+          "points_for": 1378.7,
+          "team_name": "Just Joshin'",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_9",
+          "point_diff": 82.79999999999995,
+          "points_against": 1363.2,
+          "points_for": 1446.0,
+          "team_name": "Wolf Pussy",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 6,
+          "manager": "manager_10",
+          "point_diff": -62.200000000000045,
+          "points_against": 1496.7,
+          "points_for": 1434.5,
+          "team_name": "Cookin Russells",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 6,
+          "manager": "manager_1",
+          "point_diff": 1.599999999999909,
+          "points_against": 1382.4,
+          "points_for": 1384.0,
+          "team_name": "Danica gave me a Higbee",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_12",
+          "point_diff": 48.0,
+          "points_against": 1435.3,
+          "points_for": 1483.3,
+          "team_name": "Tier 2 never felt so good",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 7,
+          "manager": "manager_6",
+          "point_diff": -44.700000000000045,
+          "points_against": 1344.7,
+          "points_for": 1300.0,
+          "team_name": "Dak's Butt Kickers ",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 7,
+          "manager": "manager_23",
+          "point_diff": -125.40000000000009,
+          "points_against": 1289.5,
+          "points_for": 1164.1,
+          "team_name": "Fumble .",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 8,
+          "manager": "manager_21",
+          "point_diff": -123.5,
+          "points_against": 1505.4,
+          "points_for": 1381.9,
+          "team_name": "2 Many Cooks 2 Many",
+          "ties": 0,
+          "wins": 5
+        },
+        {
+          "losses": 10,
+          "manager": "manager_16",
+          "point_diff": -192.0,
+          "points_against": 1422.7,
+          "points_for": 1230.7,
+          "team_name": "Favre's Wranglers",
+          "ties": 0,
+          "wins": 3
+        },
+        {
+          "losses": 10,
+          "manager": "manager_2",
+          "point_diff": -313.70000000000005,
+          "points_against": 1386.9,
+          "points_for": 1073.2,
+          "team_name": "Let me be frankel",
+          "ties": 0,
+          "wins": 3
+        }
+      ]
+    },
+    "get_toilet_bowl_loser": {
+      "last_place": "manager_23",
+      "last_place_score": 83.5,
+      "opponent": "manager_6",
+      "opponent_score": 124.7,
+      "season": 2020
+    },
+    "get_waiver_scores": {
+      "records": [
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Justin Jefferson",
+          "position": "WR",
+          "team_name": "team_43",
+          "total_points": 152.2,
+          "waiver_score": 98.6
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Corey Davis",
+          "position": "WR",
+          "team_name": "team_35",
+          "total_points": 118.4,
+          "waiver_score": 95.2
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Justin Herbert",
+          "position": "QB",
+          "team_name": "team_76",
+          "total_points": 191.8,
+          "waiver_score": 92.6
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Giovani Bernard",
+          "position": "RB",
+          "team_name": "team_35",
+          "total_points": 102.2,
+          "waiver_score": 91.7
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "J.D. McKissic",
+          "position": "RB",
+          "team_name": "team_1",
+          "total_points": 109.7,
+          "waiver_score": 90.3
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_16",
+          "player_name": "Nyheim Hines",
+          "position": "RB",
+          "team_name": "team_30",
+          "total_points": 101.0,
+          "waiver_score": 89.0
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_12",
+          "player_name": "Logan Thomas",
+          "position": "TE",
+          "team_name": "team_88",
+          "total_points": 92.2,
+          "waiver_score": 88.5
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Chase Edmonds",
+          "position": "RB",
+          "team_name": "team_76",
+          "total_points": 83.1,
+          "waiver_score": 85.5
+        },
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Ben Roethlisberger",
+          "position": "QB",
+          "team_name": "team_1",
+          "total_points": 170.0,
+          "waiver_score": 82.8
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Chase Claypool",
+          "position": "WR",
+          "team_name": "team_47",
+          "total_points": 93.2,
+          "waiver_score": 81.8
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Jimmy Graham",
+          "position": "TE",
+          "team_name": "team_1",
+          "total_points": 78.0,
+          "waiver_score": 80.0
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Dallas Goedert",
+          "position": "TE",
+          "team_name": "team_21",
+          "total_points": 67.1,
+          "waiver_score": 75.0
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Tee Higgins",
+          "position": "WR",
+          "team_name": "team_43",
+          "total_points": 85.7,
+          "waiver_score": 73.1
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Brandon Aiyuk",
+          "position": "WR",
+          "team_name": "team_51",
+          "total_points": 91.6,
+          "waiver_score": 71.9
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Eric Ebron",
+          "position": "TE",
+          "team_name": "team_51",
+          "total_points": 64.5,
+          "waiver_score": 70.8
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Cole Beasley",
+          "position": "WR",
+          "team_name": "team_51",
+          "total_points": 84.6,
+          "waiver_score": 67.2
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Justin Jackson",
+          "position": "RB",
+          "team_name": "team_51",
+          "total_points": 35.6,
+          "waiver_score": 52.9
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Antonio Brown",
+          "position": "WR",
+          "team_name": "team_21",
+          "total_points": 63.3,
+          "waiver_score": 49.2
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Austin Hooper",
+          "position": "TE",
+          "team_name": "team_76",
+          "total_points": 25.8,
+          "waiver_score": 35.7
+        }
+      ]
+    }
+  },
+  "2021": {
+    "get_arbys_winner": {
+      "arbys_winner": "manager_12",
+      "loser_score": 65.3,
+      "opponent": "manager_9",
+      "season": 2021,
+      "winner_score": 137.6
+    },
+    "get_draft_roi": {
+      "records": [
+        {
+          "bid_amount": 13,
+          "games_started": 16,
+          "owner_name": "manager_1",
+          "player_name": "Josh Allen",
+          "points_per_game": 23.59,
+          "position": "QB",
+          "total_points": 377.4
+        },
+        {
+          "bid_amount": 84,
+          "games_started": 8,
+          "owner_name": "manager_7",
+          "player_name": "Derrick Henry",
+          "points_per_game": 23.04,
+          "position": "RB",
+          "total_points": 184.3
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Tom Brady",
+          "points_per_game": 22.16,
+          "position": "QB",
+          "total_points": 354.5
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 16,
+          "owner_name": "manager_2",
+          "player_name": "Justin Herbert",
+          "points_per_game": 22.02,
+          "position": "QB",
+          "total_points": 352.3
+        },
+        {
+          "bid_amount": 29,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Cooper Kupp",
+          "points_per_game": 21.49,
+          "position": "WR",
+          "total_points": 343.9
+        },
+        {
+          "bid_amount": 58,
+          "games_started": 16,
+          "owner_name": "manager_6",
+          "player_name": "Jonathan Taylor",
+          "points_per_game": 21.38,
+          "position": "RB",
+          "total_points": 342.1
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 15,
+          "owner_name": "manager_6",
+          "player_name": "Aaron Rodgers",
+          "points_per_game": 21.15,
+          "position": "QB",
+          "total_points": 317.3
+        },
+        {
+          "bid_amount": 22,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "Patrick Mahomes",
+          "points_per_game": 21.14,
+          "position": "QB",
+          "total_points": 338.3
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Jalen Hurts",
+          "points_per_game": 20.72,
+          "position": "QB",
+          "total_points": 310.8
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 14,
+          "owner_name": "manager_14",
+          "player_name": "Dak Prescott",
+          "points_per_game": 20.09,
+          "position": "QB",
+          "total_points": 281.3
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 12,
+          "owner_name": "manager_12",
+          "player_name": "Kyler Murray",
+          "points_per_game": 19.95,
+          "position": "QB",
+          "total_points": 239.4
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 10,
+          "owner_name": "manager_3",
+          "player_name": "Russell Wilson",
+          "points_per_game": 19.13,
+          "position": "QB",
+          "total_points": 191.3
+        },
+        {
+          "bid_amount": 54,
+          "games_started": 15,
+          "owner_name": "manager_1",
+          "player_name": "Austin Ekeler",
+          "points_per_game": 18.83,
+          "position": "RB",
+          "total_points": 282.4
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 17,
+          "owner_name": "manager_16",
+          "player_name": "Joe Burrow",
+          "points_per_game": 18.78,
+          "position": "QB",
+          "total_points": 319.2
+        },
+        {
+          "bid_amount": 63,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Davante Adams",
+          "points_per_game": 18.55,
+          "position": "WR",
+          "total_points": 278.3
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 11,
+          "owner_name": "manager_7",
+          "player_name": "Leonard Fournette",
+          "points_per_game": 17.06,
+          "position": "RB",
+          "total_points": 187.7
+        },
+        {
+          "bid_amount": 40,
+          "games_started": 16,
+          "owner_name": "manager_12",
+          "player_name": "Joe Mixon",
+          "points_per_game": 16.68,
+          "position": "RB",
+          "total_points": 266.9
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Ja'Marr Chase",
+          "points_per_game": 16.67,
+          "position": "WR",
+          "total_points": 250.1
+        },
+        {
+          "bid_amount": 68,
+          "games_started": 12,
+          "owner_name": "manager_21",
+          "player_name": "Alvin Kamara",
+          "points_per_game": 16.17,
+          "position": "RB",
+          "total_points": 194.0
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 15,
+          "owner_name": "manager_7",
+          "player_name": "Lamar Jackson",
+          "points_per_game": 16.07,
+          "position": "QB",
+          "total_points": 241.1
+        },
+        {
+          "bid_amount": 42,
+          "games_started": 16,
+          "owner_name": "manager_14",
+          "player_name": "Justin Jefferson",
+          "points_per_game": 16.04,
+          "position": "WR",
+          "total_points": 256.6
+        },
+        {
+          "bid_amount": 51,
+          "games_started": 16,
+          "owner_name": "manager_12",
+          "player_name": "Najee Harris",
+          "points_per_game": 16.01,
+          "position": "RB",
+          "total_points": 256.2
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 8,
+          "owner_name": "manager_12",
+          "player_name": "Damien Harris",
+          "points_per_game": 16.0,
+          "position": "RB",
+          "total_points": 128.0
+        },
+        {
+          "bid_amount": 70,
+          "games_started": 12,
+          "owner_name": "manager_9",
+          "player_name": "Dalvin Cook",
+          "points_per_game": 15.38,
+          "position": "RB",
+          "total_points": 184.6
+        },
+        {
+          "bid_amount": 61,
+          "games_started": 13,
+          "owner_name": "manager_10",
+          "player_name": "Nick Chubb",
+          "points_per_game": 15.29,
+          "position": "RB",
+          "total_points": 198.8
+        },
+        {
+          "bid_amount": 57,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Tyreek Hill",
+          "points_per_game": 15.02,
+          "position": "WR",
+          "total_points": 240.3
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 16,
+          "owner_name": "manager_7",
+          "player_name": "Mark Andrews",
+          "points_per_game": 14.69,
+          "position": "TE",
+          "total_points": 235.1
+        },
+        {
+          "bid_amount": 67,
+          "games_started": 14,
+          "owner_name": "manager_16",
+          "player_name": "Travis Kelce",
+          "points_per_game": 14.37,
+          "position": "TE",
+          "total_points": 201.20000000000002
+        },
+        {
+          "bid_amount": 56,
+          "games_started": 14,
+          "owner_name": "manager_2",
+          "player_name": "Aaron Jones",
+          "points_per_game": 14.34,
+          "position": "RB",
+          "total_points": 200.70000000000002
+        },
+        {
+          "bid_amount": 30,
+          "games_started": 11,
+          "owner_name": "manager_7",
+          "player_name": "David Montgomery",
+          "points_per_game": 14.19,
+          "position": "RB",
+          "total_points": 156.10000000000002
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 15,
+          "owner_name": "manager_1",
+          "player_name": "Diontae Johnson",
+          "points_per_game": 14.15,
+          "position": "WR",
+          "total_points": 212.3
+        },
+        {
+          "bid_amount": 19,
+          "games_started": 14,
+          "owner_name": "manager_6",
+          "player_name": "Chris Godwin",
+          "points_per_game": 13.81,
+          "position": "WR",
+          "total_points": 193.4
+        },
+        {
+          "bid_amount": 70,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "Ezekiel Elliott",
+          "points_per_game": 13.68,
+          "position": "RB",
+          "total_points": 218.9
+        },
+        {
+          "bid_amount": 57,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "Stefon Diggs",
+          "points_per_game": 13.46,
+          "position": "WR",
+          "total_points": 215.4
+        },
+        {
+          "bid_amount": 30,
+          "games_started": 14,
+          "owner_name": "manager_16",
+          "player_name": "Mike Evans",
+          "points_per_game": 13.46,
+          "position": "WR",
+          "total_points": 188.4
+        },
+        {
+          "bid_amount": 37,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Keenan Allen",
+          "points_per_game": 13.11,
+          "position": "WR",
+          "total_points": 196.6
+        },
+        {
+          "bid_amount": 32,
+          "games_started": 15,
+          "owner_name": "manager_2",
+          "player_name": "CeeDee Lamb",
+          "points_per_game": 12.52,
+          "position": "WR",
+          "total_points": 187.8
+        },
+        {
+          "bid_amount": 49,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Antonio Gibson",
+          "points_per_game": 12.43,
+          "position": "RB",
+          "total_points": 186.5
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 12,
+          "owner_name": "manager_6",
+          "player_name": "Darrell Henderson Jr.",
+          "points_per_game": 12.41,
+          "position": "RB",
+          "total_points": 148.9
+        },
+        {
+          "bid_amount": 42,
+          "games_started": 16,
+          "owner_name": "manager_7",
+          "player_name": "DK Metcalf",
+          "points_per_game": 12.41,
+          "position": "WR",
+          "total_points": 198.5
+        },
+        {
+          "bid_amount": 10,
+          "games_started": 8,
+          "owner_name": "manager_3",
+          "player_name": "Kareem Hunt",
+          "points_per_game": 12.38,
+          "position": "RB",
+          "total_points": 99.0
+        },
+        {
+          "bid_amount": 32,
+          "games_started": 13,
+          "owner_name": "manager_1",
+          "player_name": "George Kittle",
+          "points_per_game": 12.23,
+          "position": "TE",
+          "total_points": 159.0
+        },
+        {
+          "bid_amount": 22,
+          "games_started": 13,
+          "owner_name": "manager_10",
+          "player_name": "Tyler Lockett",
+          "points_per_game": 12.15,
+          "position": "WR",
+          "total_points": 158.0
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 12,
+          "owner_name": "manager_3",
+          "player_name": "Josh Jacobs",
+          "points_per_game": 12.06,
+          "position": "RB",
+          "total_points": 144.7
+        },
+        {
+          "bid_amount": 33,
+          "games_started": 13,
+          "owner_name": "manager_9",
+          "player_name": "James Robinson",
+          "points_per_game": 12.03,
+          "position": "RB",
+          "total_points": 156.4
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 14,
+          "owner_name": "manager_21",
+          "player_name": "Mike Williams",
+          "points_per_game": 12.0,
+          "position": "WR",
+          "total_points": 168.0
+        },
+        {
+          "bid_amount": 21,
+          "games_started": 12,
+          "owner_name": "manager_21",
+          "player_name": "Adam Thielen",
+          "points_per_game": 11.83,
+          "position": "WR",
+          "total_points": 142.0
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 12,
+          "owner_name": "manager_21",
+          "player_name": "Javonte Williams",
+          "points_per_game": 11.62,
+          "position": "RB",
+          "total_points": 139.5
+        },
+        {
+          "bid_amount": 38,
+          "games_started": 12,
+          "owner_name": "manager_6",
+          "player_name": "A.J. Brown",
+          "points_per_game": 11.22,
+          "position": "WR",
+          "total_points": 134.6
+        },
+        {
+          "bid_amount": 29,
+          "games_started": 13,
+          "owner_name": "manager_1",
+          "player_name": "Amari Cooper",
+          "points_per_game": 11.05,
+          "position": "WR",
+          "total_points": 143.7
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 13,
+          "owner_name": "manager_1",
+          "player_name": "Brandin Cooks",
+          "points_per_game": 10.99,
+          "position": "WR",
+          "total_points": 142.9
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 9,
+          "owner_name": "manager_7",
+          "player_name": "Jaylen Waddle",
+          "points_per_game": 10.93,
+          "position": "WR",
+          "total_points": 98.4
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 17,
+          "owner_name": "manager_2",
+          "player_name": "Tee Higgins",
+          "points_per_game": 10.71,
+          "position": "WR",
+          "total_points": 182.1
+        },
+        {
+          "bid_amount": 36,
+          "games_started": 8,
+          "owner_name": "manager_23",
+          "player_name": "Terry McLaurin",
+          "points_per_game": 10.59,
+          "position": "WR",
+          "total_points": 84.7
+        },
+        {
+          "bid_amount": 45,
+          "games_started": 11,
+          "owner_name": "manager_12",
+          "player_name": "DeAndre Hopkins",
+          "points_per_game": 10.55,
+          "position": "WR",
+          "total_points": 116.0
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 17,
+          "owner_name": "manager_16",
+          "player_name": "DJ Moore",
+          "points_per_game": 10.44,
+          "position": "WR",
+          "total_points": 177.5
+        },
+        {
+          "bid_amount": 7,
+          "games_started": 8,
+          "owner_name": "manager_2",
+          "player_name": "Chase Edmonds",
+          "points_per_game": 10.35,
+          "position": "RB",
+          "total_points": 82.8
+        },
+        {
+          "bid_amount": 35,
+          "games_started": 10,
+          "owner_name": "manager_21",
+          "player_name": "Darren Waller",
+          "points_per_game": 10.28,
+          "position": "TE",
+          "total_points": 102.8
+        },
+        {
+          "bid_amount": 63,
+          "games_started": 12,
+          "owner_name": "manager_16",
+          "player_name": "Saquon Barkley",
+          "points_per_game": 10.14,
+          "position": "RB",
+          "total_points": 121.7
+        },
+        {
+          "bid_amount": 7,
+          "games_started": 12,
+          "owner_name": "manager_2",
+          "player_name": "T.J. Hockenson",
+          "points_per_game": 9.57,
+          "position": "TE",
+          "total_points": 114.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 14,
+          "owner_name": "manager_9",
+          "player_name": "Dallas Goedert",
+          "points_per_game": 9.16,
+          "position": "TE",
+          "total_points": 128.3
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 8,
+          "owner_name": "manager_23",
+          "player_name": "Melvin Gordon",
+          "points_per_game": 9.05,
+          "position": "RB",
+          "total_points": 72.4
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 16,
+          "owner_name": "manager_6",
+          "player_name": "Kyle Pitts",
+          "points_per_game": 8.8,
+          "position": "TE",
+          "total_points": 140.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 10,
+          "owner_name": "manager_16",
+          "player_name": "Jakobi Meyers",
+          "points_per_game": 8.2,
+          "position": "WR",
+          "total_points": 82.0
+        },
+        {
+          "bid_amount": 12,
+          "games_started": 12,
+          "owner_name": "manager_7",
+          "player_name": "DeVonta Smith",
+          "points_per_game": 7.77,
+          "position": "WR",
+          "total_points": 93.2
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 14,
+          "owner_name": "manager_23",
+          "player_name": "Mike Gesicki",
+          "points_per_game": 7.58,
+          "position": "TE",
+          "total_points": 106.1
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 10,
+          "owner_name": "manager_10",
+          "player_name": "Tyler Higbee",
+          "points_per_game": 7.14,
+          "position": "TE",
+          "total_points": 71.4
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 13,
+          "owner_name": "manager_16",
+          "player_name": "Zack Moss",
+          "points_per_game": 6.49,
+          "position": "RB",
+          "total_points": 84.4
+        },
+        {
+          "bid_amount": 18,
+          "games_started": 8,
+          "owner_name": "manager_12",
+          "player_name": "Julio Jones",
+          "points_per_game": 5.51,
+          "position": "WR",
+          "total_points": 44.1
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_12",
+          "player_name": "Robert Tonyan",
+          "points_per_game": 5.18,
+          "position": "TE",
+          "total_points": 41.4
+        }
+      ]
+    },
+    "get_medal_standings": {
+      "first": "manager_1",
+      "first_score": 125.3,
+      "season": 2021,
+      "second": "manager_6",
+      "second_score": 93.5,
+      "third": "manager_10",
+      "third_score": 140.8
+    },
+    "get_standings": {
+      "records": [
+        {
+          "losses": 5,
+          "manager": "manager_6",
+          "point_diff": 119.99999999999977,
+          "points_against": 1420.1000000000001,
+          "points_for": 1540.1,
+          "team_name": "Godwin's Memorial",
+          "ties": 0,
+          "wins": 9
+        },
+        {
+          "losses": 6,
+          "manager": "manager_1",
+          "point_diff": 135.5,
+          "points_against": 1503.0,
+          "points_for": 1638.5,
+          "team_name": "Don't Ekele Me",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_23",
+          "point_diff": 155.9000000000001,
+          "points_against": 1464.0,
+          "points_for": 1619.9,
+          "team_name": "Fumble .",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_21",
+          "point_diff": 38.59999999999991,
+          "points_against": 1467.1000000000001,
+          "points_for": 1505.7,
+          "team_name": "More than a  Thielen",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_10",
+          "point_diff": 51.40000000000009,
+          "points_against": 1407.6,
+          "points_for": 1459.0,
+          "team_name": "Your Antivax Cousins",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_3",
+          "point_diff": 163.5999999999999,
+          "points_against": 1230.4,
+          "points_for": 1394.0,
+          "team_name": "Repeat Donger",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 7,
+          "manager": "manager_7",
+          "point_diff": 42.700000000000045,
+          "points_against": 1465.7,
+          "points_for": 1508.4,
+          "team_name": "Ice City USA",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_12",
+          "point_diff": -58.80000000000018,
+          "points_against": 1473.4,
+          "points_for": 1414.6,
+          "team_name": "Tier 2 never felt so good",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 8,
+          "manager": "manager_9",
+          "point_diff": -57.600000000000136,
+          "points_against": 1482.2,
+          "points_for": 1424.6,
+          "team_name": "Dick Cheese",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 8,
+          "manager": "manager_2",
+          "point_diff": -89.60000000000014,
+          "points_against": 1453.4,
+          "points_for": 1363.8,
+          "team_name": "Frankel's Cankles",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 9,
+          "manager": "manager_14",
+          "point_diff": -235.70000000000005,
+          "points_against": 1655.4,
+          "points_for": 1419.7,
+          "team_name": "Tasteful Dak Piks, by CMC",
+          "ties": 0,
+          "wins": 5
+        },
+        {
+          "losses": 10,
+          "manager": "manager_16",
+          "point_diff": -266.0,
+          "points_against": 1472.9,
+          "points_for": 1206.9,
+          "team_name": "Favre's Wranglers",
+          "ties": 0,
+          "wins": 4
+        }
+      ]
+    },
+    "get_toilet_bowl_loser": {
+      "last_place": "manager_16",
+      "last_place_score": 101.8,
+      "opponent": "manager_2",
+      "opponent_score": 105.7,
+      "season": 2021
+    },
+    "get_waiver_scores": {
+      "records": [
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Cordarrelle Patterson",
+          "position": "RB",
+          "team_name": "team_58",
+          "total_points": 145.0,
+          "waiver_score": 98.6
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Elijah Mitchell",
+          "position": "RB",
+          "team_name": "team_35",
+          "total_points": 124.3,
+          "waiver_score": 95.9
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "Hunter Renfrow",
+          "position": "WR",
+          "team_name": "team_37",
+          "total_points": 125.1,
+          "waiver_score": 94.6
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Dawson Knox",
+          "position": "TE",
+          "team_name": "team_24",
+          "total_points": 100.5,
+          "waiver_score": 92.9
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Zach Ertz",
+          "position": "TE",
+          "team_name": "team_78",
+          "total_points": 86.2,
+          "waiver_score": 88.5
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Dalton Schultz",
+          "position": "TE",
+          "team_name": "team_67",
+          "total_points": 90.3,
+          "waiver_score": 88.5
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Rob Gronkowski",
+          "position": "TE",
+          "team_name": "team_67",
+          "total_points": 76.1,
+          "waiver_score": 80.8
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Tony Pollard",
+          "position": "RB",
+          "team_name": "team_98",
+          "total_points": 78.3,
+          "waiver_score": 75.0
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Van Jefferson",
+          "position": "WR",
+          "team_name": "team_58",
+          "total_points": 64.3,
+          "waiver_score": 63.1
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_12",
+          "player_name": "Jared Cook",
+          "position": "TE",
+          "team_name": "team_88",
+          "total_points": 48.900000000000006,
+          "waiver_score": 61.5
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "Pat Freiermuth",
+          "position": "TE",
+          "team_name": "team_37",
+          "total_points": 51.4,
+          "waiver_score": 61.5
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "A.J. Green",
+          "position": "WR",
+          "team_name": "team_67",
+          "total_points": 60.1,
+          "waiver_score": 60.3
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Sterling Shepard",
+          "position": "WR",
+          "team_name": "team_78",
+          "total_points": 38.9,
+          "waiver_score": 43.4
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Kadarius Toney",
+          "position": "WR",
+          "team_name": "team_43",
+          "total_points": 23.8,
+          "waiver_score": 31.4
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_16",
+          "player_name": "Phillip Lindsay",
+          "position": "RB",
+          "team_name": "team_30",
+          "total_points": 22.1,
+          "waiver_score": 29.0
+        }
+      ]
+    }
+  },
+  "2022": {
+    "get_arbys_winner": {
+      "arbys_winner": "manager_3",
+      "loser_score": 96.6,
+      "opponent": "manager_17",
+      "season": 2022,
+      "winner_score": 98.9
+    },
+    "get_draft_roi": {
+      "records": [
+        {
+          "bid_amount": 7,
+          "games_started": 14,
+          "owner_name": "manager_23",
+          "player_name": "Jalen Hurts",
+          "points_per_game": 26.34,
+          "position": "QB",
+          "total_points": 368.7
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "Patrick Mahomes",
+          "points_per_game": 25.29,
+          "position": "QB",
+          "total_points": 404.6
+        },
+        {
+          "bid_amount": 26,
+          "games_started": 17,
+          "owner_name": "manager_12",
+          "player_name": "Josh Allen",
+          "points_per_game": 22.14,
+          "position": "QB",
+          "total_points": 376.4
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 16,
+          "owner_name": "manager_9",
+          "player_name": "Joe Burrow",
+          "points_per_game": 21.27,
+          "position": "QB",
+          "total_points": 340.3
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 12,
+          "owner_name": "manager_14",
+          "player_name": "Lamar Jackson",
+          "points_per_game": 19.57,
+          "position": "QB",
+          "total_points": 234.79999999999998
+        },
+        {
+          "bid_amount": 71,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "Austin Ekeler",
+          "points_per_game": 19.51,
+          "position": "RB",
+          "total_points": 312.2
+        },
+        {
+          "bid_amount": 68,
+          "games_started": 16,
+          "owner_name": "manager_14",
+          "player_name": "Justin Jefferson",
+          "points_per_game": 18.92,
+          "position": "WR",
+          "total_points": 302.7
+        },
+        {
+          "bid_amount": 13,
+          "games_started": 16,
+          "owner_name": "manager_14",
+          "player_name": "Josh Jacobs",
+          "points_per_game": 18.74,
+          "position": "RB",
+          "total_points": 299.8
+        },
+        {
+          "bid_amount": 69,
+          "games_started": 16,
+          "owner_name": "manager_2",
+          "player_name": "Christian McCaffrey",
+          "points_per_game": 18.64,
+          "position": "RB",
+          "total_points": 298.3
+        },
+        {
+          "bid_amount": 69,
+          "games_started": 15,
+          "owner_name": "manager_2",
+          "player_name": "Derrick Henry",
+          "points_per_game": 18.45,
+          "position": "RB",
+          "total_points": 276.8
+        },
+        {
+          "bid_amount": 71,
+          "games_started": 9,
+          "owner_name": "manager_7",
+          "player_name": "Cooper Kupp",
+          "points_per_game": 18.21,
+          "position": "WR",
+          "total_points": 163.9
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 11,
+          "owner_name": "manager_7",
+          "player_name": "Kyler Murray",
+          "points_per_game": 18.15,
+          "position": "QB",
+          "total_points": 199.6
+        },
+        {
+          "bid_amount": 41,
+          "games_started": 16,
+          "owner_name": "manager_12",
+          "player_name": "Tyreek Hill",
+          "points_per_game": 17.77,
+          "position": "WR",
+          "total_points": 284.4
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 9,
+          "owner_name": "manager_2",
+          "player_name": "Dak Prescott",
+          "points_per_game": 17.44,
+          "position": "QB",
+          "total_points": 157.0
+        },
+        {
+          "bid_amount": 48,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Davante Adams",
+          "points_per_game": 17.23,
+          "position": "WR",
+          "total_points": 275.7
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 15,
+          "owner_name": "manager_17",
+          "player_name": "Kirk Cousins",
+          "points_per_game": 17.22,
+          "position": "QB",
+          "total_points": 258.3
+        },
+        {
+          "bid_amount": 19,
+          "games_started": 12,
+          "owner_name": "manager_10",
+          "player_name": "Justin Herbert",
+          "points_per_game": 15.99,
+          "position": "QB",
+          "total_points": 191.9
+        },
+        {
+          "bid_amount": 37,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Saquon Barkley",
+          "points_per_game": 15.97,
+          "position": "RB",
+          "total_points": 255.5
+        },
+        {
+          "bid_amount": 43,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "Travis Kelce",
+          "points_per_game": 15.91,
+          "position": "TE",
+          "total_points": 254.5
+        },
+        {
+          "bid_amount": 38,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Nick Chubb",
+          "points_per_game": 15.45,
+          "position": "RB",
+          "total_points": 247.2
+        },
+        {
+          "bid_amount": 34,
+          "games_started": 16,
+          "owner_name": "manager_7",
+          "player_name": "A.J. Brown",
+          "points_per_game": 15.26,
+          "position": "WR",
+          "total_points": 244.1
+        },
+        {
+          "bid_amount": 59,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "Stefon Diggs",
+          "points_per_game": 15.17,
+          "position": "WR",
+          "total_points": 242.7
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 10,
+          "owner_name": "manager_10",
+          "player_name": "Kenneth Walker III",
+          "points_per_game": 15.11,
+          "position": "RB",
+          "total_points": 151.1
+        },
+        {
+          "bid_amount": 62,
+          "games_started": 12,
+          "owner_name": "manager_10",
+          "player_name": "Ja'Marr Chase",
+          "points_per_game": 15.02,
+          "position": "WR",
+          "total_points": 180.29999999999998
+        },
+        {
+          "bid_amount": 47,
+          "games_started": 15,
+          "owner_name": "manager_23",
+          "player_name": "CeeDee Lamb",
+          "points_per_game": 14.85,
+          "position": "WR",
+          "total_points": 222.79999999999998
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 13,
+          "owner_name": "manager_21",
+          "player_name": "Tony Pollard",
+          "points_per_game": 14.52,
+          "position": "RB",
+          "total_points": 188.8
+        },
+        {
+          "bid_amount": 41,
+          "games_started": 12,
+          "owner_name": "manager_14",
+          "player_name": "James Conner",
+          "points_per_game": 14.2,
+          "position": "RB",
+          "total_points": 170.4
+        },
+        {
+          "bid_amount": 55,
+          "games_started": 14,
+          "owner_name": "manager_6",
+          "player_name": "Joe Mixon",
+          "points_per_game": 13.87,
+          "position": "RB",
+          "total_points": 194.20000000000002
+        },
+        {
+          "bid_amount": 13,
+          "games_started": 14,
+          "owner_name": "manager_1",
+          "player_name": "Amon-Ra St. Brown",
+          "points_per_game": 13.59,
+          "position": "WR",
+          "total_points": 190.3
+        },
+        {
+          "bid_amount": 59,
+          "games_started": 16,
+          "owner_name": "manager_12",
+          "player_name": "Dalvin Cook",
+          "points_per_game": 13.51,
+          "position": "RB",
+          "total_points": 216.1
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 16,
+          "owner_name": "manager_2",
+          "player_name": "Jaylen Waddle",
+          "points_per_game": 13.37,
+          "position": "WR",
+          "total_points": 213.9
+        },
+        {
+          "bid_amount": 42,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Aaron Jones",
+          "points_per_game": 13.3,
+          "position": "RB",
+          "total_points": 212.8
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 9,
+          "owner_name": "manager_9",
+          "player_name": "DeAndre Hopkins",
+          "points_per_game": 13.3,
+          "position": "WR",
+          "total_points": 119.7
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 8,
+          "owner_name": "manager_21",
+          "player_name": "Russell Wilson",
+          "points_per_game": 13.28,
+          "position": "QB",
+          "total_points": 106.2
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 14,
+          "owner_name": "manager_7",
+          "player_name": "Rhamondre Stevenson",
+          "points_per_game": 12.87,
+          "position": "RB",
+          "total_points": 180.20000000000002
+        },
+        {
+          "bid_amount": 41,
+          "games_started": 14,
+          "owner_name": "manager_9",
+          "player_name": "Mike Evans",
+          "points_per_game": 12.86,
+          "position": "WR",
+          "total_points": 180.1
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 11,
+          "owner_name": "manager_6",
+          "player_name": "George Kittle",
+          "points_per_game": 12.75,
+          "position": "TE",
+          "total_points": 140.2
+        },
+        {
+          "bid_amount": 34,
+          "games_started": 11,
+          "owner_name": "manager_21",
+          "player_name": "Leonard Fournette",
+          "points_per_game": 12.72,
+          "position": "RB",
+          "total_points": 139.9
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 16,
+          "owner_name": "manager_6",
+          "player_name": "Miles Sanders",
+          "points_per_game": 12.71,
+          "position": "RB",
+          "total_points": 203.4
+        },
+        {
+          "bid_amount": 50,
+          "games_started": 11,
+          "owner_name": "manager_9",
+          "player_name": "D'Andre Swift",
+          "points_per_game": 12.59,
+          "position": "RB",
+          "total_points": 138.5
+        },
+        {
+          "bid_amount": 7,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "Amari Cooper",
+          "points_per_game": 12.56,
+          "position": "WR",
+          "total_points": 200.9
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 9,
+          "owner_name": "manager_10",
+          "player_name": "Chris Godwin",
+          "points_per_game": 12.44,
+          "position": "WR",
+          "total_points": 112.0
+        },
+        {
+          "bid_amount": 63,
+          "games_started": 12,
+          "owner_name": "manager_17",
+          "player_name": "Alvin Kamara",
+          "points_per_game": 12.08,
+          "position": "RB",
+          "total_points": 145.0
+        },
+        {
+          "bid_amount": 70,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Najee Harris",
+          "points_per_game": 11.96,
+          "position": "RB",
+          "total_points": 179.4
+        },
+        {
+          "bid_amount": 44,
+          "games_started": 8,
+          "owner_name": "manager_3",
+          "player_name": "Keenan Allen",
+          "points_per_game": 11.86,
+          "position": "WR",
+          "total_points": 94.9
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Christian Kirk",
+          "points_per_game": 11.79,
+          "position": "WR",
+          "total_points": 176.9
+        },
+        {
+          "bid_amount": 26,
+          "games_started": 11,
+          "owner_name": "manager_23",
+          "player_name": "Ezekiel Elliott",
+          "points_per_game": 11.74,
+          "position": "RB",
+          "total_points": 129.1
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 11,
+          "owner_name": "manager_23",
+          "player_name": "DeVonta Smith",
+          "points_per_game": 11.72,
+          "position": "WR",
+          "total_points": 128.9
+        },
+        {
+          "bid_amount": 27,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Tee Higgins",
+          "points_per_game": 11.67,
+          "position": "WR",
+          "total_points": 175.0
+        },
+        {
+          "bid_amount": 21,
+          "games_started": 12,
+          "owner_name": "manager_1",
+          "player_name": "Mike Williams",
+          "points_per_game": 11.65,
+          "position": "WR",
+          "total_points": 139.8
+        },
+        {
+          "bid_amount": 10,
+          "games_started": 11,
+          "owner_name": "manager_10",
+          "player_name": "Dameon Pierce",
+          "points_per_game": 11.46,
+          "position": "RB",
+          "total_points": 126.1
+        },
+        {
+          "bid_amount": 23,
+          "games_started": 16,
+          "owner_name": "manager_1",
+          "player_name": "Travis Etienne Jr.",
+          "points_per_game": 11.45,
+          "position": "RB",
+          "total_points": 183.2
+        },
+        {
+          "bid_amount": 27,
+          "games_started": 11,
+          "owner_name": "manager_10",
+          "player_name": "Terry McLaurin",
+          "points_per_game": 11.15,
+          "position": "WR",
+          "total_points": 122.6
+        },
+        {
+          "bid_amount": 23,
+          "games_started": 12,
+          "owner_name": "manager_1",
+          "player_name": "Jerry Jeudy",
+          "points_per_game": 11.09,
+          "position": "WR",
+          "total_points": 133.1
+        },
+        {
+          "bid_amount": 73,
+          "games_started": 12,
+          "owner_name": "manager_1",
+          "player_name": "Jonathan Taylor",
+          "points_per_game": 11.03,
+          "position": "RB",
+          "total_points": 132.4
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 13,
+          "owner_name": "manager_3",
+          "player_name": "Devin Singletary",
+          "points_per_game": 10.88,
+          "position": "RB",
+          "total_points": 141.5
+        },
+        {
+          "bid_amount": 51,
+          "games_started": 10,
+          "owner_name": "manager_7",
+          "player_name": "Deebo Samuel",
+          "points_per_game": 10.7,
+          "position": "WR",
+          "total_points": 107.0
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "T.J. Hockenson",
+          "points_per_game": 10.64,
+          "position": "TE",
+          "total_points": 170.3
+        },
+        {
+          "bid_amount": 41,
+          "games_started": 14,
+          "owner_name": "manager_6",
+          "player_name": "Michael Pittman Jr.",
+          "points_per_game": 10.43,
+          "position": "WR",
+          "total_points": 146.0
+        },
+        {
+          "bid_amount": 9,
+          "games_started": 8,
+          "owner_name": "manager_23",
+          "player_name": "Antonio Gibson",
+          "points_per_game": 10.42,
+          "position": "RB",
+          "total_points": 83.4
+        },
+        {
+          "bid_amount": 38,
+          "games_started": 15,
+          "owner_name": "manager_17",
+          "player_name": "Mark Andrews",
+          "points_per_game": 10.27,
+          "position": "TE",
+          "total_points": 154.0
+        },
+        {
+          "bid_amount": 23,
+          "games_started": 14,
+          "owner_name": "manager_10",
+          "player_name": "DK Metcalf",
+          "points_per_game": 10.24,
+          "position": "WR",
+          "total_points": 143.4
+        },
+        {
+          "bid_amount": 18,
+          "games_started": 9,
+          "owner_name": "manager_3",
+          "player_name": "Courtland Sutton",
+          "points_per_game": 9.67,
+          "position": "WR",
+          "total_points": 87.0
+        },
+        {
+          "bid_amount": 22,
+          "games_started": 12,
+          "owner_name": "manager_7",
+          "player_name": "David Montgomery",
+          "points_per_game": 9.65,
+          "position": "RB",
+          "total_points": 115.8
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 12,
+          "owner_name": "manager_17",
+          "player_name": "Allen Lazard",
+          "points_per_game": 9.65,
+          "position": "WR",
+          "total_points": 115.8
+        },
+        {
+          "bid_amount": 20,
+          "games_started": 15,
+          "owner_name": "manager_12",
+          "player_name": "Gabriel Davis",
+          "points_per_game": 9.48,
+          "position": "WR",
+          "total_points": 142.2
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 10,
+          "owner_name": "manager_12",
+          "player_name": "Brian Robinson Jr.",
+          "points_per_game": 9.4,
+          "position": "RB",
+          "total_points": 94.0
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 10,
+          "owner_name": "manager_2",
+          "player_name": "Zach Ertz",
+          "points_per_game": 9.21,
+          "position": "TE",
+          "total_points": 92.1
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 12,
+          "owner_name": "manager_23",
+          "player_name": "Dallas Goedert",
+          "points_per_game": 8.84,
+          "position": "TE",
+          "total_points": 106.1
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 9,
+          "owner_name": "manager_10",
+          "player_name": "AJ Dillon",
+          "points_per_game": 8.53,
+          "position": "RB",
+          "total_points": 76.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 9,
+          "owner_name": "manager_17",
+          "player_name": "Drake London",
+          "points_per_game": 8.43,
+          "position": "WR",
+          "total_points": 75.9
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "Diontae Johnson",
+          "points_per_game": 8.23,
+          "position": "WR",
+          "total_points": 123.5
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 11,
+          "owner_name": "manager_12",
+          "player_name": "Kareem Hunt",
+          "points_per_game": 7.88,
+          "position": "RB",
+          "total_points": 86.7
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Pat Freiermuth",
+          "points_per_game": 7.78,
+          "position": "TE",
+          "total_points": 116.7
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 13,
+          "owner_name": "manager_14",
+          "player_name": "Dalton Schultz",
+          "points_per_game": 7.27,
+          "position": "TE",
+          "total_points": 94.5
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 16,
+          "owner_name": "manager_12",
+          "player_name": "Tyler Higbee",
+          "points_per_game": 6.92,
+          "position": "TE",
+          "total_points": 110.7
+        },
+        {
+          "bid_amount": 31,
+          "games_started": 10,
+          "owner_name": "manager_10",
+          "player_name": "Kyle Pitts",
+          "points_per_game": 6.16,
+          "position": "TE",
+          "total_points": 61.6
+        }
+      ]
+    },
+    "get_medal_standings": {
+      "first": "manager_23",
+      "first_score": 109.0,
+      "season": 2022,
+      "second": "manager_12",
+      "second_score": 43.7,
+      "third": "manager_9",
+      "third_score": 118.5
+    },
+    "get_standings": {
+      "records": [
+        {
+          "losses": 5,
+          "manager": "manager_2",
+          "point_diff": 76.60000000000014,
+          "points_against": 1448.1,
+          "points_for": 1524.7,
+          "team_name": "Frankel's Cankles",
+          "ties": 0,
+          "wins": 9
+        },
+        {
+          "losses": 6,
+          "manager": "manager_23",
+          "point_diff": 197.20000000000005,
+          "points_against": 1423.6,
+          "points_for": 1620.8,
+          "team_name": "Fumble .",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 5,
+          "manager": "manager_9",
+          "point_diff": 111.70000000000005,
+          "points_against": 1427.5,
+          "points_for": 1539.2,
+          "team_name": "Door City",
+          "ties": 1,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_12",
+          "point_diff": 68.49999999999977,
+          "points_against": 1386.1000000000001,
+          "points_for": 1454.6,
+          "team_name": "Big Joshy Style",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_6",
+          "point_diff": 6.7999999999999545,
+          "points_against": 1444.3,
+          "points_for": 1451.1,
+          "team_name": "Kittle Me Elmo",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_10",
+          "point_diff": -2.900000000000091,
+          "points_against": 1405.0,
+          "points_for": 1402.1,
+          "team_name": "The Genaissance",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 8,
+          "manager": "manager_21",
+          "point_diff": 53.0,
+          "points_against": 1441.4,
+          "points_for": 1494.4,
+          "team_name": "More than a  Thielen",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 6,
+          "manager": "manager_14",
+          "point_diff": 27.5,
+          "points_against": 1461.6,
+          "points_for": 1489.1,
+          "team_name": "Sweetless in Seattle",
+          "ties": 2,
+          "wins": 6
+        },
+        {
+          "losses": 8,
+          "manager": "manager_7",
+          "point_diff": -118.0,
+          "points_against": 1558.1,
+          "points_for": 1440.1,
+          "team_name": "Ice City USA",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 8,
+          "manager": "manager_3",
+          "point_diff": 27.600000000000136,
+          "points_against": 1408.6,
+          "points_for": 1436.2,
+          "team_name": "Flex Player All Stars",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 9,
+          "manager": "manager_1",
+          "point_diff": -256.5,
+          "points_against": 1458.4,
+          "points_for": 1201.9,
+          "team_name": "is the fantasy season everett?",
+          "ties": 0,
+          "wins": 5
+        },
+        {
+          "losses": 9,
+          "manager": "manager_17",
+          "point_diff": -191.5,
+          "points_against": 1542.7,
+          "points_for": 1351.2,
+          "team_name": "Kirk-life Balance",
+          "ties": 1,
+          "wins": 4
+        }
+      ]
+    },
+    "get_toilet_bowl_loser": {
+      "last_place": "manager_7",
+      "last_place_score": 96.8,
+      "opponent": "manager_14",
+      "opponent_score": 118.5,
+      "season": 2022
+    },
+    "get_waiver_scores": {
+      "records": [
+        {
+          "acquisition_week": 1,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Jamaal Williams",
+          "position": "RB",
+          "team_name": "team_34",
+          "total_points": 152.8,
+          "waiver_score": 97.0
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Trevor Lawrence",
+          "position": "QB",
+          "team_name": "team_102",
+          "total_points": 184.1,
+          "waiver_score": 92.3
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "Justin Fields",
+          "position": "QB",
+          "team_name": "team_50",
+          "total_points": 172.9,
+          "waiver_score": 92.3
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Taysom Hill",
+          "position": "TE",
+          "team_name": "team_102",
+          "total_points": 75.6,
+          "waiver_score": 88.0
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "D'Onta Foreman",
+          "position": "RB",
+          "team_name": "team_50",
+          "total_points": 101.6,
+          "waiver_score": 86.4
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "Curtis Samuel",
+          "position": "WR",
+          "team_name": "team_50",
+          "total_points": 88.7,
+          "waiver_score": 83.1
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Geno Smith",
+          "position": "QB",
+          "team_name": "team_85",
+          "total_points": 153.7,
+          "waiver_score": 81.5
+        },
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Tua Tagovailoa",
+          "position": "QB",
+          "team_name": "team_102",
+          "total_points": 152.5,
+          "waiver_score": 76.9
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Joshua Palmer",
+          "position": "WR",
+          "team_name": "team_32",
+          "total_points": 82.0,
+          "waiver_score": 70.5
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "George Pickens",
+          "position": "WR",
+          "team_name": "team_50",
+          "total_points": 72.9,
+          "waiver_score": 64.5
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Greg Dulcich",
+          "position": "TE",
+          "team_name": "team_34",
+          "total_points": 39.4,
+          "waiver_score": 64.0
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Jeff Wilson Jr.",
+          "position": "RB",
+          "team_name": "team_43",
+          "total_points": 74.7,
+          "waiver_score": 62.7
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Khalil Herbert",
+          "position": "RB",
+          "team_name": "team_32",
+          "total_points": 61.5,
+          "waiver_score": 60.3
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Carson Wentz",
+          "position": "QB",
+          "team_name": "team_34",
+          "total_points": 69.3,
+          "waiver_score": 36.4
+        },
+        {
+          "acquisition_week": 1,
+          "num_weeks": 8,
+          "owner_name": "manager_12",
+          "player_name": "J.D. McKissic",
+          "position": "RB",
+          "team_name": "team_12",
+          "total_points": 42.300000000000004,
+          "waiver_score": 34.9
+        }
+      ]
+    }
+  },
+  "2023": {
+    "get_arbys_winner": {
+      "arbys_winner": "manager_14",
+      "loser_score": 109.3,
+      "opponent": "manager_12",
+      "season": 2023,
+      "winner_score": 113.7
+    },
+    "get_draft_roi": {
+      "records": [
+        {
+          "bid_amount": 80,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "Christian McCaffrey",
+          "points_per_game": 22.36,
+          "position": "RB",
+          "total_points": 357.8
+        },
+        {
+          "bid_amount": 39,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Jalen Hurts",
+          "points_per_game": 22.18,
+          "position": "QB",
+          "total_points": 354.9
+        },
+        {
+          "bid_amount": 24,
+          "games_started": 16,
+          "owner_name": "manager_7",
+          "player_name": "Lamar Jackson",
+          "points_per_game": 20.62,
+          "position": "QB",
+          "total_points": 329.9
+        },
+        {
+          "bid_amount": 68,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Tyreek Hill",
+          "points_per_game": 20.21,
+          "position": "WR",
+          "total_points": 303.2
+        },
+        {
+          "bid_amount": 47,
+          "games_started": 16,
+          "owner_name": "manager_7",
+          "player_name": "CeeDee Lamb",
+          "points_per_game": 19.42,
+          "position": "WR",
+          "total_points": 310.7
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_14",
+          "player_name": "Kirk Cousins",
+          "points_per_game": 18.59,
+          "position": "QB",
+          "total_points": 148.7
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 13,
+          "owner_name": "manager_2",
+          "player_name": "Justin Herbert",
+          "points_per_game": 18.05,
+          "position": "QB",
+          "total_points": 234.7
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 13,
+          "owner_name": "manager_21",
+          "player_name": "Keenan Allen",
+          "points_per_game": 17.59,
+          "position": "WR",
+          "total_points": 228.7
+        },
+        {
+          "bid_amount": 53,
+          "games_started": 14,
+          "owner_name": "manager_12",
+          "player_name": "Patrick Mahomes",
+          "points_per_game": 17.43,
+          "position": "QB",
+          "total_points": 244.0
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Raheem Mostert",
+          "points_per_game": 17.01,
+          "position": "RB",
+          "total_points": 255.20000000000002
+        },
+        {
+          "bid_amount": 41,
+          "games_started": 15,
+          "owner_name": "manager_1",
+          "player_name": "Amon-Ra St. Brown",
+          "points_per_game": 16.5,
+          "position": "WR",
+          "total_points": 247.5
+        },
+        {
+          "bid_amount": 14,
+          "games_started": 12,
+          "owner_name": "manager_21",
+          "player_name": "Breece Hall",
+          "points_per_game": 16.4,
+          "position": "RB",
+          "total_points": 196.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Tua Tagovailoa",
+          "points_per_game": 15.61,
+          "position": "QB",
+          "total_points": 234.2
+        },
+        {
+          "bid_amount": 79,
+          "games_started": 9,
+          "owner_name": "manager_10",
+          "player_name": "Justin Jefferson",
+          "points_per_game": 15.36,
+          "position": "WR",
+          "total_points": 138.2
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 11,
+          "owner_name": "manager_7",
+          "player_name": "Isiah Pacheco",
+          "points_per_game": 15.22,
+          "position": "RB",
+          "total_points": 167.4
+        },
+        {
+          "bid_amount": 22,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "Travis Etienne Jr.",
+          "points_per_game": 15.14,
+          "position": "RB",
+          "total_points": 242.2
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 13,
+          "owner_name": "manager_2",
+          "player_name": "Alvin Kamara",
+          "points_per_game": 15.04,
+          "position": "RB",
+          "total_points": 195.5
+        },
+        {
+          "bid_amount": 13,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Mike Evans",
+          "points_per_game": 14.96,
+          "position": "WR",
+          "total_points": 239.3
+        },
+        {
+          "bid_amount": 28,
+          "games_started": 14,
+          "owner_name": "manager_10",
+          "player_name": "Deebo Samuel",
+          "points_per_game": 14.96,
+          "position": "WR",
+          "total_points": 209.5
+        },
+        {
+          "bid_amount": 53,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "A.J. Brown",
+          "points_per_game": 14.82,
+          "position": "WR",
+          "total_points": 237.20000000000002
+        },
+        {
+          "bid_amount": 13,
+          "games_started": 10,
+          "owner_name": "manager_21",
+          "player_name": "Joe Burrow",
+          "points_per_game": 14.64,
+          "position": "QB",
+          "total_points": 146.4
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 16,
+          "owner_name": "manager_2",
+          "player_name": "DJ Moore",
+          "points_per_game": 14.63,
+          "position": "WR",
+          "total_points": 234.1
+        },
+        {
+          "bid_amount": 74,
+          "games_started": 14,
+          "owner_name": "manager_2",
+          "player_name": "Ja'Marr Chase",
+          "points_per_game": 14.54,
+          "position": "WR",
+          "total_points": 203.5
+        },
+        {
+          "bid_amount": 9,
+          "games_started": 16,
+          "owner_name": "manager_10",
+          "player_name": "Rachaad White",
+          "points_per_game": 14.04,
+          "position": "RB",
+          "total_points": 224.6
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 15,
+          "owner_name": "manager_17",
+          "player_name": "Brandon Aiyuk",
+          "points_per_game": 13.85,
+          "position": "WR",
+          "total_points": 207.7
+        },
+        {
+          "bid_amount": 64,
+          "games_started": 13,
+          "owner_name": "manager_7",
+          "player_name": "Saquon Barkley",
+          "points_per_game": 13.85,
+          "position": "RB",
+          "total_points": 180.0
+        },
+        {
+          "bid_amount": 37,
+          "games_started": 15,
+          "owner_name": "manager_6",
+          "player_name": "Jahmyr Gibbs",
+          "points_per_game": 13.81,
+          "position": "RB",
+          "total_points": 207.1
+        },
+        {
+          "bid_amount": 45,
+          "games_started": 16,
+          "owner_name": "manager_14",
+          "player_name": "Joe Mixon",
+          "points_per_game": 13.55,
+          "position": "RB",
+          "total_points": 216.8
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 12,
+          "owner_name": "manager_12",
+          "player_name": "James Conner",
+          "points_per_game": 13.3,
+          "position": "RB",
+          "total_points": 159.6
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 11,
+          "owner_name": "manager_3",
+          "player_name": "David Montgomery",
+          "points_per_game": 13.28,
+          "position": "RB",
+          "total_points": 146.1
+        },
+        {
+          "bid_amount": 54,
+          "games_started": 16,
+          "owner_name": "manager_9",
+          "player_name": "Derrick Henry",
+          "points_per_game": 13.2,
+          "position": "RB",
+          "total_points": 211.20000000000002
+        },
+        {
+          "bid_amount": 60,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Stefon Diggs",
+          "points_per_game": 13.01,
+          "position": "WR",
+          "total_points": 208.1
+        },
+        {
+          "bid_amount": 43,
+          "games_started": 15,
+          "owner_name": "manager_2",
+          "player_name": "DK Metcalf",
+          "points_per_game": 12.73,
+          "position": "WR",
+          "total_points": 190.9
+        },
+        {
+          "bid_amount": 12,
+          "games_started": 8,
+          "owner_name": "manager_1",
+          "player_name": "Jonathan Taylor",
+          "points_per_game": 12.6,
+          "position": "RB",
+          "total_points": 100.8
+        },
+        {
+          "bid_amount": 60,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Davante Adams",
+          "points_per_game": 12.55,
+          "position": "WR",
+          "total_points": 200.8
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 14,
+          "owner_name": "manager_17",
+          "player_name": "Michael Pittman Jr.",
+          "points_per_game": 12.54,
+          "position": "WR",
+          "total_points": 175.5
+        },
+        {
+          "bid_amount": 26,
+          "games_started": 13,
+          "owner_name": "manager_9",
+          "player_name": "Kenneth Walker III",
+          "points_per_game": 12.41,
+          "position": "RB",
+          "total_points": 161.3
+        },
+        {
+          "bid_amount": 71,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Bijan Robinson",
+          "points_per_game": 12.17,
+          "position": "RB",
+          "total_points": 194.7
+        },
+        {
+          "bid_amount": 46,
+          "games_started": 11,
+          "owner_name": "manager_3",
+          "player_name": "Josh Jacobs",
+          "points_per_game": 11.98,
+          "position": "RB",
+          "total_points": 131.8
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 15,
+          "owner_name": "manager_1",
+          "player_name": "D'Andre Swift",
+          "points_per_game": 11.93,
+          "position": "RB",
+          "total_points": 179.0
+        },
+        {
+          "bid_amount": 37,
+          "games_started": 16,
+          "owner_name": "manager_6",
+          "player_name": "DeVonta Smith",
+          "points_per_game": 11.69,
+          "position": "WR",
+          "total_points": 187.1
+        },
+        {
+          "bid_amount": 69,
+          "games_started": 13,
+          "owner_name": "manager_17",
+          "player_name": "Austin Ekeler",
+          "points_per_game": 11.65,
+          "position": "RB",
+          "total_points": 151.5
+        },
+        {
+          "bid_amount": 38,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Chris Olave",
+          "points_per_game": 11.65,
+          "position": "WR",
+          "total_points": 174.7
+        },
+        {
+          "bid_amount": 73,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Travis Kelce",
+          "points_per_game": 11.53,
+          "position": "TE",
+          "total_points": 172.9
+        },
+        {
+          "bid_amount": 12,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "T.J. Hockenson",
+          "points_per_game": 11.43,
+          "position": "TE",
+          "total_points": 171.5
+        },
+        {
+          "bid_amount": 21,
+          "games_started": 10,
+          "owner_name": "manager_6",
+          "player_name": "Mark Andrews",
+          "points_per_game": 11.29,
+          "position": "TE",
+          "total_points": 112.9
+        },
+        {
+          "bid_amount": 59,
+          "games_started": 16,
+          "owner_name": "manager_9",
+          "player_name": "Tony Pollard",
+          "points_per_game": 11.22,
+          "position": "RB",
+          "total_points": 179.5
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 12,
+          "owner_name": "manager_6",
+          "player_name": "Brian Robinson Jr.",
+          "points_per_game": 11.19,
+          "position": "RB",
+          "total_points": 134.3
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 11,
+          "owner_name": "manager_7",
+          "player_name": "Nico Collins",
+          "points_per_game": 11.18,
+          "position": "WR",
+          "total_points": 123.0
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 12,
+          "owner_name": "manager_2",
+          "player_name": "Jaylen Warren",
+          "points_per_game": 10.93,
+          "position": "RB",
+          "total_points": 131.2
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 12,
+          "owner_name": "manager_3",
+          "player_name": "Courtland Sutton",
+          "points_per_game": 10.88,
+          "position": "WR",
+          "total_points": 130.5
+        },
+        {
+          "bid_amount": 24,
+          "games_started": 10,
+          "owner_name": "manager_21",
+          "player_name": "Rhamondre Stevenson",
+          "points_per_game": 10.88,
+          "position": "RB",
+          "total_points": 108.8
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 8,
+          "owner_name": "manager_7",
+          "player_name": "George Pickens",
+          "points_per_game": 10.84,
+          "position": "WR",
+          "total_points": 86.7
+        },
+        {
+          "bid_amount": 47,
+          "games_started": 15,
+          "owner_name": "manager_12",
+          "player_name": "Jaylen Waddle",
+          "points_per_game": 10.84,
+          "position": "WR",
+          "total_points": 162.6
+        },
+        {
+          "bid_amount": 67,
+          "games_started": 12,
+          "owner_name": "manager_1",
+          "player_name": "Garrett Wilson",
+          "points_per_game": 10.76,
+          "position": "WR",
+          "total_points": 129.1
+        },
+        {
+          "bid_amount": 14,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "DeAndre Hopkins",
+          "points_per_game": 10.75,
+          "position": "WR",
+          "total_points": 172.0
+        },
+        {
+          "bid_amount": 29,
+          "games_started": 9,
+          "owner_name": "manager_1",
+          "player_name": "Aaron Jones",
+          "points_per_game": 10.74,
+          "position": "RB",
+          "total_points": 96.7
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "George Kittle",
+          "points_per_game": 10.67,
+          "position": "TE",
+          "total_points": 170.70000000000002
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 14,
+          "owner_name": "manager_12",
+          "player_name": "Jakobi Meyers",
+          "points_per_game": 10.19,
+          "position": "WR",
+          "total_points": 142.6
+        },
+        {
+          "bid_amount": 48,
+          "games_started": 8,
+          "owner_name": "manager_14",
+          "player_name": "Cooper Kupp",
+          "points_per_game": 10.18,
+          "position": "WR",
+          "total_points": 81.4
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 14,
+          "owner_name": "manager_10",
+          "player_name": "Evan Engram",
+          "points_per_game": 9.95,
+          "position": "TE",
+          "total_points": 139.3
+        },
+        {
+          "bid_amount": 9,
+          "games_started": 11,
+          "owner_name": "manager_23",
+          "player_name": "James Cook",
+          "points_per_game": 9.74,
+          "position": "RB",
+          "total_points": 107.1
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 11,
+          "owner_name": "manager_6",
+          "player_name": "Jordan Addison",
+          "points_per_game": 9.67,
+          "position": "WR",
+          "total_points": 106.4
+        },
+        {
+          "bid_amount": 28,
+          "games_started": 14,
+          "owner_name": "manager_6",
+          "player_name": "Calvin Ridley",
+          "points_per_game": 9.53,
+          "position": "WR",
+          "total_points": 133.4
+        },
+        {
+          "bid_amount": 41,
+          "games_started": 13,
+          "owner_name": "manager_12",
+          "player_name": "Tee Higgins",
+          "points_per_game": 8.97,
+          "position": "WR",
+          "total_points": 116.6
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 9,
+          "owner_name": "manager_14",
+          "player_name": "Dallas Goedert",
+          "points_per_game": 8.0,
+          "position": "TE",
+          "total_points": 72.0
+        },
+        {
+          "bid_amount": 24,
+          "games_started": 9,
+          "owner_name": "manager_7",
+          "player_name": "Najee Harris",
+          "points_per_game": 6.9,
+          "position": "RB",
+          "total_points": 62.1
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 13,
+          "owner_name": "manager_12",
+          "player_name": "Dalton Kincaid",
+          "points_per_game": 6.55,
+          "position": "TE",
+          "total_points": 85.2
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 10,
+          "owner_name": "manager_7",
+          "player_name": "Kyle Pitts",
+          "points_per_game": 6.25,
+          "position": "TE",
+          "total_points": 62.5
+        }
+      ]
+    },
+    "get_medal_standings": {
+      "first": "manager_3",
+      "first_score": 132.5,
+      "season": 2023,
+      "second": "manager_17",
+      "second_score": 95.4,
+      "third": "manager_1",
+      "third_score": 128.8
+    },
+    "get_standings": {
+      "records": [
+        {
+          "losses": 5,
+          "manager": "manager_9",
+          "point_diff": 23.0,
+          "points_against": 1421.5,
+          "points_for": 1444.5,
+          "team_name": "Digital T1tt13s",
+          "ties": 0,
+          "wins": 9
+        },
+        {
+          "losses": 6,
+          "manager": "manager_3",
+          "point_diff": 275.79999999999995,
+          "points_against": 1319.7,
+          "points_for": 1595.5,
+          "team_name": "Please Don't Break, CMC",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_7",
+          "point_diff": 15.400000000000091,
+          "points_against": 1538.0,
+          "points_for": 1553.4,
+          "team_name": "Tanking for Caleb",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_17",
+          "point_diff": 55.90000000000009,
+          "points_against": 1464.8,
+          "points_for": 1520.7,
+          "team_name": "My Butker Hurts",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_21",
+          "point_diff": 47.200000000000045,
+          "points_against": 1451.7,
+          "points_for": 1498.9,
+          "team_name": "More than a  Thielen",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_1",
+          "point_diff": -25.100000000000136,
+          "points_against": 1406.4,
+          "points_for": 1381.3,
+          "team_name": "2023 NFL MVP Jordan Love",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 7,
+          "manager": "manager_14",
+          "point_diff": 58.799999999999955,
+          "points_against": 1586.4,
+          "points_for": 1645.2,
+          "team_name": "Sweetless in Seattle",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_2",
+          "point_diff": -32.799999999999955,
+          "points_against": 1499.8,
+          "points_for": 1467.0,
+          "team_name": "Frankel's Cankles",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_10",
+          "point_diff": 22.59999999999991,
+          "points_against": 1326.5,
+          "points_for": 1349.1,
+          "team_name": "Tua Lipa",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 9,
+          "manager": "manager_6",
+          "point_diff": 0.900000000000091,
+          "points_against": 1442.3,
+          "points_for": 1443.2,
+          "team_name": "Elmo's IR-Stars",
+          "ties": 0,
+          "wins": 5
+        },
+        {
+          "losses": 9,
+          "manager": "manager_23",
+          "point_diff": -150.29999999999995,
+          "points_against": 1503.7,
+          "points_for": 1353.4,
+          "team_name": "Fumble .",
+          "ties": 0,
+          "wins": 5
+        },
+        {
+          "losses": 10,
+          "manager": "manager_12",
+          "point_diff": -291.4000000000001,
+          "points_against": 1550.0,
+          "points_for": 1258.6,
+          "team_name": "Big Joshy Style",
+          "ties": 0,
+          "wins": 4
+        }
+      ]
+    },
+    "get_toilet_bowl_loser": {
+      "last_place": "manager_6",
+      "last_place_score": 76.6,
+      "opponent": "manager_2",
+      "opponent_score": 126.2,
+      "season": 2023
+    },
+    "get_waiver_scores": {
+      "records": [
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Puka Nacua",
+          "position": "WR",
+          "team_name": "team_76",
+          "total_points": 168.2,
+          "waiver_score": 98.6
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Kyren Williams",
+          "position": "RB",
+          "team_name": "team_64",
+          "total_points": 194.6,
+          "waiver_score": 97.1
+        },
+        {
+          "acquisition_week": 1,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Sam LaPorta",
+          "position": "TE",
+          "team_name": "team_2",
+          "total_points": 138.8,
+          "waiver_score": 96.8
+        },
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_12",
+          "player_name": "Jerome Ford",
+          "position": "RB",
+          "team_name": "team_12",
+          "total_points": 115.5,
+          "waiver_score": 94.6
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_17",
+          "player_name": "Zack Moss",
+          "position": "RB",
+          "team_name": "team_59",
+          "total_points": 129.3,
+          "waiver_score": 94.3
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_9",
+          "player_name": "Trey McBride",
+          "position": "TE",
+          "team_name": "team_23",
+          "total_points": 85.1,
+          "waiver_score": 92.6
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "Gus Edwards",
+          "position": "RB",
+          "team_name": "team_28",
+          "total_points": 116.8,
+          "waiver_score": 92.2
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "De'Von Achane",
+          "position": "RB",
+          "team_name": "team_35",
+          "total_points": 113.9,
+          "waiver_score": 89.7
+        },
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Russell Wilson",
+          "position": "QB",
+          "team_name": "team_58",
+          "total_points": 150.0,
+          "waiver_score": 85.7
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "C.J. Stroud",
+          "position": "QB",
+          "team_name": "team_64",
+          "total_points": 154.0,
+          "waiver_score": 84.0
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Chuba Hubbard",
+          "position": "RB",
+          "team_name": "team_90",
+          "total_points": 95.1,
+          "waiver_score": 78.9
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Jordan Love",
+          "position": "QB",
+          "team_name": "team_2",
+          "total_points": 126.80000000000001,
+          "waiver_score": 74.1
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Kyler Murray",
+          "position": "QB",
+          "team_name": "team_2",
+          "total_points": 128.1,
+          "waiver_score": 70.8
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Tyjae Spears",
+          "position": "RB",
+          "team_name": "team_90",
+          "total_points": 74.5,
+          "waiver_score": 68.1
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Joshua Dobbs",
+          "position": "QB",
+          "team_name": "team_34",
+          "total_points": 128.9,
+          "waiver_score": 68.0
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_12",
+          "player_name": "D'Onta Foreman",
+          "position": "RB",
+          "team_name": "team_12",
+          "total_points": 75.7,
+          "waiver_score": 61.5
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_17",
+          "player_name": "Logan Thomas",
+          "position": "TE",
+          "team_name": "team_59",
+          "total_points": 44.1,
+          "waiver_score": 46.2
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Jaleel McLaughlin",
+          "position": "RB",
+          "team_name": "team_90",
+          "total_points": 41.3,
+          "waiver_score": 42.4
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "DeMario Douglas",
+          "position": "WR",
+          "team_name": "team_90",
+          "total_points": 39.8,
+          "waiver_score": 24.6
+        }
+      ]
+    }
+  },
+  "2024": {
+    "get_arbys_winner": {
+      "arbys_winner": "manager_7",
+      "loser_score": 84.2,
+      "opponent": "manager_2",
+      "season": 2024,
+      "winner_score": 117.7
+    },
+    "get_draft_roi": {
+      "records": [
+        {
+          "bid_amount": 17,
+          "games_started": 17,
+          "owner_name": "manager_23",
+          "player_name": "Lamar Jackson",
+          "points_per_game": 23.89,
+          "position": "QB",
+          "total_points": 406.2
+        },
+        {
+          "bid_amount": 17,
+          "games_started": 16,
+          "owner_name": "manager_7",
+          "player_name": "Josh Allen",
+          "points_per_game": 23.61,
+          "position": "QB",
+          "total_points": 377.8
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 12,
+          "owner_name": "manager_1",
+          "player_name": "Joe Burrow",
+          "points_per_game": 22.28,
+          "position": "QB",
+          "total_points": 267.4
+        },
+        {
+          "bid_amount": 65,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "Saquon Barkley",
+          "points_per_game": 21.42,
+          "position": "RB",
+          "total_points": 342.8
+        },
+        {
+          "bid_amount": 21,
+          "games_started": 15,
+          "owner_name": "manager_12",
+          "player_name": "Jalen Hurts",
+          "points_per_game": 20.92,
+          "position": "QB",
+          "total_points": 313.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 12,
+          "owner_name": "manager_14",
+          "player_name": "Jayden Daniels",
+          "points_per_game": 20.55,
+          "position": "QB",
+          "total_points": 246.6
+        },
+        {
+          "bid_amount": 59,
+          "games_started": 16,
+          "owner_name": "manager_10",
+          "player_name": "Ja'Marr Chase",
+          "points_per_game": 20.18,
+          "position": "WR",
+          "total_points": 322.9
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 10,
+          "owner_name": "manager_21",
+          "player_name": "Brock Purdy",
+          "points_per_game": 18.63,
+          "position": "QB",
+          "total_points": 186.3
+        },
+        {
+          "bid_amount": 54,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Derrick Henry",
+          "points_per_game": 18.61,
+          "position": "RB",
+          "total_points": 297.8
+        },
+        {
+          "bid_amount": 46,
+          "games_started": 16,
+          "owner_name": "manager_2",
+          "player_name": "Jahmyr Gibbs",
+          "points_per_game": 18.34,
+          "position": "RB",
+          "total_points": 293.4
+        },
+        {
+          "bid_amount": 73,
+          "games_started": 16,
+          "owner_name": "manager_10",
+          "player_name": "Bijan Robinson",
+          "points_per_game": 17.56,
+          "position": "RB",
+          "total_points": 280.9
+        },
+        {
+          "bid_amount": 28,
+          "games_started": 13,
+          "owner_name": "manager_12",
+          "player_name": "Joe Mixon",
+          "points_per_game": 16.86,
+          "position": "RB",
+          "total_points": 219.2
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 8,
+          "owner_name": "manager_9",
+          "player_name": "Tee Higgins",
+          "points_per_game": 16.66,
+          "position": "WR",
+          "total_points": 133.3
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 12,
+          "owner_name": "manager_3",
+          "player_name": "Kyler Murray",
+          "points_per_game": 16.62,
+          "position": "QB",
+          "total_points": 199.5
+        },
+        {
+          "bid_amount": 59,
+          "games_started": 13,
+          "owner_name": "manager_3",
+          "player_name": "Jonathan Taylor",
+          "points_per_game": 16.55,
+          "position": "RB",
+          "total_points": 215.2
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 14,
+          "owner_name": "manager_6",
+          "player_name": "Alvin Kamara",
+          "points_per_game": 16.52,
+          "position": "RB",
+          "total_points": 231.3
+        },
+        {
+          "bid_amount": 48,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Josh Jacobs",
+          "points_per_game": 16.5,
+          "position": "RB",
+          "total_points": 264.0
+        },
+        {
+          "bid_amount": 12,
+          "games_started": 14,
+          "owner_name": "manager_17",
+          "player_name": "Jordan Love",
+          "points_per_game": 16.42,
+          "position": "QB",
+          "total_points": 229.9
+        },
+        {
+          "bid_amount": 68,
+          "games_started": 16,
+          "owner_name": "manager_7",
+          "player_name": "Justin Jefferson",
+          "points_per_game": 16.19,
+          "position": "WR",
+          "total_points": 259.0
+        },
+        {
+          "bid_amount": 43,
+          "games_started": 16,
+          "owner_name": "manager_14",
+          "player_name": "Kyren Williams",
+          "points_per_game": 15.94,
+          "position": "RB",
+          "total_points": 255.1
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 12,
+          "owner_name": "manager_21",
+          "player_name": "Chase Brown",
+          "points_per_game": 15.92,
+          "position": "RB",
+          "total_points": 191.0
+        },
+        {
+          "bid_amount": 70,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "Amon-Ra St. Brown",
+          "points_per_game": 15.49,
+          "position": "WR",
+          "total_points": 247.9
+        },
+        {
+          "bid_amount": 49,
+          "games_started": 10,
+          "owner_name": "manager_14",
+          "player_name": "Puka Nacua",
+          "points_per_game": 15.25,
+          "position": "WR",
+          "total_points": 152.5
+        },
+        {
+          "bid_amount": 30,
+          "games_started": 16,
+          "owner_name": "manager_12",
+          "player_name": "De'Von Achane",
+          "points_per_game": 15.18,
+          "position": "RB",
+          "total_points": 242.8
+        },
+        {
+          "bid_amount": 25,
+          "games_started": 16,
+          "owner_name": "manager_9",
+          "player_name": "James Cook",
+          "points_per_game": 15.12,
+          "position": "RB",
+          "total_points": 241.9
+        },
+        {
+          "bid_amount": 35,
+          "games_started": 11,
+          "owner_name": "manager_14",
+          "player_name": "Nico Collins",
+          "points_per_game": 14.94,
+          "position": "WR",
+          "total_points": 164.3
+        },
+        {
+          "bid_amount": 35,
+          "games_started": 10,
+          "owner_name": "manager_10",
+          "player_name": "Kenneth Walker III",
+          "points_per_game": 14.83,
+          "position": "RB",
+          "total_points": 148.3
+        },
+        {
+          "bid_amount": 37,
+          "games_started": 13,
+          "owner_name": "manager_21",
+          "player_name": "Mike Evans",
+          "points_per_game": 14.62,
+          "position": "WR",
+          "total_points": 190.0
+        },
+        {
+          "bid_amount": 34,
+          "games_started": 14,
+          "owner_name": "manager_17",
+          "player_name": "Malik Nabers",
+          "points_per_game": 14.59,
+          "position": "WR",
+          "total_points": 204.2
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 13,
+          "owner_name": "manager_9",
+          "player_name": "David Montgomery",
+          "points_per_game": 14.51,
+          "position": "RB",
+          "total_points": 188.6
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "James Conner",
+          "points_per_game": 14.39,
+          "position": "RB",
+          "total_points": 230.3
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 11,
+          "owner_name": "manager_10",
+          "player_name": "Brian Thomas Jr.",
+          "points_per_game": 14.26,
+          "position": "WR",
+          "total_points": 156.9
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 13,
+          "owner_name": "manager_14",
+          "player_name": "Terry McLaurin",
+          "points_per_game": 14.21,
+          "position": "WR",
+          "total_points": 184.7
+        },
+        {
+          "bid_amount": 70,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "CeeDee Lamb",
+          "points_per_game": 14.19,
+          "position": "WR",
+          "total_points": 212.9
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 11,
+          "owner_name": "manager_2",
+          "player_name": "Aaron Rodgers",
+          "points_per_game": 14.16,
+          "position": "QB",
+          "total_points": 155.8
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 12,
+          "owner_name": "manager_6",
+          "player_name": "J.K. Dobbins",
+          "points_per_game": 13.9,
+          "position": "RB",
+          "total_points": 166.8
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 13,
+          "owner_name": "manager_6",
+          "player_name": "George Kittle",
+          "points_per_game": 13.6,
+          "position": "TE",
+          "total_points": 176.8
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 8,
+          "owner_name": "manager_17",
+          "player_name": "Keenan Allen",
+          "points_per_game": 13.15,
+          "position": "WR",
+          "total_points": 105.2
+        },
+        {
+          "bid_amount": 55,
+          "games_started": 14,
+          "owner_name": "manager_2",
+          "player_name": "A.J. Brown",
+          "points_per_game": 13.1,
+          "position": "WR",
+          "total_points": 183.4
+        },
+        {
+          "bid_amount": 74,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "Breece Hall",
+          "points_per_game": 13.05,
+          "position": "RB",
+          "total_points": 195.70000000000002
+        },
+        {
+          "bid_amount": 44,
+          "games_started": 14,
+          "owner_name": "manager_2",
+          "player_name": "Davante Adams",
+          "points_per_game": 12.93,
+          "position": "WR",
+          "total_points": 181.0
+        },
+        {
+          "bid_amount": 27,
+          "games_started": 13,
+          "owner_name": "manager_3",
+          "player_name": "DeVonta Smith",
+          "points_per_game": 12.72,
+          "position": "WR",
+          "total_points": 165.4
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "Brock Bowers",
+          "points_per_game": 12.33,
+          "position": "TE",
+          "total_points": 184.9
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 8,
+          "owner_name": "manager_3",
+          "player_name": "Stefon Diggs",
+          "points_per_game": 12.29,
+          "position": "WR",
+          "total_points": 98.3
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_7",
+          "player_name": "Jordan Mason",
+          "points_per_game": 12.26,
+          "position": "RB",
+          "total_points": 98.1
+        },
+        {
+          "bid_amount": 18,
+          "games_started": 15,
+          "owner_name": "manager_23",
+          "player_name": "Aaron Jones",
+          "points_per_game": 12.19,
+          "position": "RB",
+          "total_points": 182.8
+        },
+        {
+          "bid_amount": 72,
+          "games_started": 16,
+          "owner_name": "manager_6",
+          "player_name": "Garrett Wilson",
+          "points_per_game": 12.14,
+          "position": "WR",
+          "total_points": 194.3
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 14,
+          "owner_name": "manager_12",
+          "player_name": "Trey McBride",
+          "points_per_game": 12.14,
+          "position": "TE",
+          "total_points": 170.0
+        },
+        {
+          "bid_amount": 21,
+          "games_started": 14,
+          "owner_name": "manager_9",
+          "player_name": "Drake London",
+          "points_per_game": 12.14,
+          "position": "WR",
+          "total_points": 170.0
+        },
+        {
+          "bid_amount": 31,
+          "games_started": 9,
+          "owner_name": "manager_23",
+          "player_name": "DK Metcalf",
+          "points_per_game": 11.86,
+          "position": "WR",
+          "total_points": 106.69999999999999
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 9,
+          "owner_name": "manager_21",
+          "player_name": "Jerry Jeudy",
+          "points_per_game": 11.8,
+          "position": "WR",
+          "total_points": 106.2
+        },
+        {
+          "bid_amount": 74,
+          "games_started": 14,
+          "owner_name": "manager_23",
+          "player_name": "Tyreek Hill",
+          "points_per_game": 11.64,
+          "position": "WR",
+          "total_points": 163.0
+        },
+        {
+          "bid_amount": 25,
+          "games_started": 14,
+          "owner_name": "manager_1",
+          "player_name": "DJ Moore",
+          "points_per_game": 11.22,
+          "position": "WR",
+          "total_points": 157.1
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 12,
+          "owner_name": "manager_14",
+          "player_name": "Tony Pollard",
+          "points_per_game": 11.16,
+          "position": "RB",
+          "total_points": 133.9
+        },
+        {
+          "bid_amount": 13,
+          "games_started": 9,
+          "owner_name": "manager_1",
+          "player_name": "George Pickens",
+          "points_per_game": 11.12,
+          "position": "WR",
+          "total_points": 100.1
+        },
+        {
+          "bid_amount": 24,
+          "games_started": 13,
+          "owner_name": "manager_6",
+          "player_name": "Cooper Kupp",
+          "points_per_game": 10.88,
+          "position": "WR",
+          "total_points": 141.5
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 11,
+          "owner_name": "manager_12",
+          "player_name": "Brian Robinson Jr.",
+          "points_per_game": 10.75,
+          "position": "RB",
+          "total_points": 118.2
+        },
+        {
+          "bid_amount": 9,
+          "games_started": 15,
+          "owner_name": "manager_2",
+          "player_name": "Rhamondre Stevenson",
+          "points_per_game": 10.63,
+          "position": "RB",
+          "total_points": 159.4
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Zay Flowers",
+          "points_per_game": 10.62,
+          "position": "WR",
+          "total_points": 169.9
+        },
+        {
+          "bid_amount": 13,
+          "games_started": 13,
+          "owner_name": "manager_23",
+          "player_name": "D'Andre Swift",
+          "points_per_game": 10.06,
+          "position": "RB",
+          "total_points": 130.8
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 10,
+          "owner_name": "manager_21",
+          "player_name": "Darnell Mooney",
+          "points_per_game": 10.05,
+          "position": "WR",
+          "total_points": 100.5
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 12,
+          "owner_name": "manager_2",
+          "player_name": "David Njoku",
+          "points_per_game": 9.71,
+          "position": "TE",
+          "total_points": 116.5
+        },
+        {
+          "bid_amount": 39,
+          "games_started": 14,
+          "owner_name": "manager_1",
+          "player_name": "Marvin Harrison Jr.",
+          "points_per_game": 9.44,
+          "position": "WR",
+          "total_points": 132.2
+        },
+        {
+          "bid_amount": 25,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Travis Kelce",
+          "points_per_game": 9.18,
+          "position": "TE",
+          "total_points": 146.9
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 8,
+          "owner_name": "manager_14",
+          "player_name": "Jayden Reed",
+          "points_per_game": 8.76,
+          "position": "WR",
+          "total_points": 70.1
+        },
+        {
+          "bid_amount": 31,
+          "games_started": 14,
+          "owner_name": "manager_12",
+          "player_name": "Deebo Samuel",
+          "points_per_game": 8.53,
+          "position": "WR",
+          "total_points": 119.39999999999999
+        },
+        {
+          "bid_amount": 29,
+          "games_started": 11,
+          "owner_name": "manager_1",
+          "player_name": "Sam LaPorta",
+          "points_per_game": 8.09,
+          "position": "TE",
+          "total_points": 89.0
+        },
+        {
+          "bid_amount": 31,
+          "games_started": 10,
+          "owner_name": "manager_17",
+          "player_name": "Michael Pittman Jr.",
+          "points_per_game": 7.07,
+          "position": "WR",
+          "total_points": 70.7
+        },
+        {
+          "bid_amount": 13,
+          "games_started": 9,
+          "owner_name": "manager_9",
+          "player_name": "Dalton Kincaid",
+          "points_per_game": 6.6,
+          "position": "TE",
+          "total_points": 59.4
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 9,
+          "owner_name": "manager_17",
+          "player_name": "Jake Ferguson",
+          "points_per_game": 6.52,
+          "position": "TE",
+          "total_points": 58.7
+        },
+        {
+          "bid_amount": 7,
+          "games_started": 9,
+          "owner_name": "manager_14",
+          "player_name": "Evan Engram",
+          "points_per_game": 6.49,
+          "position": "TE",
+          "total_points": 58.4
+        }
+      ]
+    },
+    "get_medal_standings": {
+      "first": "manager_10",
+      "first_score": 121.8,
+      "season": 2024,
+      "second": "manager_23",
+      "second_score": 107.7,
+      "third": "manager_6",
+      "third_score": 85.8
+    },
+    "get_standings": {
+      "records": [
+        {
+          "losses": 6,
+          "manager": "manager_12",
+          "point_diff": 106.5,
+          "points_against": 1404.9,
+          "points_for": 1511.4,
+          "team_name": "Big Joshy Style",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_6",
+          "point_diff": -108.10000000000014,
+          "points_against": 1606.2,
+          "points_for": 1498.1,
+          "team_name": "IR All-Stars ",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_23",
+          "point_diff": 122.70000000000005,
+          "points_against": 1360.1,
+          "points_for": 1482.8,
+          "team_name": "Fumble .",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 6,
+          "manager": "manager_1",
+          "point_diff": -60.200000000000045,
+          "points_against": 1425.0,
+          "points_for": 1364.8,
+          "team_name": "my team is ass ",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 7,
+          "manager": "manager_10",
+          "point_diff": 172.4000000000001,
+          "points_against": 1491.5,
+          "points_for": 1663.9,
+          "team_name": "WAR DADDY",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_21",
+          "point_diff": 59.399999999999864,
+          "points_against": 1466.9,
+          "points_for": 1526.3,
+          "team_name": "More than a  Thielen",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_14",
+          "point_diff": 72.89999999999986,
+          "points_against": 1430.2,
+          "points_for": 1503.1,
+          "team_name": "Puka Shell Game",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_9",
+          "point_diff": -50.59999999999991,
+          "points_against": 1523.1,
+          "points_for": 1472.5,
+          "team_name": "Supervised Visitation EOW I hav",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_2",
+          "point_diff": -16.90000000000009,
+          "points_against": 1471.2,
+          "points_for": 1454.3,
+          "team_name": "Frankel's Cankles",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 8,
+          "manager": "manager_17",
+          "point_diff": 66.69999999999982,
+          "points_against": 1379.1000000000001,
+          "points_for": 1445.8,
+          "team_name": "Zay You Love Me",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 8,
+          "manager": "manager_7",
+          "point_diff": -150.89999999999986,
+          "points_against": 1579.1,
+          "points_for": 1428.2,
+          "team_name": "Fight for Arby's",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 9,
+          "manager": "manager_3",
+          "point_diff": -213.9000000000001,
+          "points_against": 1600.4,
+          "points_for": 1386.5,
+          "team_name": "Association of Washed RBs",
+          "ties": 0,
+          "wins": 5
+        }
+      ]
+    },
+    "get_toilet_bowl_loser": {
+      "last_place": "manager_14",
+      "last_place_score": 104.1,
+      "opponent": "manager_17",
+      "opponent_score": 133.4,
+      "season": 2024
+    },
+    "get_waiver_scores": {
+      "records": [
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Bucky Irving",
+          "position": "RB",
+          "team_name": "team_31",
+          "total_points": 149.1,
+          "waiver_score": 93.8
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_17",
+          "player_name": "Zach Ertz",
+          "position": "TE",
+          "team_name": "team_100",
+          "total_points": 93.5,
+          "waiver_score": 89.7
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Cade Otton",
+          "position": "TE",
+          "team_name": "team_6",
+          "total_points": 86.8,
+          "waiver_score": 88.9
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Tucker Kraft",
+          "position": "TE",
+          "team_name": "team_58",
+          "total_points": 95.2,
+          "waiver_score": 85.2
+        },
+        {
+          "acquisition_week": 1,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Geno Smith",
+          "position": "QB",
+          "team_name": "team_93",
+          "total_points": 148.2,
+          "waiver_score": 82.8
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "Bo Nix",
+          "position": "QB",
+          "team_name": "team_42",
+          "total_points": 149.3,
+          "waiver_score": 73.1
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_17",
+          "player_name": "Justin Herbert",
+          "position": "QB",
+          "team_name": "team_100",
+          "total_points": 154.6,
+          "waiver_score": 70.4
+        },
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Demarcus Robinson",
+          "position": "WR",
+          "team_name": "team_34",
+          "total_points": 66.7,
+          "waiver_score": 69.1
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_9",
+          "player_name": "T.J. Hockenson",
+          "position": "TE",
+          "team_name": "team_75",
+          "total_points": 61.8,
+          "waiver_score": 68.0
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_6",
+          "player_name": "Russell Wilson",
+          "position": "QB",
+          "team_name": "team_42",
+          "total_points": 131.5,
+          "waiver_score": 60.7
+        },
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_17",
+          "player_name": "Justice Hill",
+          "position": "RB",
+          "team_name": "team_100",
+          "total_points": 71.0,
+          "waiver_score": 56.2
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_12",
+          "player_name": "Quentin Johnston",
+          "position": "WR",
+          "team_name": "team_12",
+          "total_points": 60.300000000000004,
+          "waiver_score": 40.7
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Cedric Tillman",
+          "position": "WR",
+          "team_name": "team_31",
+          "total_points": 49.9,
+          "waiver_score": 34.9
+        }
+      ]
+    }
+  },
+  "2025": {
+    "get_arbys_winner": {
+      "arbys_winner": "manager_17",
+      "loser_score": 60.1,
+      "opponent": "manager_23",
+      "season": 2025,
+      "winner_score": 104.5
+    },
+    "get_draft_roi": {
+      "records": [
+        {
+          "bid_amount": 51,
+          "games_started": 16,
+          "owner_name": "manager_2",
+          "player_name": "Josh Allen",
+          "points_per_game": 26.34,
+          "position": "QB",
+          "total_points": 421.5
+        },
+        {
+          "bid_amount": 68,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "Christian McCaffrey",
+          "points_per_game": 25.99,
+          "position": "RB",
+          "total_points": 415.9
+        },
+        {
+          "bid_amount": 41,
+          "games_started": 16,
+          "owner_name": "manager_6",
+          "player_name": "Jonathan Taylor",
+          "points_per_game": 24.15,
+          "position": "RB",
+          "total_points": 386.4
+        },
+        {
+          "bid_amount": 81,
+          "games_started": 16,
+          "owner_name": "manager_3",
+          "player_name": "Bijan Robinson",
+          "points_per_game": 23.31,
+          "position": "RB",
+          "total_points": 373.0
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 12,
+          "owner_name": "manager_10",
+          "player_name": "Justin Herbert",
+          "points_per_game": 23.29,
+          "position": "QB",
+          "total_points": 279.5
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 9,
+          "owner_name": "manager_14",
+          "player_name": "Patrick Mahomes",
+          "points_per_game": 22.41,
+          "position": "QB",
+          "total_points": 201.7
+        },
+        {
+          "bid_amount": 53,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Puka Nacua",
+          "points_per_game": 22.17,
+          "position": "WR",
+          "total_points": 332.5
+        },
+        {
+          "bid_amount": 62,
+          "games_started": 16,
+          "owner_name": "manager_7",
+          "player_name": "Jahmyr Gibbs",
+          "points_per_game": 22.04,
+          "position": "RB",
+          "total_points": 352.6
+        },
+        {
+          "bid_amount": 29,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Jalen Hurts",
+          "points_per_game": 21.77,
+          "position": "QB",
+          "total_points": 348.3
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 13,
+          "owner_name": "manager_3",
+          "player_name": "Dak Prescott",
+          "points_per_game": 20.74,
+          "position": "QB",
+          "total_points": 269.6
+        },
+        {
+          "bid_amount": 44,
+          "games_started": 16,
+          "owner_name": "manager_6",
+          "player_name": "De'Von Achane",
+          "points_per_game": 20.58,
+          "position": "RB",
+          "total_points": 329.3
+        },
+        {
+          "bid_amount": 32,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "James Cook",
+          "points_per_game": 20.45,
+          "position": "RB",
+          "total_points": 327.2
+        },
+        {
+          "bid_amount": 35,
+          "games_started": 16,
+          "owner_name": "manager_10",
+          "player_name": "Jaxon Smith-Njigba",
+          "points_per_game": 20.44,
+          "position": "WR",
+          "total_points": 327.0
+        },
+        {
+          "bid_amount": 11,
+          "games_started": 11,
+          "owner_name": "manager_6",
+          "player_name": "Baker Mayfield",
+          "points_per_game": 20.34,
+          "position": "QB",
+          "total_points": 223.7
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 10,
+          "owner_name": "manager_1",
+          "player_name": "Jordan Love",
+          "points_per_game": 19.62,
+          "position": "QB",
+          "total_points": 196.2
+        },
+        {
+          "bid_amount": 63,
+          "games_started": 15,
+          "owner_name": "manager_17",
+          "player_name": "Derrick Henry",
+          "points_per_game": 18.69,
+          "position": "RB",
+          "total_points": 280.3
+        },
+        {
+          "bid_amount": 70,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "Ja'Marr Chase",
+          "points_per_game": 17.77,
+          "position": "WR",
+          "total_points": 266.5
+        },
+        {
+          "bid_amount": 8,
+          "games_started": 15,
+          "owner_name": "manager_7",
+          "player_name": "George Pickens",
+          "points_per_game": 17.51,
+          "position": "WR",
+          "total_points": 262.7
+        },
+        {
+          "bid_amount": 54,
+          "games_started": 16,
+          "owner_name": "manager_23",
+          "player_name": "Amon-Ra St. Brown",
+          "points_per_game": 17.38,
+          "position": "WR",
+          "total_points": 278.1
+        },
+        {
+          "bid_amount": 32,
+          "games_started": 13,
+          "owner_name": "manager_12",
+          "player_name": "Lamar Jackson",
+          "points_per_game": 17.36,
+          "position": "QB",
+          "total_points": 225.7
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 8,
+          "owner_name": "manager_12",
+          "player_name": "Rashee Rice",
+          "points_per_game": 17.32,
+          "position": "WR",
+          "total_points": 138.6
+        },
+        {
+          "bid_amount": 26,
+          "games_started": 16,
+          "owner_name": "manager_14",
+          "player_name": "Kyren Williams",
+          "points_per_game": 17.29,
+          "position": "RB",
+          "total_points": 276.7
+        },
+        {
+          "bid_amount": 22,
+          "games_started": 16,
+          "owner_name": "manager_9",
+          "player_name": "Trey McBride",
+          "points_per_game": 17.12,
+          "position": "TE",
+          "total_points": 273.9
+        },
+        {
+          "bid_amount": 37,
+          "games_started": 15,
+          "owner_name": "manager_14",
+          "player_name": "Chase Brown",
+          "points_per_game": 16.77,
+          "position": "RB",
+          "total_points": 251.6
+        },
+        {
+          "bid_amount": 46,
+          "games_started": 15,
+          "owner_name": "manager_12",
+          "player_name": "Josh Jacobs",
+          "points_per_game": 16.71,
+          "position": "RB",
+          "total_points": 250.6
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 13,
+          "owner_name": "manager_10",
+          "player_name": "Chris Olave",
+          "points_per_game": 16.27,
+          "position": "WR",
+          "total_points": 211.5
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 15,
+          "owner_name": "manager_9",
+          "player_name": "Travis Etienne Jr.",
+          "points_per_game": 16.17,
+          "position": "RB",
+          "total_points": 242.5
+        },
+        {
+          "bid_amount": 30,
+          "games_started": 9,
+          "owner_name": "manager_14",
+          "player_name": "George Kittle",
+          "points_per_game": 16.12,
+          "position": "TE",
+          "total_points": 145.1
+        },
+        {
+          "bid_amount": 24,
+          "games_started": 9,
+          "owner_name": "manager_1",
+          "player_name": "TreVeyon Henderson",
+          "points_per_game": 15.86,
+          "position": "RB",
+          "total_points": 142.7
+        },
+        {
+          "bid_amount": 46,
+          "games_started": 11,
+          "owner_name": "manager_12",
+          "player_name": "Drake London",
+          "points_per_game": 15.74,
+          "position": "WR",
+          "total_points": 173.1
+        },
+        {
+          "bid_amount": 42,
+          "games_started": 14,
+          "owner_name": "manager_17",
+          "player_name": "Davante Adams",
+          "points_per_game": 15.6,
+          "position": "WR",
+          "total_points": 218.4
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 17,
+          "owner_name": "manager_2",
+          "player_name": "Javonte Williams",
+          "points_per_game": 15.43,
+          "position": "RB",
+          "total_points": 262.3
+        },
+        {
+          "bid_amount": 81,
+          "games_started": 16,
+          "owner_name": "manager_10",
+          "player_name": "Saquon Barkley",
+          "points_per_game": 15.21,
+          "position": "RB",
+          "total_points": 243.29999999999998
+        },
+        {
+          "bid_amount": 58,
+          "games_started": 16,
+          "owner_name": "manager_12",
+          "player_name": "Ashton Jeanty",
+          "points_per_game": 14.61,
+          "position": "RB",
+          "total_points": 233.7
+        },
+        {
+          "bid_amount": 51,
+          "games_started": 14,
+          "owner_name": "manager_9",
+          "player_name": "Nico Collins",
+          "points_per_game": 14.41,
+          "position": "WR",
+          "total_points": 201.7
+        },
+        {
+          "bid_amount": 60,
+          "games_started": 13,
+          "owner_name": "manager_7",
+          "player_name": "CeeDee Lamb",
+          "points_per_game": 14.12,
+          "position": "WR",
+          "total_points": 183.5
+        },
+        {
+          "bid_amount": 35,
+          "games_started": 8,
+          "owner_name": "manager_14",
+          "player_name": "Bucky Irving",
+          "points_per_game": 14.01,
+          "position": "RB",
+          "total_points": 112.1
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 15,
+          "owner_name": "manager_1",
+          "player_name": "Breece Hall",
+          "points_per_game": 13.68,
+          "position": "RB",
+          "total_points": 205.2
+        },
+        {
+          "bid_amount": 56,
+          "games_started": 15,
+          "owner_name": "manager_10",
+          "player_name": "A.J. Brown",
+          "points_per_game": 13.65,
+          "position": "WR",
+          "total_points": 204.8
+        },
+        {
+          "bid_amount": 36,
+          "games_started": 12,
+          "owner_name": "manager_1",
+          "player_name": "Brock Bowers",
+          "points_per_game": 13.52,
+          "position": "TE",
+          "total_points": 162.2
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 12,
+          "owner_name": "manager_7",
+          "player_name": "Jaylen Warren",
+          "points_per_game": 12.92,
+          "position": "RB",
+          "total_points": 155.0
+        },
+        {
+          "bid_amount": 27,
+          "games_started": 12,
+          "owner_name": "manager_14",
+          "player_name": "Tee Higgins",
+          "points_per_game": 12.83,
+          "position": "WR",
+          "total_points": 154.0
+        },
+        {
+          "bid_amount": 10,
+          "games_started": 13,
+          "owner_name": "manager_6",
+          "player_name": "Emeka Egbuka",
+          "points_per_game": 12.51,
+          "position": "WR",
+          "total_points": 162.6
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 16,
+          "owner_name": "manager_17",
+          "player_name": "Jameson Williams",
+          "points_per_game": 12.5,
+          "position": "WR",
+          "total_points": 200.0
+        },
+        {
+          "bid_amount": 19,
+          "games_started": 11,
+          "owner_name": "manager_6",
+          "player_name": "Courtland Sutton",
+          "points_per_game": 12.32,
+          "position": "WR",
+          "total_points": 135.5
+        },
+        {
+          "bid_amount": 23,
+          "games_started": 9,
+          "owner_name": "manager_23",
+          "player_name": "Marvin Harrison Jr.",
+          "points_per_game": 12.0,
+          "position": "WR",
+          "total_points": 108.0
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 9,
+          "owner_name": "manager_3",
+          "player_name": "Stefon Diggs",
+          "points_per_game": 11.52,
+          "position": "WR",
+          "total_points": 103.7
+        },
+        {
+          "bid_amount": 15,
+          "games_started": 9,
+          "owner_name": "manager_9",
+          "player_name": "Tetairoa McMillan",
+          "points_per_game": 11.5,
+          "position": "WR",
+          "total_points": 103.5
+        },
+        {
+          "bid_amount": 12,
+          "games_started": 11,
+          "owner_name": "manager_3",
+          "player_name": "David Montgomery",
+          "points_per_game": 11.3,
+          "position": "RB",
+          "total_points": 124.3
+        },
+        {
+          "bid_amount": 13,
+          "games_started": 17,
+          "owner_name": "manager_2",
+          "player_name": "Tony Pollard",
+          "points_per_game": 11.11,
+          "position": "RB",
+          "total_points": 188.8
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 14,
+          "owner_name": "manager_10",
+          "player_name": "Travis Kelce",
+          "points_per_game": 11.03,
+          "position": "TE",
+          "total_points": 154.4
+        },
+        {
+          "bid_amount": 2,
+          "games_started": 15,
+          "owner_name": "manager_21",
+          "player_name": "Michael Pittman Jr.",
+          "points_per_game": 10.97,
+          "position": "WR",
+          "total_points": 164.5
+        },
+        {
+          "bid_amount": 4,
+          "games_started": 14,
+          "owner_name": "manager_6",
+          "player_name": "Tyler Warren",
+          "points_per_game": 10.94,
+          "position": "TE",
+          "total_points": 153.1
+        },
+        {
+          "bid_amount": 20,
+          "games_started": 12,
+          "owner_name": "manager_1",
+          "player_name": "DK Metcalf",
+          "points_per_game": 10.48,
+          "position": "WR",
+          "total_points": 125.7
+        },
+        {
+          "bid_amount": 67,
+          "games_started": 16,
+          "owner_name": "manager_2",
+          "player_name": "Justin Jefferson",
+          "points_per_game": 10.38,
+          "position": "WR",
+          "total_points": 166.1
+        },
+        {
+          "bid_amount": 16,
+          "games_started": 10,
+          "owner_name": "manager_23",
+          "player_name": "Aaron Jones",
+          "points_per_game": 10.23,
+          "position": "RB",
+          "total_points": 102.3
+        },
+        {
+          "bid_amount": 5,
+          "games_started": 14,
+          "owner_name": "manager_12",
+          "player_name": "Rome Odunze",
+          "points_per_game": 10.19,
+          "position": "WR",
+          "total_points": 142.6
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 16,
+          "owner_name": "manager_21",
+          "player_name": "Jake Ferguson",
+          "points_per_game": 10.07,
+          "position": "TE",
+          "total_points": 161.1
+        },
+        {
+          "bid_amount": 32,
+          "games_started": 9,
+          "owner_name": "manager_6",
+          "player_name": "Ladd McConkey",
+          "points_per_game": 9.74,
+          "position": "WR",
+          "total_points": 87.7
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 10,
+          "owner_name": "manager_21",
+          "player_name": "Khalil Shakir",
+          "points_per_game": 9.5,
+          "position": "WR",
+          "total_points": 95.0
+        },
+        {
+          "bid_amount": 1,
+          "games_started": 16,
+          "owner_name": "manager_2",
+          "player_name": "Deebo Samuel",
+          "points_per_game": 9.09,
+          "position": "WR",
+          "total_points": 145.5
+        },
+        {
+          "bid_amount": 24,
+          "games_started": 11,
+          "owner_name": "manager_17",
+          "player_name": "Alvin Kamara",
+          "points_per_game": 8.93,
+          "position": "RB",
+          "total_points": 98.2
+        },
+        {
+          "bid_amount": 46,
+          "games_started": 11,
+          "owner_name": "manager_1",
+          "player_name": "Brian Thomas Jr.",
+          "points_per_game": 8.74,
+          "position": "WR",
+          "total_points": 96.1
+        },
+        {
+          "bid_amount": 24,
+          "games_started": 11,
+          "owner_name": "manager_23",
+          "player_name": "Chuba Hubbard",
+          "points_per_game": 7.84,
+          "position": "RB",
+          "total_points": 86.2
+        },
+        {
+          "bid_amount": 6,
+          "games_started": 15,
+          "owner_name": "manager_23",
+          "player_name": "Mark Andrews",
+          "points_per_game": 7.65,
+          "position": "TE",
+          "total_points": 114.7
+        },
+        {
+          "bid_amount": 10,
+          "games_started": 13,
+          "owner_name": "manager_2",
+          "player_name": "Xavier Worthy",
+          "points_per_game": 6.52,
+          "position": "WR",
+          "total_points": 84.7
+        },
+        {
+          "bid_amount": 3,
+          "games_started": 10,
+          "owner_name": "manager_17",
+          "player_name": "David Njoku",
+          "points_per_game": 5.72,
+          "position": "TE",
+          "total_points": 57.2
+        }
+      ]
+    },
+    "get_medal_standings": {
+      "first": "manager_9",
+      "first_score": 155.7,
+      "season": 2025,
+      "second": "manager_10",
+      "second_score": 115.7,
+      "third": "manager_14",
+      "third_score": 129.0
+    },
+    "get_standings": {
+      "records": [
+        {
+          "losses": 3,
+          "manager": "manager_9",
+          "point_diff": 353.0,
+          "points_against": 1502.4,
+          "points_for": 1855.4,
+          "team_name": "Shidding and Farding",
+          "ties": 0,
+          "wins": 11
+        },
+        {
+          "losses": 5,
+          "manager": "manager_10",
+          "point_diff": 158.60000000000014,
+          "points_against": 1615.8,
+          "points_for": 1774.4,
+          "team_name": "Seahawks",
+          "ties": 0,
+          "wins": 9
+        },
+        {
+          "losses": 5,
+          "manager": "manager_14",
+          "point_diff": 182.89999999999986,
+          "points_against": 1528.7,
+          "points_for": 1711.6,
+          "team_name": "Value City QB Coroner (w Tee!)",
+          "ties": 0,
+          "wins": 9
+        },
+        {
+          "losses": 6,
+          "manager": "manager_21",
+          "point_diff": 20.90000000000009,
+          "points_against": 1700.3,
+          "points_for": 1721.2,
+          "team_name": "More than a  Thielen",
+          "ties": 0,
+          "wins": 8
+        },
+        {
+          "losses": 7,
+          "manager": "manager_6",
+          "point_diff": 25.799999999999955,
+          "points_against": 1769.7,
+          "points_for": 1795.5,
+          "team_name": "Baked Elmo",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_7",
+          "point_diff": 4.2000000000000455,
+          "points_against": 1643.7,
+          "points_for": 1647.9,
+          "team_name": "Gibbs Free Energy",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 7,
+          "manager": "manager_12",
+          "point_diff": 70.70000000000005,
+          "points_against": 1554.2,
+          "points_for": 1624.9,
+          "team_name": "Big Joshy Style",
+          "ties": 0,
+          "wins": 7
+        },
+        {
+          "losses": 8,
+          "manager": "manager_3",
+          "point_diff": -76.29999999999995,
+          "points_against": 1602.1,
+          "points_for": 1525.8,
+          "team_name": "All About That D*ng, No Arby's",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 8,
+          "manager": "manager_17",
+          "point_diff": -239.70000000000005,
+          "points_against": 1682.3,
+          "points_for": 1442.6,
+          "team_name": "Tush Pushing Hurts",
+          "ties": 0,
+          "wins": 6
+        },
+        {
+          "losses": 9,
+          "manager": "manager_1",
+          "point_diff": -209.29999999999995,
+          "points_against": 1677.7,
+          "points_for": 1468.4,
+          "team_name": "Zay Hit the Second Bowers",
+          "ties": 0,
+          "wins": 5
+        },
+        {
+          "losses": 9,
+          "manager": "manager_23",
+          "point_diff": -107.20000000000005,
+          "points_against": 1545.4,
+          "points_for": 1438.2,
+          "team_name": "Fumble .",
+          "ties": 0,
+          "wins": 5
+        },
+        {
+          "losses": 10,
+          "manager": "manager_2",
+          "point_diff": -183.60000000000014,
+          "points_against": 1623.2,
+          "points_for": 1439.6,
+          "team_name": "Frankel's Cankles",
+          "ties": 0,
+          "wins": 4
+        }
+      ]
+    },
+    "get_toilet_bowl_loser": {
+      "last_place": "manager_12",
+      "last_place_score": 76.4,
+      "opponent": "manager_2",
+      "opponent_score": 119.0,
+      "season": 2025
+    },
+    "get_waiver_scores": {
+      "records": [
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Matthew Stafford",
+          "position": "QB",
+          "team_name": "team_71",
+          "total_points": 218.0,
+          "waiver_score": 96.7
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Jaxson Dart",
+          "position": "QB",
+          "team_name": "team_99",
+          "total_points": 217.1,
+          "waiver_score": 96.7
+        },
+        {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_9",
+          "player_name": "Rico Dowdle",
+          "position": "RB",
+          "team_name": "team_73",
+          "total_points": 175.6,
+          "waiver_score": 93.9
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Kenneth Gainwell",
+          "position": "RB",
+          "team_name": "team_35",
+          "total_points": 125.0,
+          "waiver_score": 83.9
+        },
+        {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Daniel Jones",
+          "position": "QB",
+          "team_name": "team_58",
+          "total_points": 171.7,
+          "waiver_score": 82.8
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Jared Goff",
+          "position": "QB",
+          "team_name": "team_35",
+          "total_points": 167.6,
+          "waiver_score": 82.1
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Juwan Johnson",
+          "position": "TE",
+          "team_name": "team_58",
+          "total_points": 74.9,
+          "waiver_score": 81.5
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Zach Ertz",
+          "position": "TE",
+          "team_name": "team_34",
+          "total_points": 78.0,
+          "waiver_score": 80.8
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Hunter Henry",
+          "position": "TE",
+          "team_name": "team_71",
+          "total_points": 74.4,
+          "waiver_score": 77.8
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Kyle Monangai",
+          "position": "RB",
+          "team_name": "team_71",
+          "total_points": 111.8,
+          "waiver_score": 77.4
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Woody Marks",
+          "position": "RB",
+          "team_name": "team_99",
+          "total_points": 121.4,
+          "waiver_score": 76.9
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Kimani Vidal",
+          "position": "RB",
+          "team_name": "team_92",
+          "total_points": 99.1,
+          "waiver_score": 68.8
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "C.J. Stroud",
+          "position": "QB",
+          "team_name": "team_34",
+          "total_points": 129.7,
+          "waiver_score": 61.3
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_17",
+          "player_name": "Tyjae Spears",
+          "position": "RB",
+          "team_name": "team_91",
+          "total_points": 79.5,
+          "waiver_score": 60.9
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_23",
+          "player_name": "Devin Singletary",
+          "position": "RB",
+          "team_name": "team_35",
+          "total_points": 80.4,
+          "waiver_score": 54.1
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Tyler Allgeier",
+          "position": "RB",
+          "team_name": "team_5",
+          "total_points": 74.3,
+          "waiver_score": 50.8
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Quentin Johnston",
+          "position": "WR",
+          "team_name": "team_58",
+          "total_points": 54.5,
+          "waiver_score": 49.2
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_21",
+          "player_name": "Tre Tucker",
+          "position": "WR",
+          "team_name": "team_58",
+          "total_points": 45.5,
+          "waiver_score": 41.5
+        },
+        {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_2",
+          "player_name": "Kendrick Bourne",
+          "position": "WR",
+          "team_name": "team_34",
+          "total_points": 48.7,
+          "waiver_score": 40.9
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Trey Benson",
+          "position": "RB",
+          "team_name": "team_71",
+          "total_points": 23.4,
+          "waiver_score": 27.3
+        }
+      ]
+    }
+  },
+  "2026": {
+    "get_arbys_winner": {
+      "error": "max() iterable argument is empty",
+      "error_type": "ValueError"
+    },
+    "get_draft_roi": {
+      "error": "Analysis will be available by Week 12 to allow for sufficient data.",
+      "error_type": "SeasonNotReadyError"
+    },
+    "get_medal_standings": {
+      "error": "Could not find championship game for 2026",
+      "error_type": "ValueError"
+    },
+    "get_standings": {
+      "records": []
+    },
+    "get_toilet_bowl_loser": {
+      "error": "max() iterable argument is empty",
+      "error_type": "ValueError"
+    },
+    "get_waiver_scores": {
+      "error": "Analysis will be available by Week 12 to allow for sufficient data.",
+      "error_type": "SeasonNotReadyError"
+    }
+  }
+}

@@ -36,6 +36,11 @@ libsql-experimental = "^0.0.55"
 [tool.poetry.scripts]
 leagueintel = "leagueintel.cli:cli"
 
+[tool.pytest.ini_options]
+markers = [
+    "regression: reruns real leagueintel.db against tests/fixtures/regression_baseline.json (needs the real DB; excluded from default CI run)",
+]
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
