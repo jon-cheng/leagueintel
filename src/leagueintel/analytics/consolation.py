@@ -80,53 +80,65 @@ def get_consolation_matchups(season: int) -> pd.DataFrame:
 
 
 def get_toilet_bowl_loser(season: int) -> dict:
+    """
+    Last place = the team with the worst (highest) final_standing, ESPN's
+    own post-season computed rank — authoritative, so unlike the old
+    most-losses heuristic this doesn't need to guess who ends up last
+    from partial ladder results. The final week's consolation-ladder game
+    is only consulted afterward, to pull the opponent/scores for display.
+    """
+    conn = get_connection()
+    last_place_row = pd.read_sql(
+        """
+        SELECT owner_name FROM teams
+        WHERE season = :season AND final_standing IS NOT NULL
+        ORDER BY final_standing DESC
+        LIMIT 1
+        """,
+        conn,
+        params={"season": season},
+    )
+    conn.close()
+
+    if last_place_row.empty:
+        raise ValueError(f"No final_standing data for season {season}")
+    last_place_owner = last_place_row.iloc[0]["owner_name"]
+
     matchups = get_consolation_matchups(season)
+    if matchups.empty:
+        raise ValueError(f"No consolation ladder matchups ingested for season {season}")
     weeks = sorted(matchups["week"].unique())
-
-    # count losses per manager across all rounds except final
-    loss_count = {}
-    for week in weeks[:-1]:
-        week_games = matchups[matchups["week"] == week]
-        for _, game in week_games.iterrows():
-            if game["home_score"] < game["away_score"]:
-                loser = game["home_owner"]
-            else:
-                loser = game["away_owner"]
-            loss_count[loser] = loss_count.get(loser, 0) + 1
-
-    # team with most losses = the one destined for last place game
-    most_losses_team = max(loss_count, key=loss_count.get)
-
-    print(f"loss counts: {loss_count}")
-    print(f"most losses team: {most_losses_team}")
-
-    # find their final week game
     final_games = matchups[matchups["week"] == weeks[-1]]
     last_place_game = final_games[
-        (final_games["home_owner"] == most_losses_team)
-        | (final_games["away_owner"] == most_losses_team)
+        (final_games["home_owner"] == last_place_owner)
+        | (final_games["away_owner"] == last_place_owner)
     ]
 
     if last_place_game.empty:
         raise ValueError(
-            f"Could not find last place game for {most_losses_team} in {season}"
+            f"Could not find last place game for {last_place_owner} in {season}"
         )
 
     game = last_place_game.iloc[0]
-
-    if game["home_score"] < game["away_score"]:
-        loser, loser_score = game["home_owner"], game["home_score"]
-        winner, winner_score = game["away_owner"], game["away_score"]
+    if game["home_owner"] == last_place_owner:
+        last_place_score, opponent, opponent_score = (
+            game["home_score"],
+            game["away_owner"],
+            game["away_score"],
+        )
     else:
-        loser, loser_score = game["away_owner"], game["away_score"]
-        winner, winner_score = game["home_owner"], game["home_score"]
+        last_place_score, opponent, opponent_score = (
+            game["away_score"],
+            game["home_owner"],
+            game["home_score"],
+        )
 
     return {
         "season": season,
-        "last_place": loser,
-        "last_place_score": loser_score,
-        "opponent": winner,
-        "opponent_score": winner_score,
+        "last_place": last_place_owner,
+        "last_place_score": last_place_score,
+        "opponent": opponent,
+        "opponent_score": opponent_score,
     }
 
 
@@ -301,25 +313,46 @@ def _get_third_place_game(season: int) -> pd.Series:
     return third_place_game.iloc[0]
 
 
+def _score_for(game: pd.Series, owner: str, context: str) -> float:
+    if game["home_owner"] == owner:
+        return game["home_score"]
+    if game["away_owner"] == owner:
+        return game["away_score"]
+    raise ValueError(f"{owner!r} not found in {context}")
+
+
 def get_medal_standings(season: int) -> dict:
     """
-    Final 1st, 2nd, and 3rd place finishers for a season.
-    1st/2nd come from the championship game; 3rd comes from the
-    3rd place game between the two semifinal losers.
+    1st/2nd/3rd place = teams with final_standing 1/2/3, ESPN's own
+    post-season computed rank — authoritative, so this no longer infers
+    identity from game results. The championship/3rd-place games are
+    only consulted afterward, to pull each team's score for display.
     """
+    conn = get_connection()
+    top3 = pd.read_sql(
+        """
+        SELECT owner_name, final_standing FROM teams
+        WHERE season = :season AND final_standing IN (1, 2, 3)
+        ORDER BY final_standing
+        """,
+        conn,
+        params={"season": season},
+    )
+    conn.close()
+
+    if len(top3) != 3:
+        raise ValueError(
+            f"Expected 3 teams with final_standing 1-3 for season {season}, found {len(top3)}"
+        )
+    owner_by_rank = dict(zip(top3["final_standing"], top3["owner_name"]))
+    first, second, third = owner_by_rank[1], owner_by_rank[2], owner_by_rank[3]
+
     champ_game = _get_championship_game(season)
-    if champ_game["home_score"] > champ_game["away_score"]:
-        first, first_score = champ_game["home_owner"], champ_game["home_score"]
-        second, second_score = champ_game["away_owner"], champ_game["away_score"]
-    else:
-        first, first_score = champ_game["away_owner"], champ_game["away_score"]
-        second, second_score = champ_game["home_owner"], champ_game["home_score"]
+    first_score = _score_for(champ_game, first, f"the {season} championship game")
+    second_score = _score_for(champ_game, second, f"the {season} championship game")
 
     third_game = _get_third_place_game(season)
-    if third_game["home_score"] > third_game["away_score"]:
-        third, third_score = third_game["home_owner"], third_game["home_score"]
-    else:
-        third, third_score = third_game["away_owner"], third_game["away_score"]
+    third_score = _score_for(third_game, third, f"the {season} third place game")
 
     return {
         "season": season,
