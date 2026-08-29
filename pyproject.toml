@@ -39,6 +39,7 @@ leagueintel = "leagueintel.cli:cli"
 [tool.pytest.ini_options]
 markers = [
     "regression: reruns real leagueintel.db against tests/fixtures/regression_baseline.json (needs the real DB; excluded from default CI run)",
+    "llm: calls the real Anthropic API (costs real tokens; excluded from default CI run)",
 ]
 
 [build-system]
