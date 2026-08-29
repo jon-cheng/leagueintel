@@ -39,9 +39,17 @@ def _create_teams_table(conn: sqlite3.Connection) -> None:
             team_name TEXT,
             team_abbrev TEXT,
             owner_name TEXT,
+            standing INTEGER,
+            final_standing INTEGER,
             PRIMARY KEY (team_id, season)
         )
     """)
+    # migration for DBs created before standing/final_standing existed
+    existing_columns = {row[1] for row in conn.execute("PRAGMA table_info(teams)")}
+    if "standing" not in existing_columns:
+        conn.execute("ALTER TABLE teams ADD COLUMN standing INTEGER")
+    if "final_standing" not in existing_columns:
+        conn.execute("ALTER TABLE teams ADD COLUMN final_standing INTEGER")
 
 
 def _create_players_table(conn: sqlite3.Connection) -> None:

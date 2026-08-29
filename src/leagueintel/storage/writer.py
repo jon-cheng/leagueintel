@@ -15,6 +15,8 @@ class FantasyTeamSchema(BaseModel):
     team_name: str | None = None
     team_abbrev: str | None = None
     owner_name: str | None = None
+    standing: int | None = None
+    final_standing: int | None = None
 
 
 class PlayerRecord(BaseModel):
@@ -109,8 +111,8 @@ def write_teams(teams: list[dict], conn: sqlite3.Connection) -> None:
         FantasyTeamSchema,
         """
         INSERT OR REPLACE INTO teams
-        (season, team_id, team_name, team_abbrev, owner_name)
-        VALUES (?, ?, ?, ?, ?)
+        (season, team_id, team_name, team_abbrev, owner_name, standing, final_standing)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     """,
         conn,
     )

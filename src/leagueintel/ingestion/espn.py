@@ -173,6 +173,12 @@ def _extract_team(team: Team, season: int) -> dict:
             if team.owners
             else None
         ),
+        # standing = ESPN's playoffSeed (regular-season seed, drives
+        # playoff seeding); final_standing = rankCalculatedFinal (the
+        # actual post-playoff result, e.g. 1 = champion) — these answer
+        # different questions and both feed downstream analytics.
+        "standing": team.standing,
+        "final_standing": team.final_standing,
     }
 
 
