@@ -22,24 +22,28 @@ def test_sync_runs_full_pipeline_including_transactions():
                         "leagueintel.cli.fetch_matchups_all"
                     ) as mock_matchups:
                         with patch(
-                            "leagueintel.cli.fetch_transactions_all"
-                        ) as mock_fetch_txns:
+                            "leagueintel.cli.fetch_season_settings_all"
+                        ) as mock_season_settings:
                             with patch(
-                                "leagueintel.cli.parse_transactions_all"
-                            ) as mock_parse_txns:
+                                "leagueintel.cli.fetch_transactions_all"
+                            ) as mock_fetch_txns:
                                 with patch(
-                                    "leagueintel.cli.infer_missing_trade_items_all"
-                                ) as mock_infer_trades:
-                                    runner = CliRunner()
-                                    result = runner.invoke(
-                                        cli, ["sync", "--seasons", "2026"]
-                                    )
+                                    "leagueintel.cli.parse_transactions_all"
+                                ) as mock_parse_txns:
+                                    with patch(
+                                        "leagueintel.cli.infer_missing_trade_items_all"
+                                    ) as mock_infer_trades:
+                                        runner = CliRunner()
+                                        result = runner.invoke(
+                                            cli, ["sync", "--seasons", "2026"]
+                                        )
 
     assert result.exit_code == 0
     mock_teams.assert_called_once_with(seasons=[2026], leagues=fake_leagues)
     mock_players.assert_called_once_with(seasons=[2026], leagues=fake_leagues)
     mock_box_scores.assert_called_once_with(seasons=[2026], leagues=fake_leagues)
     mock_matchups.assert_called_once_with(seasons=[2026], leagues=fake_leagues)
+    mock_season_settings.assert_called_once_with(seasons=[2026], leagues=fake_leagues)
     mock_fetch_txns.assert_called_once_with(year=2026, leagues=fake_leagues)
     mock_parse_txns.assert_called_once_with(seasons=[2026])
     mock_infer_trades.assert_called_once_with(seasons=[2026])
@@ -59,15 +63,18 @@ def test_sync_builds_one_league_dict_shared_across_all_steps():
             with patch("leagueintel.cli.fetch_players_all"):
                 with patch("leagueintel.cli.fetch_box_scores_all"):
                     with patch("leagueintel.cli.fetch_matchups_all"):
-                        with patch("leagueintel.cli.fetch_transactions_all"):
-                            with patch("leagueintel.cli.parse_transactions_all"):
+                        with patch("leagueintel.cli.fetch_season_settings_all"):
+                            with patch("leagueintel.cli.fetch_transactions_all"):
                                 with patch(
-                                    "leagueintel.cli.infer_missing_trade_items_all"
+                                    "leagueintel.cli.parse_transactions_all"
                                 ):
-                                    runner = CliRunner()
-                                    runner.invoke(
-                                        cli, ["sync", "--seasons", "2026"]
-                                    )
+                                    with patch(
+                                        "leagueintel.cli.infer_missing_trade_items_all"
+                                    ):
+                                        runner = CliRunner()
+                                        runner.invoke(
+                                            cli, ["sync", "--seasons", "2026"]
+                                        )
 
     mock_build.assert_called_once_with([2026])
 
@@ -78,17 +85,18 @@ def test_sync_with_no_seasons_fetches_transactions_for_all_seasons():
             with patch("leagueintel.cli.fetch_players_all"):
                 with patch("leagueintel.cli.fetch_box_scores_all"):
                     with patch("leagueintel.cli.fetch_matchups_all"):
-                        with patch(
-                            "leagueintel.cli.fetch_transactions_all"
-                        ) as mock_fetch_txns:
+                        with patch("leagueintel.cli.fetch_season_settings_all"):
                             with patch(
-                                "leagueintel.cli.parse_transactions_all"
-                            ) as mock_parse_txns:
+                                "leagueintel.cli.fetch_transactions_all"
+                            ) as mock_fetch_txns:
                                 with patch(
-                                    "leagueintel.cli.infer_missing_trade_items_all"
-                                ) as mock_infer_trades:
-                                    runner = CliRunner()
-                                    result = runner.invoke(cli, ["sync"])
+                                    "leagueintel.cli.parse_transactions_all"
+                                ) as mock_parse_txns:
+                                    with patch(
+                                        "leagueintel.cli.infer_missing_trade_items_all"
+                                    ) as mock_infer_trades:
+                                        runner = CliRunner()
+                                        result = runner.invoke(cli, ["sync"])
 
     assert result.exit_code == 0
     mock_fetch_txns.assert_called_once_with(leagues={})
