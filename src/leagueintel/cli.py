@@ -15,6 +15,7 @@ Usage:
     leagueintel parse-transactions
     leagueintel fetch-box-scores [--seasons 2024]
     leagueintel fetch-matchups [--seasons 2024]
+    leagueintel fetch-season-settings [--seasons 2024]
     leagueintel infer-trades [--seasons 2024]
 """
 
@@ -25,6 +26,7 @@ from leagueintel.ingestion.espn import (
     fetch_players_all,
     fetch_box_scores_all,
     fetch_matchups_all,
+    fetch_season_settings_all,
     build_leagues,
 )
 from leagueintel.ingestion.parse import parse_transactions_all
@@ -150,6 +152,19 @@ def fetch_matchups(seasons):
     multiple=True,
     type=int,
     default=None,
+    help="Seasons to fetch. If omitted, fetches all seasons.",
+)
+def fetch_season_settings(seasons):
+    """Fetch per-season league settings (e.g. median scoring) and write to SQLite."""
+    fetch_season_settings_all(seasons=list(seasons) if seasons else None)
+
+
+@cli.command()
+@click.option(
+    "--seasons",
+    multiple=True,
+    type=int,
+    default=None,
     help="Seasons to infer. If omitted, infers for all seasons.",
 )
 def infer_trades(seasons):
@@ -178,6 +193,7 @@ def sync(seasons):
     fetch_players_all(seasons=seasons_list, leagues=leagues)
     fetch_box_scores_all(seasons=seasons_list, leagues=leagues)
     fetch_matchups_all(seasons=seasons_list, leagues=leagues)
+    fetch_season_settings_all(seasons=seasons_list, leagues=leagues)
 
     # fetch_transactions_all takes a single year (not a list), unlike the
     # other fetch_*_all functions — loop when specific seasons are requested.

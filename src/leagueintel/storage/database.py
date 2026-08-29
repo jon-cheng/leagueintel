@@ -28,6 +28,7 @@ def create_tables(conn: sqlite3.Connection) -> None:
     _create_transaction_moves_table(conn)
     _create_box_scores_table(conn)
     _create_matchups_table(conn)
+    _create_season_settings_table(conn)
     conn.commit()
 
 
@@ -124,6 +125,22 @@ def _create_box_scores_table(conn: sqlite3.Connection) -> None:
             FOREIGN KEY (team_id) REFERENCES teams(team_id),
             FOREIGN KEY (player_id) REFERENCES players(player_id),
             UNIQUE (season, week, player_id)
+        )
+    """)
+
+
+def _create_season_settings_table(conn: sqlite3.Connection) -> None:
+    """
+    Per-season league settings that aren't per-team — currently just
+    median_scoring (ESPN's "Bonus Wins and Losses" rule), read from
+    league.settings.median_scoring at ingestion time. A season's rules
+    can change year to year (this league is adding median scoring for
+    2026), so this is keyed by season, not a single global flag.
+    """
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS season_settings (
+            season INTEGER PRIMARY KEY,
+            median_scoring INTEGER NOT NULL DEFAULT 0
         )
     """)
 
