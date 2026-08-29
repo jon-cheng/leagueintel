@@ -1,6 +1,12 @@
 # tests/analytics/test_standings.py
+import sqlite3
+
 import pandas as pd
-from leagueintel.analytics.standings import compute_standings
+import pytest
+
+from leagueintel.analytics import standings
+from leagueintel.analytics.standings import compute_median_scoring_bonus, compute_standings
+from leagueintel.storage.database import create_tables
 
 
 TEAM_NAME = {
@@ -11,8 +17,9 @@ TEAM_NAME = {
 }
 
 
-def _matchup(home_manager, away_manager, home_score, away_score):
+def _matchup(home_manager, away_manager, home_score, away_score, week=1):
     return {
+        "week": week,
         "home_manager": home_manager,
         "home_team_name": TEAM_NAME[home_manager],
         "away_manager": away_manager,
@@ -97,3 +104,97 @@ def test_compute_standings_includes_team_name_as_second_column():
     assert list(result.columns)[:2] == ["manager", "team_name"]
     assert result.set_index("manager").loc["Manager A", "team_name"] == "Team Alpha"
     assert result.set_index("manager").loc["Manager B", "team_name"] == "Team Bravo"
+
+
+def test_median_scoring_bonus_splits_above_and_below_the_week_median():
+    """
+    ESPN's "Bonus Wins and Losses" rule: a team scoring above the whole
+    league's median for that week gets a bonus win, below gets a bonus
+    loss — evaluated against every team's score that week, not just
+    their own opponent's, so this needs a week with more than one
+    matchup to be a meaningful test at all.
+    """
+    df = pd.DataFrame(
+        [
+            _matchup("Manager A", "Manager B", 100.0, 90.0, week=1),  # median 85
+            _matchup("Manager C", "Manager D", 80.0, 70.0, week=1),
+        ]
+    )
+    result = compute_median_scoring_bonus(df).set_index("manager")
+
+    assert result.loc["Manager A", "bonus_wins"] == 1
+    assert result.loc["Manager B", "bonus_wins"] == 1
+    assert result.loc["Manager C", "bonus_losses"] == 1
+    assert result.loc["Manager D", "bonus_losses"] == 1
+
+
+def test_median_scoring_bonus_ties_at_exact_median():
+    """
+    With an even team count, the statistical median falls between two
+    real scores, so no team can land exactly on it. With an odd count
+    (or a tied score), a team's score can equal the median exactly —
+    that's a bonus tie, not an arbitrary win or loss.
+    """
+    df = pd.DataFrame(
+        [
+            _matchup("Manager A", "Manager B", 100.0, 90.0, week=1),  # median 90
+            _matchup("Manager C", "Manager D", 80.0, 90.0, week=1),
+        ]
+    )
+    result = compute_median_scoring_bonus(df).set_index("manager")
+
+    assert result.loc["Manager A", "bonus_wins"] == 1
+    assert result.loc["Manager B", "bonus_ties"] == 1
+    assert result.loc["Manager D", "bonus_ties"] == 1
+    assert result.loc["Manager C", "bonus_losses"] == 1
+
+
+def test_median_scoring_bonus_accumulates_across_multiple_weeks():
+    """
+    Each week's median is computed independently — a bug that used one
+    global median across all weeks (instead of per-week) would give the
+    wrong bonus record whenever scoring levels differ week to week.
+    """
+    df = pd.DataFrame(
+        [
+            _matchup("Manager A", "Manager B", 100.0, 90.0, week=1),  # median 85
+            _matchup("Manager C", "Manager D", 80.0, 70.0, week=1),
+            _matchup("Manager A", "Manager C", 30.0, 90.0, week=2),  # median 95
+            _matchup("Manager B", "Manager D", 100.0, 110.0, week=2),
+        ]
+    )
+    result = compute_median_scoring_bonus(df).set_index("manager")
+
+    # Manager A: week1 win (100>85), week2 loss (30<95)
+    assert result.loc["Manager A", "bonus_wins"] == 1
+    assert result.loc["Manager A", "bonus_losses"] == 1
+
+
+@pytest.fixture
+def db_conn(tmp_path, monkeypatch):
+    db_path = tmp_path / "test.db"
+    conn = sqlite3.connect(db_path)
+    create_tables(conn)
+    monkeypatch.setattr(standings, "get_connection", lambda: sqlite3.connect(db_path))
+    yield conn
+    conn.close()
+
+
+def test_is_median_scoring_enabled_reflects_season_settings(db_conn):
+    """
+    A season's rules can change year to year (this league added median
+    scoring for 2026) — the flag must be looked up per season, not
+    assumed constant across a league's history.
+    """
+    db_conn.execute(
+        "INSERT INTO season_settings (season, median_scoring) VALUES (2025, 0), (2026, 1)"
+    )
+    db_conn.commit()
+
+    assert standings.is_median_scoring_enabled(2025) is False
+    assert standings.is_median_scoring_enabled(2026) is True
+
+
+def test_is_median_scoring_enabled_defaults_false_for_unseen_season(db_conn):
+    """A season never ingested into season_settings must not crash or default to True."""
+    assert standings.is_median_scoring_enabled(1999) is False

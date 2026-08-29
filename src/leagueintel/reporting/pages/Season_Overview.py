@@ -49,6 +49,10 @@ st.dataframe(
         "points_against": st.column_config.NumberColumn("PA", format="%.1f"),
         "point_diff": st.column_config.NumberColumn("Diff", format="%+.1f"),
         "standing": None,  # drives sort order already; redundant as a shown column
+        # only present for seasons with ESPN's median-scoring rule enabled
+        "bonus_wins": st.column_config.NumberColumn("BW"),
+        "bonus_losses": st.column_config.NumberColumn("BL"),
+        "bonus_ties": st.column_config.NumberColumn("BT"),
     },
 )
 

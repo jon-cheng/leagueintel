@@ -7,6 +7,7 @@ from leagueintel.storage.database import get_connection
 
 STANDINGS_MATCHUPS_SQL = """
     SELECT
+        m.week,
         ht.owner_name AS home_manager,
         ht.team_name AS home_team_name,
         ht.standing AS home_standing,
@@ -103,7 +104,73 @@ def compute_standings(df: pd.DataFrame) -> pd.DataFrame:
     ).reset_index(drop=True)
 
 
+def is_median_scoring_enabled(season: int) -> bool:
+    """Whether ESPN's "Bonus Wins and Losses" rule was active for a season."""
+    conn = get_connection()
+    row = conn.execute(
+        "SELECT median_scoring FROM season_settings WHERE season = ?", (season,)
+    ).fetchone()
+    conn.close()
+    return bool(row[0]) if row else False
+
+
+def compute_median_scoring_bonus(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    ESPN's "Bonus Wins and Losses" rule: each week, a team scoring above
+    that week's league median earns a bonus win; below earns a bonus
+    loss; exactly at the median (only possible with an odd team count)
+    is a bonus tie. This needs every team's score for the week, not just
+    their own matchup, so it melts the raw matchups into one row per
+    team per week — kept separate from compute_standings, which only
+    ever sees one matchup (two teams) at a time.
+
+    Args:
+        df: raw matchups with week, home_manager, away_manager,
+            home_score, away_score (see STANDINGS_MATCHUPS_SQL)
+
+    Returns:
+        DataFrame with columns: manager, bonus_wins, bonus_losses, bonus_ties
+    """
+    home = df.rename(columns={"home_manager": "manager", "home_score": "points_for"})[
+        ["week", "manager", "points_for"]
+    ]
+    away = df.rename(columns={"away_manager": "manager", "away_score": "points_for"})[
+        ["week", "manager", "points_for"]
+    ]
+    weekly = pd.concat([home, away], ignore_index=True)
+
+    weekly["week_median"] = weekly.groupby("week")["points_for"].transform("median")
+    weekly["bonus_result"] = "tie"
+    weekly.loc[weekly["points_for"] > weekly["week_median"], "bonus_result"] = "win"
+    weekly.loc[weekly["points_for"] < weekly["week_median"], "bonus_result"] = "loss"
+
+    return (
+        weekly.groupby("manager")
+        .agg(
+            bonus_wins=("bonus_result", lambda s: (s == "win").sum()),
+            bonus_losses=("bonus_result", lambda s: (s == "loss").sum()),
+            bonus_ties=("bonus_result", lambda s: (s == "tie").sum()),
+        )
+        .reset_index()
+    )
+
+
 def get_standings(season: int) -> pd.DataFrame:
-    """Fetch and compute the regular season standings for a season."""
+    """
+    Fetch and compute the regular season standings for a season.
+
+    If the season had ESPN's median-scoring rule enabled, adds
+    bonus_wins/bonus_losses/bonus_ties columns — kept separate from the
+    head-to-head wins/losses/ties so both records stay visible. Sort
+    order needs no special handling for this: it already sorts by
+    ESPN's own `standing`, which already factors bonus wins/losses into
+    the official seed server-side.
+    """
     matchups = get_regular_season_matchups(season)
-    return compute_standings(matchups)
+    standings = compute_standings(matchups)
+
+    if is_median_scoring_enabled(season):
+        bonus = compute_median_scoring_bonus(matchups)
+        standings = standings.merge(bonus, on="manager", how="left")
+
+    return standings
