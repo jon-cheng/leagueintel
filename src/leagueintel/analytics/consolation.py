@@ -142,55 +142,66 @@ def get_toilet_bowl_loser(season: int) -> dict:
     }
 
 
-def get_arbys_winner(season: int) -> dict:
+def get_consolation_ladder_winner(season: int) -> dict:
     """
-    Arby's winner = winner of the 7 vs 8 seed game in the
-    final consolation week. Best finisher among non-playoff teams.
-    Identified as the team with the most WINS in the consolation
-    bracket prior to the final week — inverse of toilet bowl logic.
+    Best finisher among non-playoff teams — winner of the consolation
+    ladder's own top placement game (your league may call this "Arby's"
+    or something else; that's a display-layer label, not this function's
+    concern — see config.CONSOLATION_LADDER_WINNER_LABEL).
+
+    In ESPN's consolation ladder, a win moves a team "up" and a loss
+    moves it "down," and neither the top nor bottom slot can move
+    further in that direction once reached (see the ESPN rules note in
+    GENERALIZATION_PLAN.md step 4). That means a single loss anywhere in
+    the ladder removes a team from top-slot contention for good — so the
+    team occupying the top slot at the end must be the one and only team
+    that never lost a single ladder game all season. This replaces the
+    old "most wins before the final week" heuristic, which wasn't
+    guaranteed to pick the same team in a bracket with byes.
     """
     matchups = get_consolation_matchups(season)
+    if matchups.empty:
+        raise ValueError(f"No consolation ladder matchups ingested for season {season}")
     weeks = sorted(matchups["week"].unique())
 
-    # count wins per manager across all rounds except final
-    win_count = {}
-    for week in weeks[:-1]:
-        week_games = matchups[matchups["week"] == week]
-        for _, game in week_games.iterrows():
-            if game["home_score"] > game["away_score"]:
-                winner = game["home_owner"]
-            else:
-                winner = game["away_owner"]
-            win_count[winner] = win_count.get(winner, 0) + 1
+    losses = set()
+    for _, game in matchups.iterrows():
+        loser = game["home_owner"] if game["home_score"] < game["away_score"] else game["away_owner"]
+        losses.add(loser)
 
-    # team with most wins = destined for the arby's game
-    most_wins_team = max(win_count, key=win_count.get)
-
-    # find their final week game
     final_games = matchups[matchups["week"] == weeks[-1]]
-    arbys_game = final_games[
-        (final_games["home_owner"] == most_wins_team)
-        | (final_games["away_owner"] == most_wins_team)
-    ]
+    final_week_owners = pd.concat([final_games["home_owner"], final_games["away_owner"]])
+    undefeated = [owner for owner in final_week_owners.unique() if owner not in losses]
 
-    if arbys_game.empty:
-        raise ValueError(f"Could not find Arby's game for {most_wins_team} in {season}")
+    if len(undefeated) != 1:
+        raise ValueError(
+            f"Expected exactly one undefeated consolation-ladder team in the "
+            f"{season} final week, found {undefeated}"
+        )
+    winner = undefeated[0]
 
-    game = arbys_game.iloc[0]
-
-    if game["home_score"] > game["away_score"]:
-        winner, winner_score = game["home_owner"], game["home_score"]
-        loser, loser_score = game["away_owner"], game["away_score"]
+    game_row = final_games[
+        (final_games["home_owner"] == winner) | (final_games["away_owner"] == winner)
+    ].iloc[0]
+    if game_row["home_owner"] == winner:
+        winner_score, opponent, opponent_score = (
+            game_row["home_score"],
+            game_row["away_owner"],
+            game_row["away_score"],
+        )
     else:
-        winner, winner_score = game["away_owner"], game["away_score"]
-        loser, loser_score = game["home_owner"], game["home_score"]
+        winner_score, opponent, opponent_score = (
+            game_row["away_score"],
+            game_row["home_owner"],
+            game_row["home_score"],
+        )
 
     return {
         "season": season,
-        "arbys_winner": winner,
+        "winner": winner,
         "winner_score": winner_score,
-        "opponent": loser,
-        "loser_score": loser_score,
+        "opponent": opponent,
+        "opponent_score": opponent_score,
     }
 
 

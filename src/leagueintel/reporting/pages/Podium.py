@@ -2,11 +2,11 @@
 import pandas as pd
 import streamlit as st
 from leagueintel.analytics.consolation import (
-    get_arbys_winner,
+    get_consolation_ladder_winner,
     get_medal_standings,
     get_toilet_bowl_loser,
 )
-from leagueintel.config import ALL_SEASONS
+from leagueintel.config import ALL_SEASONS, CONSOLATION_LADDER_WINNER_LABEL, LAST_PLACE_LABEL
 from leagueintel.reporting.home import shared_sidebar
 
 st.set_page_config(
@@ -32,7 +32,7 @@ def _season_row(season: int) -> dict | None:
     """
     try:
         medals = get_medal_standings(season)
-        arbys = get_arbys_winner(season)
+        ladder_winner = get_consolation_ladder_winner(season)
         toilet_bowl = get_toilet_bowl_loser(season)
     except Exception:
         return None
@@ -42,8 +42,8 @@ def _season_row(season: int) -> dict | None:
         "🥇 Gold": medals["first"],
         "🥈 Silver": medals["second"],
         "🥉 Bronze": medals["third"],
-        "🍗 Arby's": arbys["arbys_winner"],
-        "💩 Toilet Bowl": toilet_bowl["last_place"],
+        f"🍗 {CONSOLATION_LADDER_WINNER_LABEL}": ladder_winner["winner"],
+        f"💩 {LAST_PLACE_LABEL}": toilet_bowl["last_place"],
     }
 
 
@@ -53,9 +53,9 @@ rows = [row for season in sorted(ALL_SEASONS, reverse=True) if (row := _season_r
 
 st.title("Podium")
 st.caption(
-    "Gold, silver, bronze from the playoff bracket; "
-    "🍗 Arby's is best finish among non-playoff teams; "
-    "💩 Toilet Bowl is the consolation bracket's last place."
+    f"Gold, silver, bronze from the playoff bracket; "
+    f"🍗 {CONSOLATION_LADDER_WINNER_LABEL} is best finish among non-playoff teams; "
+    f"💩 {LAST_PLACE_LABEL} is the consolation bracket's last place."
 )
 
 with st.spinner("Loading medal history..."):

@@ -26,7 +26,7 @@ from pathlib import Path
 
 from leagueintel.analytics.availability import SeasonNotReadyError
 from leagueintel.analytics.consolation import (
-    get_arbys_winner,
+    get_consolation_ladder_winner,
     get_medal_standings,
     get_toilet_bowl_loser,
 )
@@ -42,7 +42,7 @@ OUTPUT_PATH = REPO_ROOT / "tests" / "fixtures" / "regression_baseline.json"
 NAME_FIELDS = {
     "get_standings": {"manager": "owner"},
     "get_medal_standings": {"first": "owner", "second": "owner", "third": "owner"},
-    "get_arbys_winner": {"arbys_winner": "owner", "opponent": "owner"},
+    "get_consolation_ladder_winner": {"winner": "owner", "opponent": "owner"},
     "get_toilet_bowl_loser": {"last_place": "owner", "opponent": "owner"},
     "get_draft_roi": {"owner_name": "owner"},
     "get_waiver_scores": {"owner_name": "owner", "team_name": "team"},
@@ -51,7 +51,7 @@ NAME_FIELDS = {
 FUNCTIONS = {
     "get_standings": get_standings,
     "get_medal_standings": get_medal_standings,
-    "get_arbys_winner": get_arbys_winner,
+    "get_consolation_ladder_winner": get_consolation_ladder_winner,
     "get_toilet_bowl_loser": get_toilet_bowl_loser,
     "get_draft_roi": get_draft_roi,
     "get_waiver_scores": get_waiver_scores,

@@ -25,7 +25,7 @@ from leagueintel.analytics.availability import SeasonNotReadyError
 from leagueintel.analytics.standings import get_standings
 from leagueintel.analytics.consolation import (
     get_medal_standings,
-    get_arbys_winner,
+    get_consolation_ladder_winner,
     get_toilet_bowl_loser,
 )
 from leagueintel.analytics.draft import get_draft_roi
@@ -41,7 +41,7 @@ BASELINE_PATH = REPO_ROOT / "tests" / "fixtures" / "regression_baseline.json"
 FUNCTIONS = {
     "get_standings": get_standings,
     "get_medal_standings": get_medal_standings,
-    "get_arbys_winner": get_arbys_winner,
+    "get_consolation_ladder_winner": get_consolation_ladder_winner,
     "get_toilet_bowl_loser": get_toilet_bowl_loser,
     "get_draft_roi": get_draft_roi,
     "get_waiver_scores": get_waiver_scores,

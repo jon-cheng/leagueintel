@@ -1,9 +1,16 @@
 # src/leagueintel/reporting/pages/Season_Overview.py
 import streamlit as st
 import streamlit.components.v1 as components
-from leagueintel.analytics.consolation import get_arbys_winner, get_toilet_bowl_loser
+from leagueintel.analytics.consolation import (
+    get_consolation_ladder_winner,
+    get_toilet_bowl_loser,
+)
 from leagueintel.analytics.standings import get_standings
-from leagueintel.config import ALL_SEASONS
+from leagueintel.config import (
+    ALL_SEASONS,
+    CONSOLATION_LADDER_MATCHUP_NAME,
+    LAST_PLACE_MATCHUP_NAME,
+)
 from leagueintel.reporting.consolation_card import render_matchup_card
 from leagueintel.reporting.home import shared_sidebar
 from leagueintel.reporting.playoff_bracket import bracket_height, render_playoff_bracket
@@ -41,34 +48,35 @@ st.dataframe(
         "points_for": st.column_config.NumberColumn("PF", format="%.1f"),
         "points_against": st.column_config.NumberColumn("PA", format="%.1f"),
         "point_diff": st.column_config.NumberColumn("Diff", format="%+.1f"),
+        "standing": None,  # drives sort order already; redundant as a shown column
     },
 )
 
 st.header("Playoff Bracket")
 components.html(render_playoff_bracket(season), height=bracket_height(season))
 
-st.header("Arby's Bowl")
+st.header(CONSOLATION_LADDER_MATCHUP_NAME)
 try:
-    arbys = get_arbys_winner(season)
+    ladder_winner = get_consolation_ladder_winner(season)
     card = render_matchup_card(
-        title=f"{season} Consolation Ladder Championship",
+        title=f"{season} {CONSOLATION_LADDER_MATCHUP_NAME}",
         emoji="🥩",
-        name_top=arbys["arbys_winner"],
-        score_top=arbys["winner_score"],
-        name_bot=arbys["opponent"],
-        score_bot=arbys["loser_score"],
+        name_top=ladder_winner["winner"],
+        score_top=ladder_winner["winner_score"],
+        name_bot=ladder_winner["opponent"],
+        score_bot=ladder_winner["opponent_score"],
         highlight="top",
         color="green",
     )
     components.html(card, height=150)
 except Exception:
-    st.info("Arby's Bowl data not available for this season")
+    st.info(f"{CONSOLATION_LADDER_MATCHUP_NAME} data not available for this season")
 
-st.header("Toilet Bowl")
+st.header(LAST_PLACE_MATCHUP_NAME)
 try:
     toilet_bowl = get_toilet_bowl_loser(season)
     card = render_matchup_card(
-        title=f"{season} Last Place Game",
+        title=f"{season} {LAST_PLACE_MATCHUP_NAME}",
         emoji="🚽",
         name_top=toilet_bowl["last_place"],
         score_top=toilet_bowl["last_place_score"],
@@ -79,4 +87,4 @@ try:
     )
     components.html(card, height=150)
 except Exception:
-    st.info("Toilet Bowl data not available for this season")
+    st.info(f"{LAST_PLACE_MATCHUP_NAME} data not available for this season")
