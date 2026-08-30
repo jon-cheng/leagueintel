@@ -69,3 +69,25 @@ poetry run pytest tests/reporting/test_chatbot_throttling.py -v
 ## Deployment
 Streamlit Community Cloud → src/leagueintel/reporting/home.py
 S3 → leagueintel-data/leagueintel.db (us-west-2)
+
+## Schema changes → auto-sync production S3
+Whenever a change adds/alters a table or column (e.g. an
+ALTER-TABLE-if-missing migration in storage/database.py), after landing
+it locally, automatically sync the production S3 DB — don't wait for me
+to ask separately. Sequence:
+1. Run the local migration + any needed backfill (e.g. `leagueintel
+   fetch-teams`, `fetch-season-settings`) against the dev DB first.
+2. Run the test suite (at minimum `-m regression`) and confirm it's
+   green against the migrated dev DB.
+3. Only then touch S3: download `s3://leagueintel-data/leagueintel.db`
+   (AWS profile `leagueintel_admin`, not the app's default read-only
+   credentials), make a local timestamped backup copy before mutating
+   anything (no permission to check bucket versioning, so this is the
+   only rollback path), apply the same schema migration + backfill to
+   that downloaded copy, re-run `-m regression` against it too.
+4. Upload back to S3, then re-download and byte-diff to confirm the
+   upload actually landed correctly.
+This is production data other people/the deployed app depend on — still
+narrate what's happening at each step, but don't stop to ask permission
+for this specific sequence when it's purely a schema migration + verified
+backfill (no risky/exploratory data changes).
