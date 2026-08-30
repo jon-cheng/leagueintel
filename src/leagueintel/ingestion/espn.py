@@ -26,6 +26,7 @@ from leagueintel.storage.writer import (
     write_players,
     write_box_scores,
     write_matchups,
+    write_season_settings,
 )
 
 
@@ -173,6 +174,12 @@ def _extract_team(team: Team, season: int) -> dict:
             if team.owners
             else None
         ),
+        # standing = ESPN's playoffSeed (regular-season seed, drives
+        # playoff seeding); final_standing = rankCalculatedFinal (the
+        # actual post-playoff result, e.g. 1 = champion) — these answer
+        # different questions and both feed downstream analytics.
+        "standing": team.standing,
+        "final_standing": team.final_standing,
     }
 
 
@@ -199,6 +206,34 @@ def fetch_teams_all(
         write_teams(teams, conn)
         logger.info(f"Season {year}: wrote {len(teams)} teams")
 
+    conn.close()
+
+
+def fetch_season_settings_all(
+    seasons: list[int] = None, leagues: dict[int, League] = None
+) -> None:
+    """
+    Fetch per-season league settings (currently just median_scoring, ESPN's
+    "Bonus Wins and Losses" rule) and write to SQLite. A season's rules can
+    change year to year, so this is fetched/stored per season, not assumed
+    constant across the league's history.
+    """
+    seasons = seasons or ALL_SEASONS
+    leagues = leagues or {}
+    conn = get_connection()
+    create_tables(conn)
+
+    logger.info(f"Fetching season settings for {len(seasons)} seasons")
+    settings_rows = []
+    for year in seasons:
+        league = leagues.get(year) or League(
+            league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID
+        )
+        settings_rows.append(
+            {"season": year, "median_scoring": league.settings.median_scoring}
+        )
+
+    write_season_settings(settings_rows, conn)
     conn.close()
 
 

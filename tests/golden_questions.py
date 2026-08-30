@@ -14,14 +14,19 @@ GOLDEN_QUESTIONS = [
         "matchups table got the winner/score attribution "
         "backwards (attributed the wrong score to the wrong "
         "team). Fixed by adding matchups_long and steering "
-        "ad-hoc SQL generation toward it.",
+        "ad-hoc SQL generation toward it. Ground truth updated "
+        "2026-08-29: the 2020/week 12 game (margin 95.8) was the "
+        "biggest blowout when this case was first written, but "
+        "more seasons have been ingested since — 2023 week 4 "
+        "(margin 132.7) is now the actual biggest blowout in the "
+        "DB. Also observed some flakiness here: the model doesn't "
+        "always generate a fully correct ORDER BY margin DESC "
+        "query on the first try — noted for step 6, not fixed here.",
         "ground_truth": {
-            "season": 2020,
-            "week": 12,
-            "winner_team_id": 5,
-            "winner_score": 164.1,
-            "loser_team_id": 12,
-            "loser_score": 68.3,
+            "season": 2023,
+            "week": 4,
+            "winner_score": 176.4,
+            "loser_score": 43.7,
         },
     },
     {

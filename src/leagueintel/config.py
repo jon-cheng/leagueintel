@@ -90,3 +90,18 @@ TURSO_OPS_TOKEN = os.getenv("TURSO_OPS_TOKEN")
 # golden question set can be run twice (see scripts/cache_benchmark.py)
 # and the real before/after cost difference measured directly.
 ENABLE_PROMPT_CACHING = os.getenv("ENABLE_PROMPT_CACHING", "true").lower() == "true"
+
+# ── per-league prize naming ───────────────────────────────────────────────────
+# The underlying detection logic (get_consolation_ladder_winner,
+# get_toilet_bowl_loser) derives WHO wins/loses dynamically from real
+# league data — these are just display labels, pure league culture, not
+# derivable from ESPN's API. Generic defaults here; override in .env or
+# st.secrets for your own league's actual prize names.
+CONSOLATION_LADDER_WINNER_LABEL = _get_env(
+    "CONSOLATION_LADDER_WINNER_LABEL", "Consolation Ladder Winner"
+)
+CONSOLATION_LADDER_MATCHUP_NAME = _get_env(
+    "CONSOLATION_LADDER_MATCHUP_NAME", "Consolation Ladder Championship"
+)
+LAST_PLACE_LABEL = _get_env("LAST_PLACE_LABEL", "Last Place Loser")
+LAST_PLACE_MATCHUP_NAME = _get_env("LAST_PLACE_MATCHUP_NAME", "Last Place Game")

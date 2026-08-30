@@ -44,6 +44,21 @@ def db_conn(tmp_path, monkeypatch):
     conn.close()
 
 
+def _set_final_standings(conn, standings_by_team_id: dict):
+    """
+    get_medal_standings/get_toilet_bowl_loser now read identity from
+    teams.final_standing (ESPN's own post-season rank) rather than
+    inferring it from game results — the shared TEAMS fixture leaves it
+    NULL since most tests don't need it, so tests that do must set it
+    explicitly to match the bracket they're constructing.
+    """
+    conn.executemany(
+        "UPDATE teams SET final_standing = ? WHERE team_id = ? AND season = ?",
+        [(rank, team_id, SEASON) for team_id, rank in standings_by_team_id.items()],
+    )
+    conn.commit()
+
+
 def _insert_matchup(conn, week, home_id, away_id, home_score, away_score, matchup_type):
     conn.execute(
         """
@@ -70,6 +85,8 @@ def test_get_medal_standings_identifies_first_second_third(db_conn):
     # championship + 3rd place game (week 2)
     _insert_matchup(db_conn, 2, 1, 3, 120.0, 100.0, "WINNERS_BRACKET")  # A beats C
     _insert_matchup(db_conn, 2, 4, 2, 95.0, 70.0, "WINNERS_CONSOLATION_LADDER")  # D beats B
+
+    _set_final_standings(db_conn, {1: 1, 3: 2, 4: 3})  # A first, C second, D third
 
     standings = consolation.get_medal_standings(SEASON)
 
@@ -99,6 +116,8 @@ def test_get_medal_standings_ignores_other_consolation_ladder_games(db_conn):
     _insert_matchup(db_conn, 2, 4, 2, 95.0, 70.0, "WINNERS_CONSOLATION_LADDER")  # D beats B
     # decoy 5th place game between unrelated teams E and F
     _insert_matchup(db_conn, 2, 5, 6, 60.0, 200.0, "WINNERS_CONSOLATION_LADDER")  # F beats E
+
+    _set_final_standings(db_conn, {1: 1, 3: 2, 4: 3})  # A first, C second, D third
 
     standings = consolation.get_medal_standings(SEASON)
 

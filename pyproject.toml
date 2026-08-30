@@ -36,6 +36,12 @@ libsql-experimental = "^0.0.55"
 [tool.poetry.scripts]
 leagueintel = "leagueintel.cli:cli"
 
+[tool.pytest.ini_options]
+markers = [
+    "regression: needs the real leagueintel.db (baseline diff or page smoke test); excluded from default CI run, which has no DB file",
+    "llm: calls the real Anthropic API (costs real tokens; excluded from default CI run)",
+]
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
