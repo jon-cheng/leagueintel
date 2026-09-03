@@ -42,12 +42,34 @@ DRAFT_SELECTIONS_ALL_POSITIONS_SQL = """
 NON_STARTING_SLOTS = ["BE", "IR"]
 
 
+def get_draft_type(season: int) -> str | None:
+    """ESPN's raw draftSettings.type for a season (e.g. "AUCTION"), or
+    None if season_settings has no row for it."""
+    conn = get_connection()
+    row = conn.execute(
+        "SELECT draft_type FROM season_settings WHERE season = ?", (season,)
+    ).fetchone()
+    conn.close()
+    return row[0] if row else None
+
+
 def get_draft_roi(season: int, min_weeks: int = MIN_WEEKS) -> pd.DataFrame:
     """Fetch draft data and compute ROI metrics (QB/RB/WR/TE only).
 
+    Dispatches on the season's draft_type: AUCTION leagues get the
+    existing bid-amount-based ROI. Snake-draft leagues aren't supported
+    yet — see GENERALIZATION_PLAN.md step 5 for the open design question
+    on that metric.
+
     Raises SeasonNotReadyError if the current season hasn't reached
     LIVE_SEASON_ANALYSIS_MIN_WEEK yet.
+    Raises NotImplementedError for a non-AUCTION season.
     """
+    if get_draft_type(season) != "AUCTION":
+        raise NotImplementedError(
+            f"Snake-draft ROI analysis is not yet implemented (season {season})"
+        )
+
     conn = get_connection()
     check_season_ready(season, get_max_ingested_week(conn, season))
     df_raw = pd.read_sql(DRAFT_BOX_SCORES_SQL, conn, params={"season": season})

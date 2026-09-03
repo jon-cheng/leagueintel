@@ -93,3 +93,38 @@ def test_canceled_trade_is_excluded(conn):
     conn.commit()
 
     assert _acquisition_rows_for_player(conn, 99999) == []
+
+
+def test_draft_box_scores_includes_overall_pick_number(conn):
+    """
+    draft_box_scores must expose overall_pick_number — needed for the
+    snake-draft ROI metric (positional pick-rank vs. finish-rank), which
+    draft_picks already carries but draft_box_scores previously dropped.
+    """
+    conn.execute(
+        "INSERT INTO teams (team_id, season, owner_name) VALUES (1, 2025, 'Test Owner')"
+    )
+    conn.execute(
+        "INSERT INTO players (player_id, full_name) VALUES (555, 'Test Player')"
+    )
+    _insert_transaction(conn, "draft-1", 2025, "DRAFT", "EXECUTED", 1, 0)
+    conn.execute(
+        """
+        INSERT INTO transaction_moves
+        (transaction_id, item_type, player_id, to_team_id, overall_pick_number)
+        VALUES ('draft-1', 'DRAFT', 555, 1, 8)
+        """
+    )
+    conn.execute(
+        """
+        INSERT INTO box_scores
+        (season, week, team_id, player_id, position, lineup_slot, points)
+        VALUES (2025, 1, 1, 555, 'RB', 'RB', 12.0)
+        """
+    )
+    conn.commit()
+
+    row = conn.execute(
+        "SELECT overall_pick_number FROM draft_box_scores WHERE player_name = 'Test Player'"
+    ).fetchone()
+    assert row == (8,)

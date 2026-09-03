@@ -67,8 +67,11 @@ def _create_draft_box_scores_view(conn: sqlite3.Connection) -> None:
         - GROUP BY player_name, bid_amount for season totals
         - Filter by season for single-season analysis
     """
+    # DROP + CREATE (not IF NOT EXISTS) so changes to this view's SQL take
+    # effect on DBs where it was already created with an older definition
+    conn.execute("DROP VIEW IF EXISTS draft_box_scores")
     conn.execute("""
-        CREATE VIEW IF NOT EXISTS draft_box_scores AS
+        CREATE VIEW draft_box_scores AS
         -- draft picks with box score performance
         -- one row per drafted player per week
         -- excludes K and D/ST positions
@@ -83,7 +86,8 @@ def _create_draft_box_scores_view(conn: sqlite3.Connection) -> None:
             bs.position,                       -- QB, RB, WR, TE (K and D/ST excluded)
             bs.points,                         -- actual fantasy points scored this week
             bs.lineup_slot,                    -- QB/RB/WR/TE = started, BE = bench, IR = injured
-            bs.week                            -- NFL week number 1-17
+            bs.week,                           -- NFL week number 1-17
+            mv.overall_pick_number             -- overall draft pick number
         FROM transactions t
         JOIN transaction_moves mv ON t.id = mv.transaction_id
         JOIN players p ON mv.player_id = p.player_id
