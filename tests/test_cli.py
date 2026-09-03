@@ -33,10 +33,17 @@ def test_sync_runs_full_pipeline_including_transactions():
                                     with patch(
                                         "leagueintel.cli.infer_missing_trade_items_all"
                                     ) as mock_infer_trades:
-                                        runner = CliRunner()
-                                        result = runner.invoke(
-                                            cli, ["sync", "--seasons", "2026"]
-                                        )
+                                        with patch(
+                                            "leagueintel.cli.get_connection"
+                                        ):
+                                            with patch(
+                                                "leagueintel.cli.create_views"
+                                            ):
+                                                runner = CliRunner()
+                                                result = runner.invoke(
+                                                    cli,
+                                                    ["sync", "--seasons", "2026"],
+                                                )
 
     assert result.exit_code == 0
     mock_teams.assert_called_once_with(seasons=[2026], leagues=fake_leagues)
@@ -47,6 +54,45 @@ def test_sync_runs_full_pipeline_including_transactions():
     mock_fetch_txns.assert_called_once_with(year=2026, leagues=fake_leagues)
     mock_parse_txns.assert_called_once_with(seasons=[2026])
     mock_infer_trades.assert_called_once_with(seasons=[2026])
+
+
+def test_sync_recreates_views():
+    """
+    sync must call create_views so a view SQL change (e.g. a new column
+    on draft_box_scores) reaches prod through the nightly refresh workflow
+    without a separate manual scripts/migrate_db.py run.
+    """
+    with patch("leagueintel.cli.build_leagues", return_value={}):
+        with patch("leagueintel.cli.fetch_teams_all"):
+            with patch("leagueintel.cli.fetch_players_all"):
+                with patch("leagueintel.cli.fetch_box_scores_all"):
+                    with patch("leagueintel.cli.fetch_matchups_all"):
+                        with patch("leagueintel.cli.fetch_season_settings_all"):
+                            with patch("leagueintel.cli.fetch_transactions_all"):
+                                with patch(
+                                    "leagueintel.cli.parse_transactions_all"
+                                ):
+                                    with patch(
+                                        "leagueintel.cli.infer_missing_trade_items_all"
+                                    ):
+                                        with patch(
+                                            "leagueintel.cli.get_connection"
+                                        ) as mock_get_conn:
+                                            with patch(
+                                                "leagueintel.cli.create_views"
+                                            ) as mock_create_views:
+                                                fake_conn = MagicMock()
+                                                mock_get_conn.return_value = (
+                                                    fake_conn
+                                                )
+                                                runner = CliRunner()
+                                                result = runner.invoke(
+                                                    cli, ["sync"]
+                                                )
+
+    assert result.exit_code == 0
+    mock_create_views.assert_called_once_with(fake_conn)
+    fake_conn.close.assert_called_once()
 
 
 def test_sync_builds_one_league_dict_shared_across_all_steps():
@@ -71,10 +117,17 @@ def test_sync_builds_one_league_dict_shared_across_all_steps():
                                     with patch(
                                         "leagueintel.cli.infer_missing_trade_items_all"
                                     ):
-                                        runner = CliRunner()
-                                        runner.invoke(
-                                            cli, ["sync", "--seasons", "2026"]
-                                        )
+                                        with patch(
+                                            "leagueintel.cli.get_connection"
+                                        ):
+                                            with patch(
+                                                "leagueintel.cli.create_views"
+                                            ):
+                                                runner = CliRunner()
+                                                runner.invoke(
+                                                    cli,
+                                                    ["sync", "--seasons", "2026"],
+                                                )
 
     mock_build.assert_called_once_with([2026])
 
@@ -95,8 +148,16 @@ def test_sync_with_no_seasons_fetches_transactions_for_all_seasons():
                                     with patch(
                                         "leagueintel.cli.infer_missing_trade_items_all"
                                     ) as mock_infer_trades:
-                                        runner = CliRunner()
-                                        result = runner.invoke(cli, ["sync"])
+                                        with patch(
+                                            "leagueintel.cli.get_connection"
+                                        ):
+                                            with patch(
+                                                "leagueintel.cli.create_views"
+                                            ):
+                                                runner = CliRunner()
+                                                result = runner.invoke(
+                                                    cli, ["sync"]
+                                                )
 
     assert result.exit_code == 0
     mock_fetch_txns.assert_called_once_with(leagues={})

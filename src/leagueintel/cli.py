@@ -31,6 +31,8 @@ from leagueintel.ingestion.espn import (
 )
 from leagueintel.ingestion.parse import parse_transactions_all
 from leagueintel.ingestion.trade_inference import infer_missing_trade_items_all
+from leagueintel.storage.database import get_connection
+from leagueintel.storage.views import create_views
 
 
 @click.group()
@@ -204,6 +206,14 @@ def sync(seasons):
         fetch_transactions_all(leagues=leagues)
     parse_transactions_all(seasons=seasons_list)
     infer_missing_trade_items_all(seasons=seasons_list)
+
+    # Views are DROP+CREATE (see storage/views.py) so this always picks up
+    # the latest view SQL, even on a DB where they were created with an
+    # older definition — without this, a view-only change would never
+    # reach prod through the nightly refresh workflow.
+    conn = get_connection()
+    create_views(conn)
+    conn.close()
 
 
 if __name__ == "__main__":
