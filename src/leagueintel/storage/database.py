@@ -131,18 +131,27 @@ def _create_box_scores_table(conn: sqlite3.Connection) -> None:
 
 def _create_season_settings_table(conn: sqlite3.Connection) -> None:
     """
-    Per-season league settings that aren't per-team — currently just
-    median_scoring (ESPN's "Bonus Wins and Losses" rule), read from
-    league.settings.median_scoring at ingestion time. A season's rules
-    can change year to year (this league is adding median scoring for
-    2026), so this is keyed by season, not a single global flag.
+    Per-season league settings that aren't per-team — median_scoring
+    (ESPN's "Bonus Wins and Losses" rule, read from
+    league.settings.median_scoring) and draft_type (ESPN's raw
+    draftSettings.type string, e.g. "AUCTION" — not exposed by espn_api,
+    so fetched via a direct request). A season's rules can change year
+    to year (this league is adding median scoring for 2026), so this is
+    keyed by season, not a single global flag.
     """
     conn.execute("""
         CREATE TABLE IF NOT EXISTS season_settings (
             season INTEGER PRIMARY KEY,
-            median_scoring INTEGER NOT NULL DEFAULT 0
+            median_scoring INTEGER NOT NULL DEFAULT 0,
+            draft_type TEXT
         )
     """)
+    # migration for DBs created before draft_type existed
+    existing_columns = {
+        row[1] for row in conn.execute("PRAGMA table_info(season_settings)")
+    }
+    if "draft_type" not in existing_columns:
+        conn.execute("ALTER TABLE season_settings ADD COLUMN draft_type TEXT")
 
 
 def _create_matchups_table(conn: sqlite3.Connection) -> None:

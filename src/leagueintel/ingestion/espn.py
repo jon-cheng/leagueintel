@@ -209,14 +209,31 @@ def fetch_teams_all(
     conn.close()
 
 
+def fetch_draft_type(season: int) -> str | None:
+    """
+    Fetch ESPN's raw draftSettings.type (e.g. "AUCTION") for a season via
+    a direct request. espn_api's BaseSettings reads keeperCount out of
+    draftSettings but never stores the raw dict the way it does for
+    scoringSettings/scheduleSettings, so this can't come from league.settings.
+    """
+    url = BASE_URL.format(year=season, league_id=LEAGUE_ID)
+    resp = requests.get(
+        url,
+        params={"view": "mSettings"},
+        cookies={"espn_s2": ESPN_S2, "SWID": SWID},
+    )
+    resp.raise_for_status()
+    return resp.json()["settings"]["draftSettings"].get("type")
+
+
 def fetch_season_settings_all(
     seasons: list[int] = None, leagues: dict[int, League] = None
 ) -> None:
     """
-    Fetch per-season league settings (currently just median_scoring, ESPN's
-    "Bonus Wins and Losses" rule) and write to SQLite. A season's rules can
-    change year to year, so this is fetched/stored per season, not assumed
-    constant across the league's history.
+    Fetch per-season league settings (median_scoring, ESPN's "Bonus Wins
+    and Losses" rule, and draft_type, e.g. "AUCTION") and write to SQLite.
+    A season's rules can change year to year, so this is fetched/stored
+    per season, not assumed constant across the league's history.
     """
     seasons = seasons or ALL_SEASONS
     leagues = leagues or {}
@@ -230,7 +247,11 @@ def fetch_season_settings_all(
             league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID
         )
         settings_rows.append(
-            {"season": year, "median_scoring": league.settings.median_scoring}
+            {
+                "season": year,
+                "median_scoring": league.settings.median_scoring,
+                "draft_type": fetch_draft_type(year),
+            }
         )
 
     write_season_settings(settings_rows, conn)

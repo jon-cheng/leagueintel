@@ -22,6 +22,7 @@ class FantasyTeamSchema(BaseModel):
 class SeasonSettingsSchema(BaseModel):
     season: int
     median_scoring: bool
+    draft_type: str | None = None
 
 
 class PlayerRecord(BaseModel):
@@ -128,8 +129,8 @@ def write_season_settings(settings: list[dict], conn: sqlite3.Connection) -> Non
         settings,
         SeasonSettingsSchema,
         """
-        INSERT OR REPLACE INTO season_settings (season, median_scoring)
-        VALUES (?, ?)
+        INSERT OR REPLACE INTO season_settings (season, median_scoring, draft_type)
+        VALUES (?, ?, ?)
     """,
         conn,
     )

@@ -11,6 +11,8 @@ from leagueintel.ingestion.espn import (
     fetch_transactions_all,
     fetch_teams_all,
     fetch_matchups_all,
+    fetch_draft_type,
+    fetch_season_settings_all,
     build_leagues,
 )
 
@@ -267,3 +269,56 @@ def test_fetch_matchups_all_only_processes_weeks_through_final_scoring_period(
 
     weeks_written = [call.args[0][0]["week"] for call in mock_write.call_args_list]
     assert weeks_written == [1, 2, 3, 4, 5]
+
+
+# ── fetch_draft_type / fetch_season_settings_all tests ─────────────────────────
+
+
+def test_fetch_draft_type_reads_raw_draft_settings_type():
+    """
+    espn_api's BaseSettings never stores draftSettings' raw dict, so
+    draft_type must come from a direct request against mSettings.
+    """
+    fake_response = MagicMock()
+    fake_response.json.return_value = {
+        "settings": {"draftSettings": {"type": "AUCTION"}}
+    }
+
+    with patch(
+        "leagueintel.ingestion.espn.requests.get", return_value=fake_response
+    ) as mock_get:
+        result = fetch_draft_type(2026)
+
+    assert result == "AUCTION"
+    fake_response.raise_for_status.assert_called_once()
+    assert mock_get.call_args.kwargs["params"] == {"view": "mSettings"}
+
+
+def test_fetch_season_settings_all_writes_draft_type_verbatim():
+    """
+    fetch_season_settings_all should pass whatever string ESPN returns for
+    draftSettings.type straight through, without assuming "AUCTION" is the
+    only possible value — the exact snake-draft string is unconfirmed.
+    """
+    fake_league = MagicMock()
+    fake_league.settings.median_scoring = False
+
+    with patch("leagueintel.ingestion.espn.get_connection") as mock_get_conn:
+        with patch("leagueintel.ingestion.espn.create_tables"):
+            with patch(
+                "leagueintel.ingestion.espn.write_season_settings"
+            ) as mock_write:
+                with patch(
+                    "leagueintel.ingestion.espn.fetch_draft_type",
+                    return_value="SOME_OTHER_TYPE",
+                ):
+                    mock_get_conn.return_value = MagicMock()
+
+                    fetch_season_settings_all(
+                        seasons=[2026], leagues={2026: fake_league}
+                    )
+
+    written_rows = mock_write.call_args.args[0]
+    assert written_rows == [
+        {"season": 2026, "median_scoring": False, "draft_type": "SOME_OTHER_TYPE"}
+    ]
