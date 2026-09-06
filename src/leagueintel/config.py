@@ -63,6 +63,14 @@ BASE_URL = (
 # Threshold games played for consideration in draft, waiver analyses
 MIN_WEEKS = 8
 
+# TODO: the "QB/RB/WR/TE only, exclude K and D/ST" position filter is
+# currently expressed three different ways across analytics/ — a SQL view
+# (draft_box_scores), an inline `position NOT IN ('K', 'D/ST')` (waiver.py,
+# roster_value.py, views.py), and an inline `position IN ('QB', 'RB',
+# 'WR', 'TE')` (war.py). Consider a single CORE_POSITIONS constant here,
+# imported everywhere, so adding/removing a scored position is a one-line
+# change instead of several.
+
 # Draft ROI and Best Waiver need a full season's worth of weeks to be
 # meaningful — too few weeks of the live season means small sample sizes
 # and noisy comparisons. Lock these two analyses out for the current

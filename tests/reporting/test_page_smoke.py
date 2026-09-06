@@ -41,6 +41,7 @@ PAGES = [
     "Best_Waiver.py",
     "Head_to_Head.py",
     "Chat.py",
+    "WAR.py",
 ]
 
 

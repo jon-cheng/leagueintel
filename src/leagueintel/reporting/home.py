@@ -11,6 +11,7 @@ from leagueintel.config import (
 )
 from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.analytics.availability import get_default_season
+from leagueintel.reporting.style import register_plotly_template
 
 # ── S3 download ───────────────────────────────────────────────────────────────
 
@@ -74,6 +75,8 @@ FAQ = {
 
 def shared_sidebar() -> None:
     """Render the sidebar shared across all authenticated pages."""
+    register_plotly_template()
+
     # hide Streamlit's auto-generated page nav — shared_sidebar() below
     # is the only navigation we want shown
     st.markdown(
@@ -114,6 +117,7 @@ def shared_sidebar() -> None:
         st.subheader("Analytics")
         st.page_link("pages/Draft_ROI.py", label="🎯 Draft ROI")
         st.page_link("pages/Best_Waiver.py", label="💎 Best Waiver")
+        st.page_link("pages/WAR.py", label="⭐ WAR")
 
         st.subheader("History")
         st.page_link("pages/Head_to_Head.py", label="⚔️ Head to Head")
