@@ -31,13 +31,13 @@ head-to-head history, all in one place.
 <sub>Current Managers</sub>
 </td>
 <td align="center">
-<h3>593</h3>
+<h3>606</h3>
 <sub>Rostered Players</sub>
 </td>
 </tr>
 <tr>
 <td align="center">
-<h3>5,661</h3>
+<h3>5,669</h3>
 <sub>Waiver Bids Placed</sub>
 </td>
 <td align="center">
@@ -45,13 +45,13 @@ head-to-head history, all in one place.
 <sub>Successful Adds</sub>
 </td>
 <td align="center">
-<h3>695</h3>
+<h3>797</h3>
 <sub>Matchups Played</sub>
 </td>
 </tr>
 </table>
 
-<p align="center"><sub>Last updated: 2026-09-06 12:33 GMT</sub></p>
+<p align="center"><sub>Last updated: 2026-09-07 07:12 GMT</sub></p>
 <!-- METRICS_TABLE_END -->
 
 > "Who had the most regrettable drop of 2025?"
