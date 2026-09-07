@@ -1,14 +1,117 @@
 """
 SQLite database connection and schema management.
+
+Cloud freshness
+---------------
+On Streamlit Community Cloud the DB is a snapshot pulled from S3. A daily
+cron job uploads a fresh ``leagueintel.db``; there's no API to reboot the
+app to pick it up, so instead the app checks the S3 ETag (cheap
+``head_object``, at most once every 10 minutes) and re-downloads only when
+it changed. Each snapshot lands in its own ``/tmp/leagueintel_<etag>.db``
+so an in-flight query on an older file never has it yanked mid-read.
+
+Local development is unaffected: ``_in_cloud()`` is False, so
+``get_connection()`` opens the repo's ``leagueintel.db`` directly with no
+S3 calls.
 """
 
+import glob
+import os
 import sqlite3
 from pathlib import Path
-from leagueintel.config import DEFAULT_DB_PATH
+
+import boto3
+import streamlit as st
+
+from leagueintel.config import DEFAULT_DB_PATH, S3_BUCKET, S3_KEY
+
+# where per-etag snapshots are written on the cloud container; patched in tests
+SNAPSHOT_DIR = "/tmp"
 
 
-def get_connection(db_path: Path = DEFAULT_DB_PATH) -> sqlite3.Connection:
-    """Return a SQLite connection to the leagueintel database."""
+def _in_cloud() -> bool:
+    """True on the Streamlit Cloud container (DB_PATH points at /tmp)."""
+    return str(DEFAULT_DB_PATH).startswith("/tmp")
+
+
+def _s3_client():
+    return boto3.client(
+        "s3",
+        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+        region_name=os.getenv("AWS_DEFAULT_REGION", "us-west-2"),
+    )
+
+
+@st.cache_data(ttl="10m")
+def get_current_etag() -> str | None:
+    """
+    Current S3 ETag of leagueintel.db — metadata only, no download.
+
+    Cached for 10 minutes so a burst of reruns / chat messages triggers at
+    most one head_object per 10 min. Returns None in local development.
+    """
+    if not _in_cloud():
+        return None
+    head = _s3_client().head_object(Bucket=S3_BUCKET, Key=S3_KEY)
+    return head["ETag"].strip('"')
+
+
+@st.cache_resource(max_entries=3)
+def _download_snapshot(etag: str) -> str:
+    """
+    Download the S3 DB snapshot for ``etag`` to a unique local path and
+    return it. Memoized per-etag: an unchanged etag is an instant cache
+    hit (no S3 call); a new etag (cron uploaded a fresh DB) misses and
+    triggers a real download. max_entries=3 keeps the 3 most-recently-used
+    snapshot paths resident, LRU-evicting older ones.
+    """
+    dest = os.path.join(SNAPSHOT_DIR, f"leagueintel_{etag[:8]}.db")
+    if not os.path.exists(dest):
+        _s3_client().download_file(S3_BUCKET, S3_KEY, dest)
+    _prune_snapshots(keep=3)
+    return dest
+
+
+def _prune_snapshots(keep: int = 3) -> None:
+    """
+    Delete all but the ``keep`` most recent (by mtime) snapshot files.
+    A file still open by another session raises OSError on Windows and is
+    silently skipped — it'll be retried on the next prune.
+    """
+    paths = sorted(
+        glob.glob(os.path.join(SNAPSHOT_DIR, "leagueintel_*.db")),
+        key=os.path.getmtime,
+        reverse=True,
+    )
+    for stale in paths[keep:]:
+        try:
+            os.remove(stale)
+        except OSError:
+            pass
+
+
+def resolve_db_path() -> str:
+    """
+    Path to the freshest local copy of the DB. Re-downloads from S3 only
+    when the ETag changed; otherwise returns the cached snapshot path
+    instantly. Falls back to the local repo DB when not on the cloud.
+    """
+    etag = get_current_etag()
+    if etag is None:
+        return str(DEFAULT_DB_PATH)
+    return _download_snapshot(etag)
+
+
+def get_connection(db_path: Path | str | None = None) -> sqlite3.Connection:
+    """
+    Return a SQLite connection to the leagueintel database.
+
+    With no argument it resolves the freshest DB (see ``resolve_db_path``);
+    pass an explicit ``db_path`` to bypass that (used by ingestion/tests).
+    """
+    if db_path is None:
+        db_path = resolve_db_path()
     return sqlite3.connect(db_path)
 
 

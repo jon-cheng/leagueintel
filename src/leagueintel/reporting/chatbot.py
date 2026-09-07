@@ -11,11 +11,11 @@ import anthropic
 from loguru import logger
 
 from leagueintel.config import (
-    DEFAULT_DB_PATH,
     ANTHROPIC_API_KEY,
     ALL_SEASONS,
     ENABLE_PROMPT_CACHING,
 )
+from leagueintel.storage.database import resolve_db_path
 from leagueintel.ingestion.espn import get_scoring_description, get_league_context
 from leagueintel.reporting.turso_client import (
     log_question,
@@ -442,7 +442,7 @@ def query_db(sql: str) -> tuple[str, pd.DataFrame | None]:
     if not sql_upper.startswith(("SELECT", "WITH")):
         return "Error: only SELECT queries are allowed", None
     try:
-        conn = sqlite3.connect(f"file:{DEFAULT_DB_PATH}?mode=ro", uri=True)
+        conn = sqlite3.connect(f"file:{resolve_db_path()}?mode=ro", uri=True)
         df = pd.read_sql(sql, conn)
         conn.close()
         return df.to_json(orient="records"), df
