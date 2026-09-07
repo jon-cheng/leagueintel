@@ -1,39 +1,30 @@
 # src/leagueintel/reporting/home.py
 import os
-import boto3
 import streamlit as st
 from leagueintel.config import (
     ALL_SEASONS,
     CURRENT_YEAR,
-    DEFAULT_DB_PATH,
-    S3_BUCKET,
-    S3_KEY,
 )
-from leagueintel.storage.database import get_connection, get_max_ingested_week
+from leagueintel.storage.database import (
+    get_connection,
+    get_max_ingested_week,
+    resolve_db_path,
+)
 from leagueintel.analytics.availability import get_default_season
 
 # ── S3 download ───────────────────────────────────────────────────────────────
 
 
-@st.cache_resource
 def initialize_db() -> None:
     """
-    Download DB from S3 on cold start if running in cloud.
-    Cached indefinitely — only runs once per process lifetime.
-    DB only changes on weekly refresh, no need to re-download.
-    """
-    db_path = str(DEFAULT_DB_PATH)
+    Ensure the freshest DB snapshot is downloaded from S3 (cloud only).
 
-    # only download if DB_PATH points to /tmp (cloud deployment)
-    # local development uses the repo's leagueintel.db directly
-    if db_path.startswith("/tmp"):
-        s3 = boto3.client(
-            "s3",
-            aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-            aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
-            region_name=os.getenv("AWS_DEFAULT_REGION", "us-west-2"),
-        )
-        s3.download_file(S3_BUCKET, S3_KEY, db_path)
+    Delegates to ``resolve_db_path()``, which re-downloads only when the S3
+    ETag changed (checked at most every 10 min) — so a daily cron refresh
+    is picked up on the next page load with no manual app reboot. No-op in
+    local development.
+    """
+    resolve_db_path()
 
 
 # ── password gate ─────────────────────────────────────────────────────────────
