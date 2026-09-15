@@ -45,13 +45,13 @@ head-to-head history, all in one place.
 <sub>Successful Adds</sub>
 </td>
 <td align="center">
-<h3>797</h3>
+<h3>887</h3>
 <sub>Matchups Played</sub>
 </td>
 </tr>
 </table>
 
-<p align="center"><sub>Last updated: 2026-09-15 03:44 GMT</sub></p>
+<p align="center"><sub>Last updated: 2026-09-15 14:07 GMT</sub></p>
 <!-- METRICS_TABLE_END -->
 
 > "Who had the most regrettable drop of 2025?"
