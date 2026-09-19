@@ -24,6 +24,12 @@ season = st.session_state.get("selected_season", max(ALL_SEASONS))
 
 
 def plot_waiver_scores(df):
+    # plotly stacks bars that share the same (y, color) pair instead of
+    # erroring, so two different managers picking up the same player in
+    # the same season would silently sum into one bar exceeding 100 —
+    # label includes the manager to keep every row's bar unique.
+    df = df.assign(label=df["player_name"] + " (" + df["owner_name"] + ")")
+
     top = df.sort_values(
         ["waiver_score", "total_points"], ascending=[False, False]
     ).head(15)
@@ -36,18 +42,18 @@ def plot_waiver_scores(df):
     fig = px.bar(
         ordered,
         x="waiver_score",
-        y="player_name",
+        y="label",
         color="position",
         orientation="h",
         hover_data=["owner_name", "acquisition_week", "total_points"],
         title="Top Waiver Pickups by Waiver Score",
-        labels={"waiver_score": "Waiver Score (percentile)", "player_name": ""},
+        labels={"waiver_score": "Waiver Score (percentile)", "label": ""},
         height=600,
     )
     fig.update_layout(
         yaxis={
             "categoryorder": "array",
-            "categoryarray": ordered["player_name"].tolist(),
+            "categoryarray": ordered["label"].tolist(),
         }
     )
     return fig
@@ -96,8 +102,12 @@ with col:
     st.plotly_chart(fig, use_container_width=True)
 
 st.subheader("All Eligible Pickups")
+table = df.assign(
+    ppg=(df["total_points"] / df["num_weeks"]).round(1),
+    best_weeks=df["weeks"].apply(lambda ws: ", ".join(str(w) for w in ws)),
+)
 st.dataframe(
-    df[
+    table[
         [
             "player_name",
             "position",
@@ -105,9 +115,18 @@ st.dataframe(
             "acquisition_week",
             "num_weeks",
             "total_points",
+            "best_weeks",
+            "ppg",
+            "position_ppg",
             "waiver_score",
         ]
-    ],
+    ].rename(
+        columns={
+            "best_weeks": "Best Weeks",
+            "ppg": "PPG",
+            "position_ppg": "Position PPG (same weeks)",
+        }
+    ),
     use_container_width=True,
     hide_index=True,
 )

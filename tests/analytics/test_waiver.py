@@ -26,7 +26,8 @@ def test_compute_waiver_scores_percentile_against_comparison_pool():
     can never count as "less than" itself, so it doesn't bias the score.
     """
     stints = pd.DataFrame(
-        [{"player_id": 100, "team_id": 1, "season": 2024, "acquisition_week": 1, "drop_week": 18}]
+        [{"player_id": 100, "team_id": 1, "season": 2024, "acquisition_type": "WAIVER",
+          "acquisition_week": 1, "drop_week": 18}]
     )
     box_scores = pd.DataFrame(
         [_box_score(100, 1, w, 10) for w in range(1, 9)]
@@ -53,7 +54,8 @@ def test_compute_waiver_scores_excludes_stints_under_min_weeks():
     against a partial week count.
     """
     stints = pd.DataFrame(
-        [{"player_id": 100, "team_id": 1, "season": 2024, "acquisition_week": 1, "drop_week": 6}]
+        [{"player_id": 100, "team_id": 1, "season": 2024, "acquisition_type": "WAIVER",
+          "acquisition_week": 1, "drop_week": 6}]
     )
     box_scores = pd.DataFrame([_box_score(100, 1, w, 10) for w in range(1, 6)])
     players = pd.DataFrame([{"player_id": 100, "player_name": "Short Stint"}])
@@ -64,7 +66,8 @@ def test_compute_waiver_scores_excludes_stints_under_min_weeks():
     assert result.empty
     assert list(result.columns) == [
         "player_name", "team_name", "owner_name", "position",
-        "acquisition_week", "num_weeks", "total_points", "waiver_score",
+        "acquisition_week", "num_weeks", "total_points",
+        "weeks", "position_ppg", "waiver_score",
     ]
 
 
@@ -74,7 +77,8 @@ def test_compute_waiver_scores_only_uses_weeks_on_roster():
     player was added — must not leak into the stint's top-8 selection.
     """
     stints = pd.DataFrame(
-        [{"player_id": 100, "team_id": 1, "season": 2024, "acquisition_week": 5, "drop_week": 18}]
+        [{"player_id": 100, "team_id": 1, "season": 2024, "acquisition_type": "WAIVER",
+          "acquisition_week": 5, "drop_week": 18}]
     )
     box_scores = pd.DataFrame(
         [_box_score(100, 1, w, 100) for w in range(1, 5)]  # before acquisition — must be ignored
@@ -98,8 +102,10 @@ def test_compute_waiver_scores_ignores_same_week_add_drop_stints():
     """
     stints = pd.DataFrame(
         [
-            {"player_id": 100, "team_id": 1, "season": 2024, "acquisition_week": 6, "drop_week": 6},
-            {"player_id": 100, "team_id": 2, "season": 2024, "acquisition_week": 7, "drop_week": 15},
+            {"player_id": 100, "team_id": 1, "season": 2024, "acquisition_type": "WAIVER",
+             "acquisition_week": 6, "drop_week": 6},
+            {"player_id": 100, "team_id": 2, "season": 2024, "acquisition_type": "WAIVER",
+             "acquisition_week": 7, "drop_week": 15},
         ]
     )
     box_scores = pd.DataFrame(

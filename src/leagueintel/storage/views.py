@@ -12,8 +12,9 @@ def create_views(conn: sqlite3.Connection) -> None:
     """Create all leagueintel views."""
     _create_draft_picks_view(conn)
     _create_draft_box_scores_view(conn)
-    _create_waiver_stints_view(conn)
+    # roster_stints first — waiver_stints is now a filtered view on top of it
     _create_roster_stints_view(conn)
+    _create_waiver_stints_view(conn)
     conn.commit()
 
 
@@ -105,6 +106,22 @@ def _create_waiver_stints_view(conn: sqlite3.Connection) -> None:
     roster stint for a player who was picked up off waivers (drafted
     players are excluded; they're covered by draft_picks/draft_box_scores).
 
+    A thin filter over roster_stints (acquisition_type = 'WAIVER', and the
+    player was never drafted that season by ANY team — league-wide, not
+    just this one). roster_stints already does the add/drop pairing
+    correctly (ranking ALL acquisition types and ALL EXECUTED drops
+    together per player/team/season), so this view doesn't reimplement
+    that logic. Requires roster_stints to already exist — create_views()
+    creates roster_stints first.
+
+    Previously this view paired only WAIVER-type adds against ALL drop
+    transactions regardless of status, including PENDING/CANCELED/FAILED_*
+    attempts ESPN logs before a waiver claim resolves. Those phantom drops
+    threw off the by-rank pairing (e.g. a player re-added after being
+    dropped could get matched to the wrong drop, producing a negative
+    duration_weeks and getting silently excluded from waiver value
+    analyses — see Jameson Williams / Jared Goff / Baker Mayfield, 2024).
+
     acquisition_week: first scoring period the player was added via waiver
     drop_week: scoring period the player was dropped by the SAME team that
                added them, or 18 (past the season) if never dropped
@@ -114,79 +131,26 @@ def _create_waiver_stints_view(conn: sqlite3.Connection) -> None:
                      rather than merged or discarded; filter
                      duration_weeks > 0 downstream to exclude these)
 
-    Each add is paired with that SAME team's next drop by rank (1st add with
-    that team pairs with their 1st drop, 2nd with 2nd, etc.) — not with the
-    next drop event for the player globally, which could belong to a
-    different team and produce overlapping stints across teams.
-
     Use for: waiver value analyses — join to box_scores on
     (player_id, team_id, season) and filter week within [acquisition_week, drop_week).
+
+    Carries acquisition_type through (always 'WAIVER' here) rather than
+    narrowing it out — stint_scoring.compute_stint_scores groups by it to
+    merge a manager's discontinuous same-type stints for a player into one
+    scored entry. See stint_scoring.py.
     """
+    conn.execute("DROP VIEW IF EXISTS waiver_stints")
     conn.execute("""
-        CREATE VIEW IF NOT EXISTS waiver_stints AS
-        WITH drafted_players AS (
-            SELECT DISTINCT
-                tm.player_id,
-                t.season
-            FROM transaction_moves tm
-            JOIN transactions t ON tm.transaction_id = t.id
-            WHERE t.transaction_type = 'DRAFT'
-            AND t.status = 'EXECUTED'
-            AND tm.item_type = 'DRAFT'
-            AND tm.player_id > 0
-        ),
-        waiver_adds AS (
-            SELECT
-                tm.player_id,
-                tm.to_team_id AS team_id,
-                t.season,
-                t.scoring_period_id AS acquisition_week,
-                ROW_NUMBER() OVER (
-                    PARTITION BY tm.player_id, tm.to_team_id, t.season
-                    ORDER BY t.scoring_period_id
-                ) AS stint_seq
-            FROM transaction_moves tm
-            JOIN transactions t ON tm.transaction_id = t.id
-            WHERE tm.item_type = 'ADD'
-            AND t.transaction_type = 'WAIVER'
-            AND t.status = 'EXECUTED'
-            AND tm.player_id > 0
-            AND NOT EXISTS (
-                SELECT 1 FROM drafted_players dp
-                WHERE dp.player_id = tm.player_id
-                AND dp.season = t.season
-            )
-            GROUP BY tm.player_id, tm.to_team_id, t.season, t.scoring_period_id
-        ),
-        waiver_drops AS (
-            SELECT
-                tm.player_id,
-                tm.from_team_id AS team_id,
-                t.season,
-                t.scoring_period_id AS drop_week,
-                ROW_NUMBER() OVER (
-                    PARTITION BY tm.player_id, tm.from_team_id, t.season
-                    ORDER BY t.scoring_period_id
-                ) AS stint_seq
-            FROM transaction_moves tm
-            JOIN transactions t ON tm.transaction_id = t.id
-            WHERE tm.item_type = 'DROP'
-            AND tm.player_id > 0
-            GROUP BY tm.player_id, tm.from_team_id, t.season, t.scoring_period_id
+        CREATE VIEW waiver_stints AS
+        SELECT *
+        FROM roster_stints rs
+        WHERE acquisition_type = 'WAIVER'
+        AND NOT EXISTS (
+            SELECT 1 FROM roster_stints d
+            WHERE d.player_id = rs.player_id
+            AND d.season = rs.season
+            AND d.acquisition_type = 'DRAFT'
         )
-        SELECT
-            a.player_id,
-            a.team_id,
-            a.season,
-            a.acquisition_week,
-            COALESCE(d.drop_week, 18) AS drop_week,
-            COALESCE(d.drop_week, 18) - a.acquisition_week AS duration_weeks
-        FROM waiver_adds a
-        LEFT JOIN waiver_drops d
-            ON a.player_id = d.player_id
-            AND a.team_id = d.team_id
-            AND a.season = d.season
-            AND a.stint_seq = d.stint_seq
     """)
 
 

@@ -5,10 +5,11 @@ waiver-only pickups.
 
 Thin wrapper around stint_scoring.compute_stint_scores: waiver-specific
 behavior is just the stint source (waiver_stints, so drafted players are
-excluded) and top_n_weeks == min_weeks == 8 — only established pickups
-with a full 8-week sample are ranked. See stint_scoring.py for the shared
-percentile methodology, and roster_value.py for the generalized version
-covering every acquisition type with a relaxed eligibility floor.
+excluded) and top_n_weeks == min_weeks == TOP_N_WEEKS (config.py) — only
+established pickups with a full sample are ranked. See stint_scoring.py
+for the shared percentile methodology, and roster_value.py for the
+generalized version covering every acquisition type with a relaxed
+eligibility floor.
 
 Stint boundaries (who was on which team, and when) come from the
 waiver_stints SQL view — matching add/drop transactions into date ranges
@@ -20,8 +21,7 @@ import pandas as pd
 from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.analytics.availability import check_season_ready
 from leagueintel.analytics.stint_scoring import compute_stint_scores
-
-TOP_N_WEEKS = 8
+from leagueintel.config import TOP_N_WEEKS
 
 WAIVER_STINTS_SQL = "SELECT * FROM waiver_stints WHERE season = :season"
 
@@ -44,6 +44,8 @@ RESULT_COLUMNS = [
     "acquisition_week",
     "num_weeks",
     "total_points",
+    "weeks",
+    "position_ppg",
     "waiver_score",
 ]
 
@@ -58,9 +60,15 @@ def get_waiver_scores(season: int) -> pd.DataFrame:
       - Position is QB, RB, WR, or TE (K and D/ST excluded)
 
     Returns DataFrame with columns:
-      player_name, team_name, owner_name, position,
-      acquisition_week, num_weeks, total_points, waiver_score
+      player_name, team_name, owner_name, position, acquisition_week,
+      num_weeks, total_points, weeks, position_ppg, waiver_score
 
+    weeks: chronologically-sorted list of the week numbers that made up
+    the player's best num_weeks (their top scoring weeks, pooled across
+    every stint this manager had with them) — the transparency companion
+    to waiver_score, showing exactly which weeks were counted.
+    position_ppg: the whole comparison field's average points per game
+    over those same weeks, for context on what "average" looked like.
     waiver_score: 0-100 percentile — fraction of all rostered players
     at the same position who scored less over the same weeks.
 
