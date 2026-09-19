@@ -63,6 +63,12 @@ BASE_URL = (
 # Threshold games played for consideration in draft, waiver analyses
 MIN_WEEKS = 8
 
+# Cap on how many of a stint's best scoring weeks count toward its total
+# in waiver/roster-value percentile scoring (stint_scoring.py) — a
+# player's "best N weeks" sample size. Distinct from MIN_WEEKS above:
+# this is the top-N cap itself, not an eligibility floor.
+TOP_N_WEEKS = 8
+
 # Draft ROI and Best Waiver need a full season's worth of weeks to be
 # meaningful — too few weeks of the live season means small sample sizes
 # and noisy comparisons. Lock these two analyses out for the current

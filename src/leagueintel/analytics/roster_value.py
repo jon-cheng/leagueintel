@@ -22,8 +22,8 @@ import pandas as pd
 from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.analytics.availability import check_season_ready
 from leagueintel.analytics.stint_scoring import compute_stint_scores
+from leagueintel.config import TOP_N_WEEKS
 
-TOP_N_WEEKS = 8
 MIN_WEEKS = 1
 
 ROSTER_STINTS_SQL = "SELECT * FROM roster_stints WHERE season = :season"

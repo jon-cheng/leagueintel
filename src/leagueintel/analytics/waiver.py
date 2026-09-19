@@ -5,10 +5,11 @@ waiver-only pickups.
 
 Thin wrapper around stint_scoring.compute_stint_scores: waiver-specific
 behavior is just the stint source (waiver_stints, so drafted players are
-excluded) and top_n_weeks == min_weeks == 8 — only established pickups
-with a full 8-week sample are ranked. See stint_scoring.py for the shared
-percentile methodology, and roster_value.py for the generalized version
-covering every acquisition type with a relaxed eligibility floor.
+excluded) and top_n_weeks == min_weeks == TOP_N_WEEKS (config.py) — only
+established pickups with a full sample are ranked. See stint_scoring.py
+for the shared percentile methodology, and roster_value.py for the
+generalized version covering every acquisition type with a relaxed
+eligibility floor.
 
 Stint boundaries (who was on which team, and when) come from the
 waiver_stints SQL view — matching add/drop transactions into date ranges
@@ -20,8 +21,7 @@ import pandas as pd
 from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.analytics.availability import check_season_ready
 from leagueintel.analytics.stint_scoring import compute_stint_scores
-
-TOP_N_WEEKS = 8
+from leagueintel.config import TOP_N_WEEKS
 
 WAIVER_STINTS_SQL = "SELECT * FROM waiver_stints WHERE season = :season"
 
