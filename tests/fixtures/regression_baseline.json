@@ -734,14 +734,14 @@
           "waiver_score": 93.3
         },
         {
-          "acquisition_week": 4,
+          "acquisition_week": 5,
           "num_weeks": 8,
           "owner_name": "manager_14",
-          "player_name": "Kyler Murray",
+          "player_name": "Jameis Winston",
           "position": "QB",
           "team_name": "team_89",
-          "total_points": 176.1,
-          "waiver_score": 92.0
+          "total_points": 185.2,
+          "waiver_score": 92.3
         },
         {
           "acquisition_week": 7,
@@ -751,6 +751,16 @@
           "position": "QB",
           "team_name": "team_35",
           "total_points": 168.29999999999998,
+          "waiver_score": 92.0
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Kyler Murray",
+          "position": "QB",
+          "team_name": "team_89",
+          "total_points": 176.1,
           "waiver_score": 92.0
         },
         {
@@ -880,8 +890,8 @@
           "player_name": "Rex Burkhead",
           "position": "RB",
           "team_name": "team_27",
-          "total_points": 12.7,
-          "waiver_score": 15.9
+          "total_points": 18.4,
+          "waiver_score": 27.9
         }
       ]
     }
@@ -1630,6 +1640,16 @@
           "waiver_score": 98.6
         },
         {
+          "acquisition_week": 1,
+          "num_weeks": 8,
+          "owner_name": "manager_9",
+          "player_name": "James Robinson",
+          "position": "RB",
+          "team_name": "team_97",
+          "total_points": 163.3,
+          "waiver_score": 97.3
+        },
+        {
           "acquisition_week": 7,
           "num_weeks": 8,
           "owner_name": "manager_23",
@@ -1696,8 +1716,8 @@
           "player_name": "Chase Edmonds",
           "position": "RB",
           "team_name": "team_76",
-          "total_points": 83.1,
-          "waiver_score": 85.5
+          "total_points": 95.8,
+          "waiver_score": 87.3
         },
         {
           "acquisition_week": 3,
@@ -2646,6 +2666,16 @@
           "waiver_score": 92.9
         },
         {
+          "acquisition_week": 6,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Dalton Schultz",
+          "position": "TE",
+          "team_name": "team_67",
+          "total_points": 90.3,
+          "waiver_score": 88.5
+        },
+        {
           "acquisition_week": 7,
           "num_weeks": 8,
           "owner_name": "manager_14",
@@ -2656,14 +2686,14 @@
           "waiver_score": 88.5
         },
         {
-          "acquisition_week": 6,
+          "acquisition_week": 4,
           "num_weeks": 8,
-          "owner_name": "manager_3",
-          "player_name": "Dalton Schultz",
-          "position": "TE",
-          "team_name": "team_67",
-          "total_points": 90.3,
-          "waiver_score": 88.5
+          "owner_name": "manager_10",
+          "player_name": "Kirk Cousins",
+          "position": "QB",
+          "team_name": "team_98",
+          "total_points": 158.3,
+          "waiver_score": 88.0
         },
         {
           "acquisition_week": 9,
@@ -2676,6 +2706,16 @@
           "waiver_score": 80.8
         },
         {
+          "acquisition_week": 5,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "A.J. Green",
+          "position": "WR",
+          "team_name": "team_67",
+          "total_points": 76.6,
+          "waiver_score": 75.4
+        },
+        {
           "acquisition_week": 8,
           "num_weeks": 8,
           "owner_name": "manager_10",
@@ -2684,6 +2724,26 @@
           "team_name": "team_98",
           "total_points": 78.3,
           "waiver_score": 75.0
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Darnell Mooney",
+          "position": "WR",
+          "team_name": "team_43",
+          "total_points": 77.1,
+          "waiver_score": 72.3
+        },
+        {
+          "acquisition_week": 7,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Carson Wentz",
+          "position": "QB",
+          "team_name": "team_67",
+          "total_points": 111.1,
+          "waiver_score": 68.0
         },
         {
           "acquisition_week": 10,
@@ -2714,16 +2774,6 @@
           "team_name": "team_37",
           "total_points": 51.4,
           "waiver_score": 61.5
-        },
-        {
-          "acquisition_week": 5,
-          "num_weeks": 8,
-          "owner_name": "manager_3",
-          "player_name": "A.J. Green",
-          "position": "WR",
-          "team_name": "team_67",
-          "total_points": 60.1,
-          "waiver_score": 60.3
         },
         {
           "acquisition_week": 2,
@@ -4608,6 +4658,16 @@
           "waiver_score": 94.3
         },
         {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_9",
+          "player_name": "Jake Ferguson",
+          "position": "TE",
+          "team_name": "team_23",
+          "total_points": 94.2,
+          "waiver_score": 92.6
+        },
+        {
           "acquisition_week": 9,
           "num_weeks": 8,
           "owner_name": "manager_9",
@@ -4636,6 +4696,16 @@
           "team_name": "team_35",
           "total_points": 113.9,
           "waiver_score": 89.7
+        },
+        {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Jordan Love",
+          "position": "QB",
+          "team_name": "team_2",
+          "total_points": 185.1,
+          "waiver_score": 89.3
         },
         {
           "acquisition_week": 3,
@@ -4668,16 +4738,6 @@
           "waiver_score": 78.9
         },
         {
-          "acquisition_week": 2,
-          "num_weeks": 8,
-          "owner_name": "manager_1",
-          "player_name": "Jordan Love",
-          "position": "QB",
-          "team_name": "team_2",
-          "total_points": 126.80000000000001,
-          "waiver_score": 74.1
-        },
-        {
           "acquisition_week": 10,
           "num_weeks": 8,
           "owner_name": "manager_1",
@@ -4706,6 +4766,16 @@
           "team_name": "team_34",
           "total_points": 128.9,
           "waiver_score": 68.0
+        },
+        {
+          "acquisition_week": 9,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Taysom Hill",
+          "position": "TE",
+          "team_name": "team_77",
+          "total_points": 55.0,
+          "waiver_score": 63.0
         },
         {
           "acquisition_week": 7,
@@ -5566,6 +5636,16 @@
           "waiver_score": 93.8
         },
         {
+          "acquisition_week": 2,
+          "num_weeks": 8,
+          "owner_name": "manager_1",
+          "player_name": "Baker Mayfield",
+          "position": "QB",
+          "team_name": "team_103",
+          "total_points": 182.7,
+          "waiver_score": 92.6
+        },
+        {
           "acquisition_week": 7,
           "num_weeks": 8,
           "owner_name": "manager_17",
@@ -5594,6 +5674,16 @@
           "team_name": "team_58",
           "total_points": 95.2,
           "waiver_score": 85.2
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Jameson Williams",
+          "position": "WR",
+          "team_name": "team_31",
+          "total_points": 111.0,
+          "waiver_score": 83.1
         },
         {
           "acquisition_week": 1,
@@ -5648,6 +5738,36 @@
         {
           "acquisition_week": 8,
           "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Jauan Jennings",
+          "position": "WR",
+          "team_name": "team_93",
+          "total_points": 92.4,
+          "waiver_score": 64.4
+        },
+        {
+          "acquisition_week": 1,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Jameson Williams",
+          "position": "WR",
+          "team_name": "team_31",
+          "total_points": 65.8,
+          "waiver_score": 63.9
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
+          "owner_name": "manager_3",
+          "player_name": "Hunter Henry",
+          "position": "TE",
+          "team_name": "team_6",
+          "total_points": 61.6,
+          "waiver_score": 61.5
+        },
+        {
+          "acquisition_week": 8,
+          "num_weeks": 8,
           "owner_name": "manager_6",
           "player_name": "Russell Wilson",
           "position": "QB",
@@ -5664,6 +5784,26 @@
           "team_name": "team_100",
           "total_points": 71.0,
           "waiver_score": 56.2
+        },
+        {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Sam Darnold",
+          "position": "QB",
+          "team_name": "team_93",
+          "total_points": 107.9,
+          "waiver_score": 50.0
+        },
+        {
+          "acquisition_week": 10,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Khalil Shakir",
+          "position": "WR",
+          "team_name": "team_31",
+          "total_points": 64.0,
+          "waiver_score": 44.1
         },
         {
           "acquisition_week": 10,
@@ -6488,6 +6628,16 @@
           "waiver_score": 93.9
         },
         {
+          "acquisition_week": 3,
+          "num_weeks": 8,
+          "owner_name": "manager_14",
+          "player_name": "Wan'Dale Robinson",
+          "position": "WR",
+          "team_name": "team_92",
+          "total_points": 125.4,
+          "waiver_score": 91.3
+        },
+        {
           "acquisition_week": 9,
           "num_weeks": 8,
           "owner_name": "manager_23",
@@ -6618,6 +6768,16 @@
           "waiver_score": 50.8
         },
         {
+          "acquisition_week": 4,
+          "num_weeks": 8,
+          "owner_name": "manager_7",
+          "player_name": "Sam Darnold",
+          "position": "QB",
+          "team_name": "team_36",
+          "total_points": 126.1,
+          "waiver_score": 50.0
+        },
+        {
           "acquisition_week": 10,
           "num_weeks": 8,
           "owner_name": "manager_21",
@@ -6656,6 +6816,16 @@
           "team_name": "team_71",
           "total_points": 23.4,
           "waiver_score": 27.3
+        },
+        {
+          "acquisition_week": 1,
+          "num_weeks": 8,
+          "owner_name": "manager_10",
+          "player_name": "Braelon Allen",
+          "position": "RB",
+          "team_name": "team_71",
+          "total_points": 16.8,
+          "waiver_score": 22.7
         }
       ]
     }

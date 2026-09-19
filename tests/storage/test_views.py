@@ -57,6 +57,36 @@ def _acquisition_rows_for_player(conn, player_id: int):
     ).fetchall()
 
 
+def _insert_add_or_drop(
+    conn,
+    transaction_id: str,
+    item_type: str,
+    player_id: int,
+    from_team_id: int,
+    to_team_id: int,
+) -> None:
+    conn.execute(
+        """
+        INSERT INTO transaction_moves
+        (transaction_id, item_type, player_id, from_team_id, to_team_id)
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (transaction_id, item_type, player_id, from_team_id, to_team_id),
+    )
+
+
+def _waiver_stint_rows_for_player(conn, player_id: int):
+    return conn.execute(
+        """
+        SELECT team_id, acquisition_week, drop_week, duration_weeks
+        FROM waiver_stints
+        WHERE player_id = ?
+        ORDER BY acquisition_week
+        """,
+        (player_id,),
+    ).fetchall()
+
+
 def test_trade_upheld_appears_as_trade_for_both_teams(conn):
     """
     Most real trades resolve via TRADE_UPHOLD, not TRADE_ACCEPT -- the
@@ -93,3 +123,37 @@ def test_canceled_trade_is_excluded(conn):
     conn.commit()
 
     assert _acquisition_rows_for_player(conn, 99999) == []
+
+
+def test_waiver_stints_ignores_pending_drop_attempts(conn):
+    """
+    ESPN logs PENDING/CANCELED drop attempts before a waiver claim
+    resolves. waiver_stints used to pair adds against ALL drops
+    regardless of status, so a phantom PENDING drop before the real
+    EXECUTED one threw off the by-rank pairing for a later re-add --
+    producing a negative duration_weeks and silently dropping the
+    player from waiver value analyses (2024: Goff, Jameson Williams,
+    Baker Mayfield). waiver_stints is now a filter over roster_stints,
+    which already only counts EXECUTED drops.
+    """
+    _insert_transaction(conn, "add-1", 2024, "WAIVER", "EXECUTED", 5, 1)
+    _insert_add_or_drop(conn, "add-1", "ADD", 4426388, from_team_id=0, to_team_id=5)
+
+    # phantom drop attempt that never actually executed
+    _insert_transaction(conn, "drop-pending", 2024, "WAIVER", "PENDING", 5, 8)
+    _insert_add_or_drop(conn, "drop-pending", "DROP", 4426388, from_team_id=5, to_team_id=0)
+
+    # the real drop
+    _insert_transaction(conn, "drop-real", 2024, "WAIVER", "EXECUTED", 5, 9)
+    _insert_add_or_drop(conn, "drop-real", "DROP", 4426388, from_team_id=5, to_team_id=0)
+
+    # re-added by the same team the following week
+    _insert_transaction(conn, "add-2", 2024, "WAIVER", "EXECUTED", 5, 10)
+    _insert_add_or_drop(conn, "add-2", "ADD", 4426388, from_team_id=0, to_team_id=5)
+    conn.commit()
+
+    rows = _waiver_stint_rows_for_player(conn, 4426388)
+    assert rows == [
+        (5, 1, 9, 8),
+        (5, 10, 18, 8),
+    ]
