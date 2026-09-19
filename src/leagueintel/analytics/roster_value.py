@@ -10,8 +10,9 @@ stint_scoring.compute_stint_scores), but:
     traded players are included
   - MIN_WEEKS relaxed to 1 instead of requiring a full TOP_N_WEEKS sample,
     since this is meant to answer "was this acquisition a good move" for
-    any single stint (e.g. a specific draft pick or trade), not just rank
-    a large field of established waiver pickups.
+    any single manager/acquisition_type pairing (e.g. a specific draft
+    pick or trade), not just rank a large field of established waiver
+    pickups.
 
 Small-sample results (num_weeks well below TOP_N_WEEKS) are noisier —
 num_weeks is included in the output so callers can judge confidence.
@@ -20,7 +21,7 @@ num_weeks is included in the output so callers can judge confidence.
 import pandas as pd
 from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.analytics.availability import check_season_ready
-from leagueintel.analytics.stint_scoring import compute_stint_scores, STINT_KEY
+from leagueintel.analytics.stint_scoring import compute_stint_scores
 
 TOP_N_WEEKS = 8
 MIN_WEEKS = 1
@@ -105,6 +106,4 @@ def compute_roster_value_scores(
     if scores.empty:
         return pd.DataFrame(columns=RESULT_COLUMNS)
 
-    acquisition_types = stints[STINT_KEY + ["acquisition_type"]].drop_duplicates()
-    result = scores.merge(acquisition_types, on=STINT_KEY)
-    return result[RESULT_COLUMNS]
+    return scores[RESULT_COLUMNS]

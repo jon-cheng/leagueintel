@@ -44,6 +44,8 @@ RESULT_COLUMNS = [
     "acquisition_week",
     "num_weeks",
     "total_points",
+    "weeks",
+    "position_ppg",
     "waiver_score",
 ]
 
@@ -58,9 +60,15 @@ def get_waiver_scores(season: int) -> pd.DataFrame:
       - Position is QB, RB, WR, or TE (K and D/ST excluded)
 
     Returns DataFrame with columns:
-      player_name, team_name, owner_name, position,
-      acquisition_week, num_weeks, total_points, waiver_score
+      player_name, team_name, owner_name, position, acquisition_week,
+      num_weeks, total_points, weeks, position_ppg, waiver_score
 
+    weeks: chronologically-sorted list of the week numbers that made up
+    the player's best num_weeks (their top scoring weeks, pooled across
+    every stint this manager had with them) — the transparency companion
+    to waiver_score, showing exactly which weeks were counted.
+    position_ppg: the whole comparison field's average points per game
+    over those same weeks, for context on what "average" looked like.
     waiver_score: 0-100 percentile — fraction of all rostered players
     at the same position who scored less over the same weeks.
 

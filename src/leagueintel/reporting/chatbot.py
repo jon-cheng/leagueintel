@@ -102,9 +102,14 @@ One row per continuous roster stint for a player picked up off waivers
 (drafted players are excluded — see draft_picks/draft_box_scores instead).
 Use for: ad hoc questions specifically about WAIVER roster tenure, e.g.
 how long a waiver pickup was rostered, or which waiver stints were
-short-lived. For "regrettable drop" questions spanning any acquisition
+short-lived. This is raw per-event data — each waiver add/drop is its own
+row, even if the same manager added, dropped, and re-added the same
+player. For "regrettable drop" questions spanning any acquisition
 type (draft, waiver, free agent, trade), use roster_stints instead.
-Columns: player_id, team_id, season, acquisition_week, drop_week, duration_weeks
+Columns: player_id, team_id, season, acquisition_type, acquisition_week,
+         drop_week, duration_weeks
+- acquisition_type: always 'WAIVER' in this view (present for consistency
+  with roster_stints, not useful for filtering here)
 - acquisition_week: week the player was added via waiver
 - drop_week: week the player was dropped by that SAME team, or 18 if
   never dropped by that team
@@ -125,7 +130,8 @@ acquisition path — draft, waiver, free agent, and trade. Unlike
 waiver_stints, drafted players ARE included here.
 Use for: roster tenure or "regrettable drop"/"regrettable move" questions
 that should span all acquisition types, e.g. a team drafting a player and
-cutting him before Week 1, not just waiver pickups.
+cutting him before Week 1, not just waiver pickups. This is raw per-event
+data, same as waiver_stints — each acquisition is its own row.
 Columns: player_id, team_id, season, acquisition_type, acquisition_week,
          drop_week, duration_weeks
 - acquisition_type: 'DRAFT', 'WAIVER', 'FREEAGENT', or 'TRADE' — how the
@@ -375,6 +381,20 @@ TOOLS = [
         Do NOT try to write SQL for these via query_db —
         the logic is complex, validated, and handles known edge cases
         (IR exclusion, stint deduplication, position normalization).
+
+        Stint deduplication detail for best_waiver_player/roster_value:
+        these score a MANAGER'S ACQUISITION of a player, not each
+        individual add event — the question being answered is "how good
+        was this manager at getting value out of this player," not "how
+        good was this one claim." If a manager waiver-added, dropped, and
+        re-added the same player, that's ONE entry in the result, with
+        their best scoring weeks pooled across every stint. acquisition_week
+        in the result is the FIRST time that manager acquired the player,
+        not necessarily the start of one continuous stretch — so don't
+        describe it to the user as "rostered continuously since week X"
+        without checking waiver_stints/roster_stints for the real tenure.
+        A different manager picking up the same player is a separate
+        entry, scored independently.
         """,
         "input_schema": {
             "type": "object",

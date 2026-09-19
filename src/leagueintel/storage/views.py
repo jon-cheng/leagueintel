@@ -133,17 +133,16 @@ def _create_waiver_stints_view(conn: sqlite3.Connection) -> None:
 
     Use for: waiver value analyses — join to box_scores on
     (player_id, team_id, season) and filter week within [acquisition_week, drop_week).
+
+    Carries acquisition_type through (always 'WAIVER' here) rather than
+    narrowing it out — stint_scoring.compute_stint_scores groups by it to
+    merge a manager's discontinuous same-type stints for a player into one
+    scored entry. See stint_scoring.py.
     """
     conn.execute("DROP VIEW IF EXISTS waiver_stints")
     conn.execute("""
         CREATE VIEW waiver_stints AS
-        SELECT
-            player_id,
-            team_id,
-            season,
-            acquisition_week,
-            drop_week,
-            duration_weeks
+        SELECT *
         FROM roster_stints rs
         WHERE acquisition_type = 'WAIVER'
         AND NOT EXISTS (
