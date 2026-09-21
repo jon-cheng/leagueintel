@@ -175,7 +175,9 @@ def test_compute_acquisition_history_lists_every_manager_chronologically():
     )
     teams = pd.DataFrame([_team(1, "Daniel Corbett"), _team(2, "Calvin Cotton")])
 
-    result = compute_acquisition_history(stints, bids, teams)
+    # season complete (max_ingested_week=17) — the drop_week=18 sentinel
+    # on the second stint really does mean "held through week 17" here
+    result = compute_acquisition_history(stints, bids, teams, max_ingested_week=17)
 
     assert len(result) == 1
     assert result.iloc[0]["player_id"] == 100
@@ -190,7 +192,7 @@ def test_compute_acquisition_history_trade_has_no_price():
     bids = pd.DataFrame(columns=["player_id", "team_id", "transaction_type", "week", "bid_amount"])
     teams = pd.DataFrame([_team(3, "Chris Everson")])
 
-    result = compute_acquisition_history(stints, bids, teams)
+    result = compute_acquisition_history(stints, bids, teams, max_ingested_week=17)
 
     assert result.iloc[0]["history"] == "Chris Everson: (Trade, Wk 7-17)"
 
@@ -201,7 +203,7 @@ def test_compute_acquisition_history_draft_has_auction_price():
     bids = pd.DataFrame([_bid(300, 1, "DRAFT", 1, 55)])
     teams = pd.DataFrame([_team(1, "Daniel Corbett")])
 
-    result = compute_acquisition_history(stints, bids, teams)
+    result = compute_acquisition_history(stints, bids, teams, max_ingested_week=17)
 
     assert result.iloc[0]["history"] == "Daniel Corbett: (Draft, $55, Wk 1-17)"
 
@@ -212,9 +214,40 @@ def test_compute_acquisition_history_same_week_add_drop_shows_single_week():
     bids = pd.DataFrame([_bid(400, 1, "WAIVER", 6, 1)])
     teams = pd.DataFrame([_team(1, "Daniel Corbett")])
 
-    result = compute_acquisition_history(stints, bids, teams)
+    result = compute_acquisition_history(stints, bids, teams, max_ingested_week=17)
 
     assert result.iloc[0]["history"] == "Daniel Corbett: (Waiver, $1, Wk 6)"
+
+
+def test_compute_acquisition_history_open_stint_in_progress_season_shows_present():
+    """
+    A player drafted this year and never dropped gets drop_week=18 (the
+    roster_stints sentinel) regardless of how much of the season has
+    actually happened. If we're only in week 2, displaying "Wk 1-17"
+    would falsely claim we already know the final week -- "present"
+    makes the still-open nature of the stint honest instead.
+    """
+    stints = pd.DataFrame([_stint(500, 1, "DRAFT", 1, 18)])
+    bids = pd.DataFrame([_bid(500, 1, "DRAFT", 1, 40)])
+    teams = pd.DataFrame([_team(1, "Daniel Corbett")])
+
+    result = compute_acquisition_history(stints, bids, teams, max_ingested_week=2)
+
+    assert result.iloc[0]["history"] == "Daniel Corbett: (Draft, $40, Wk 1-present)"
+
+
+def test_compute_acquisition_history_completed_drop_shown_even_in_progress_season():
+    """
+    A REAL recorded drop (not the sentinel) is a known fact regardless of
+    season progress -- must still show the actual range, not "present".
+    """
+    stints = pd.DataFrame([_stint(600, 1, "WAIVER", 1, 2)])
+    bids = pd.DataFrame([_bid(600, 1, "WAIVER", 1, 3)])
+    teams = pd.DataFrame([_team(1, "Daniel Corbett")])
+
+    result = compute_acquisition_history(stints, bids, teams, max_ingested_week=2)
+
+    assert result.iloc[0]["history"] == "Daniel Corbett: (Waiver, $3, Wk 1)"
 
 
 def test_compute_acquisition_history_empty_input_returns_empty_frame():
@@ -223,7 +256,7 @@ def test_compute_acquisition_history_empty_input_returns_empty_frame():
     bids = pd.DataFrame(columns=["player_id", "team_id", "transaction_type", "week", "bid_amount"])
     teams = pd.DataFrame(columns=["team_id", "season", "team_name", "owner_name"])
 
-    result = compute_acquisition_history(stints, bids, teams)
+    result = compute_acquisition_history(stints, bids, teams, max_ingested_week=0)
 
     assert result.empty
     assert list(result.columns) == ["player_id", "history"]
