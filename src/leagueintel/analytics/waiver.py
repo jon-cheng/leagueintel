@@ -21,7 +21,7 @@ import pandas as pd
 from leagueintel.storage.database import get_connection, get_max_ingested_week
 from leagueintel.analytics.availability import check_season_ready
 from leagueintel.analytics.stint_scoring import compute_stint_scores, compute_stint_scores_with_population
-from leagueintel.config import TOP_N_WEEKS
+from leagueintel.config import TOP_N_WEEKS, DEFAULT_MAX_WEEK
 
 WAIVER_STINTS_SQL = "SELECT * FROM waiver_stints WHERE season = :season"
 
@@ -181,17 +181,29 @@ def get_waiver_scores_with_population(season: int) -> tuple[pd.DataFrame, pd.Dat
     )
 
 
-def _week_range(acquisition_week: int, drop_week: int) -> str:
+def _week_range(acquisition_week: int, drop_week: int, max_ingested_week: int) -> str:
     """
-    "Wk N" for a single week, "Wk N-M" for a range. drop_week <=
-    acquisition_week (duration_weeks == 0 — a same-week add/cut) has no
-    real second week, so it's shown as the single acquisition week, not
-    a backwards range. drop_week is the SAME team's next departure, or
-    18 (past the season) if never dropped — the last week actually held
-    is drop_week - 1, capped at week 17 (DEFAULT_MAX_WEEK).
+    "Wk N" for a single week, "Wk N-M" for a range, "Wk N-present" for a
+    stint still open in a season that hasn't finished yet.
+
+    drop_week <= acquisition_week (duration_weeks == 0 — a same-week
+    add/cut) has no real second week, so it's shown as the single
+    acquisition week, not a backwards range.
+
+    drop_week is the SAME team's next departure, or 18 (roster_stints'
+    sentinel for "never dropped") if still held. For a COMPLETED season
+    (max_ingested_week >= DEFAULT_MAX_WEEK), that sentinel really does
+    mean "held through week 17" — display it as such. But for a season
+    still IN PROGRESS, the sentinel only means "not dropped as of the
+    most recently ingested week" — displaying "-17" there would claim
+    knowledge of the season's outcome we don't actually have yet (e.g.
+    showing "Wk 1-17" for a player drafted this year while we're only
+    in week 2). "present" makes that open-endedness explicit instead.
     """
     if drop_week <= acquisition_week:
         return f"Wk {acquisition_week}"
+    if drop_week >= 18 and max_ingested_week < DEFAULT_MAX_WEEK:
+        return f"Wk {acquisition_week}-present"
     end = min(drop_week, 18) - 1
     if end == acquisition_week:
         return f"Wk {acquisition_week}"
@@ -199,7 +211,7 @@ def _week_range(acquisition_week: int, drop_week: int) -> str:
 
 
 def compute_acquisition_history(
-    stints: pd.DataFrame, bids: pd.DataFrame, teams: pd.DataFrame
+    stints: pd.DataFrame, bids: pd.DataFrame, teams: pd.DataFrame, max_ingested_week: int
 ) -> pd.DataFrame:
     """
     Format each player's full-season roster history — every stint, by
@@ -220,10 +232,14 @@ def compute_acquisition_history(
             pick; see ACQUISITION_BIDS_SQL). FREEAGENT/TRADE stints have
             no matching row here and so show no price.
         teams: team_id, season, team_name, owner_name
+        max_ingested_week: how much of the season has actually been
+            ingested — see _week_range for why a still-open stint needs
+            this to avoid claiming a final week we don't know yet.
 
     Returns DataFrame with columns: player_id, history
       history: "manager: (Type, $price, Wk N-M)" entries — price omitted
-      when not applicable — chronological by acquisition_week, joined
+      when not applicable, "Wk N-present" for a stint still open in an
+      unfinished season — chronological by acquisition_week, joined
       with "; " — e.g.
       "Daniel Corbett: (Waiver, $8, Wk 3-9); Calvin Cotton: (Waiver, $7, Wk 10-17)"
     """
@@ -246,7 +262,7 @@ def compute_acquisition_history(
         parts = [ACQUISITION_TYPE_LABELS.get(row["acquisition_type"], row["acquisition_type"])]
         if pd.notna(row.get("bid_amount")):
             parts.append(f"${row['bid_amount']:.0f}")
-        parts.append(_week_range(row["acquisition_week"], row["drop_week"]))
+        parts.append(_week_range(row["acquisition_week"], row["drop_week"], max_ingested_week))
         return f"{row['owner_name']}: ({', '.join(parts)})"
 
     merged["entry"] = merged.apply(_entry, axis=1)
@@ -264,8 +280,9 @@ def get_acquisition_history(season: int) -> pd.DataFrame:
     See compute_acquisition_history for the format.
     """
     conn = get_connection()
+    max_ingested_week = get_max_ingested_week(conn, season)
     stints = pd.read_sql(ROSTER_STINTS_SQL, conn, params={"season": season})
     bids = pd.read_sql(ACQUISITION_BIDS_SQL, conn, params={"season": season})
     teams = pd.read_sql(TEAMS_SQL, conn, params={"season": season})
     conn.close()
-    return compute_acquisition_history(stints, bids, teams)
+    return compute_acquisition_history(stints, bids, teams, max_ingested_week)
