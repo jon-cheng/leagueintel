@@ -400,7 +400,15 @@ def fetch_matchups_all(
         league = leagues.get(year) or League(
             league_id=LEAGUE_ID, year=year, espn_s2=ESPN_S2, swid=SWID
         )
-        weeks = _get_weeks(league.finalScoringPeriod)
+        # finalScoringPeriod is the season's CONFIGURED length (e.g. 17),
+        # not how far it has actually progressed — for an in-progress
+        # season, ESPN still returns a matchup object for future weeks
+        # (with totalPoints defaulting to 0, not an error), unlike
+        # fetch_box_scores_all/fetch_transactions_all which are saved by a
+        # KeyError ESPN raises for future weeks' roster data. Bounding by
+        # current_week (ESPN's live scoringPeriodId) avoids writing
+        # placeholder 0-score rows for weeks that haven't happened yet.
+        weeks = _get_weeks(min(league.current_week, league.finalScoringPeriod))
 
         for week in weeks:
             try:
