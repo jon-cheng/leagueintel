@@ -186,7 +186,7 @@ def test_fetch_transactions_all_saves_file(sample_response, tmp_path):
                     assert saved.exists()
 
 
-# ── fetch_matchups_all: partial in-season finalScoringPeriod ─────────────────
+# ── fetch_matchups_all: partial in-season current_week ───────────────────────
 
 
 def _fake_matchup():
@@ -224,7 +224,8 @@ def test_fetch_matchups_all_reuses_passed_in_league(tmp_path):
     point of sharing one League per season across all fetch_*_all calls.
     """
     fake_league = MagicMock()
-    fake_league.finalScoringPeriod = 1
+    fake_league.finalScoringPeriod = 17
+    fake_league.current_week = 1
     fake_league.box_scores.return_value = []
 
     with patch("leagueintel.ingestion.espn.get_connection") as mock_get_conn:
@@ -244,16 +245,21 @@ def test_fetch_matchups_all_reuses_passed_in_league(tmp_path):
     fake_league.box_scores.assert_called_once_with(1)
 
 
-def test_fetch_matchups_all_only_processes_weeks_through_final_scoring_period(
+def test_fetch_matchups_all_only_processes_weeks_through_current_week(
     tmp_path,
 ):
     """
-    Simulates being mid-season: ESPN reports finalScoringPeriod = 5, meaning
-    only 5 weeks have occurred so far. fetch_matchups_all should stop there
-    instead of trying (and failing on) weeks 6+, which don't exist yet.
+    Simulates being mid-season: ESPN reports current_week = 5 (the live
+    scoringPeriodId) while finalScoringPeriod = 17 (the season's configured
+    length, which never changes). fetch_matchups_all must bound by
+    current_week, not finalScoringPeriod — otherwise it writes placeholder
+    0-score matchup rows for weeks 6-17 that haven't been played yet, which
+    corrupts get_max_ingested_week's view of how far the season has
+    actually progressed (see waiver.py's history-column "-present" logic).
     """
     fake_league = MagicMock()
-    fake_league.finalScoringPeriod = 5
+    fake_league.finalScoringPeriod = 17
+    fake_league.current_week = 5
     fake_league.box_scores.return_value = [_fake_matchup()]
 
     with patch("leagueintel.ingestion.espn.League", return_value=fake_league):

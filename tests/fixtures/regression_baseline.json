@@ -730,7 +730,7 @@
           "owner_name": "manager_14",
           "player_name": "John Brown",
           "position": "WR",
-          "team_name": "team_89",
+          "team_name": "team_95",
           "total_points": 114.3,
           "waiver_score": 94.5,
           "weeks": [
@@ -751,7 +751,7 @@
           "owner_name": "manager_3",
           "player_name": "Darren Waller",
           "position": "TE",
-          "team_name": "team_16",
+          "team_name": "team_18",
           "total_points": 114.80000000000001,
           "waiver_score": 93.3,
           "weeks": [
@@ -772,7 +772,7 @@
           "owner_name": "manager_14",
           "player_name": "Jameis Winston",
           "position": "QB",
-          "team_name": "team_89",
+          "team_name": "team_95",
           "total_points": 185.2,
           "waiver_score": 92.3,
           "weeks": [
@@ -793,7 +793,7 @@
           "owner_name": "manager_23",
           "player_name": "Josh Allen",
           "position": "QB",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 168.29999999999998,
           "waiver_score": 92.0,
           "weeks": [
@@ -814,7 +814,7 @@
           "owner_name": "manager_14",
           "player_name": "Kyler Murray",
           "position": "QB",
-          "team_name": "team_89",
+          "team_name": "team_95",
           "total_points": 176.1,
           "waiver_score": 92.0,
           "weeks": [
@@ -835,7 +835,7 @@
           "owner_name": "manager_3",
           "player_name": "DJ Chark",
           "position": "WR",
-          "team_name": "team_16",
+          "team_name": "team_18",
           "total_points": 117.0,
           "waiver_score": 90.0,
           "weeks": [
@@ -856,7 +856,7 @@
           "owner_name": "manager_14",
           "player_name": "Carlos Hyde",
           "position": "RB",
-          "team_name": "team_89",
+          "team_name": "team_95",
           "total_points": 99.8,
           "waiver_score": 79.7,
           "weeks": [
@@ -877,7 +877,7 @@
           "owner_name": "manager_1",
           "player_name": "Dallas Goedert",
           "position": "TE",
-          "team_name": "team_45",
+          "team_name": "team_48",
           "total_points": 74.2,
           "waiver_score": 76.0,
           "weeks": [
@@ -898,7 +898,7 @@
           "owner_name": "manager_12",
           "player_name": "Jason Witten",
           "position": "TE",
-          "team_name": "team_27",
+          "team_name": "team_29",
           "total_points": 67.1,
           "waiver_score": 75.9,
           "weeks": [
@@ -919,7 +919,7 @@
           "owner_name": "manager_6",
           "player_name": "Jacoby Brissett",
           "position": "QB",
-          "team_name": "team_94",
+          "team_name": "team_101",
           "total_points": 126.0,
           "waiver_score": 74.1,
           "weeks": [
@@ -940,7 +940,7 @@
           "owner_name": "manager_23",
           "player_name": "Devin Singletary",
           "position": "RB",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 93.9,
           "waiver_score": 72.1,
           "weeks": [
@@ -961,7 +961,7 @@
           "owner_name": "manager_10",
           "player_name": "Terry McLaurin",
           "position": "WR",
-          "team_name": "team_56",
+          "team_name": "team_60",
           "total_points": 74.7,
           "waiver_score": 68.1,
           "weeks": [
@@ -982,7 +982,7 @@
           "owner_name": "manager_14",
           "player_name": "Jamaal Williams",
           "position": "RB",
-          "team_name": "team_89",
+          "team_name": "team_95",
           "total_points": 78.6,
           "waiver_score": 65.1,
           "weeks": [
@@ -1003,7 +1003,7 @@
           "owner_name": "manager_23",
           "player_name": "Marquise Brown",
           "position": "WR",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 76.7,
           "waiver_score": 63.8,
           "weeks": [
@@ -1045,7 +1045,7 @@
           "owner_name": "manager_10",
           "player_name": "Alexander Mattison",
           "position": "RB",
-          "team_name": "team_56",
+          "team_name": "team_60",
           "total_points": 56.2,
           "waiver_score": 54.5,
           "weeks": [
@@ -1066,7 +1066,7 @@
           "owner_name": "manager_12",
           "player_name": "Rex Burkhead",
           "position": "RB",
-          "team_name": "team_27",
+          "team_name": "team_29",
           "total_points": 18.4,
           "waiver_score": 27.9,
           "weeks": [
@@ -1823,7 +1823,7 @@
           "owner_name": "manager_7",
           "player_name": "Justin Jefferson",
           "position": "WR",
-          "team_name": "team_43",
+          "team_name": "team_45",
           "total_points": 152.2,
           "waiver_score": 98.6,
           "weeks": [
@@ -1844,7 +1844,7 @@
           "owner_name": "manager_9",
           "player_name": "James Robinson",
           "position": "RB",
-          "team_name": "team_97",
+          "team_name": "team_104",
           "total_points": 163.3,
           "waiver_score": 97.3,
           "weeks": [
@@ -1865,7 +1865,7 @@
           "owner_name": "manager_23",
           "player_name": "Corey Davis",
           "position": "WR",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 118.4,
           "waiver_score": 95.2,
           "weeks": [
@@ -1886,7 +1886,7 @@
           "owner_name": "manager_10",
           "player_name": "Mike Davis",
           "position": "RB",
-          "team_name": "team_18",
+          "team_name": "team_20",
           "total_points": 131.5,
           "waiver_score": 94.4,
           "weeks": [
@@ -1907,7 +1907,7 @@
           "owner_name": "manager_14",
           "player_name": "Justin Herbert",
           "position": "QB",
-          "team_name": "team_76",
+          "team_name": "team_81",
           "total_points": 191.8,
           "waiver_score": 92.6,
           "weeks": [
@@ -1928,7 +1928,7 @@
           "owner_name": "manager_3",
           "player_name": "Ryan Tannehill",
           "position": "QB",
-          "team_name": "team_47",
+          "team_name": "team_50",
           "total_points": 179.2,
           "waiver_score": 92.3,
           "weeks": [
@@ -1949,7 +1949,7 @@
           "owner_name": "manager_23",
           "player_name": "Giovani Bernard",
           "position": "RB",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 102.2,
           "waiver_score": 91.7,
           "weeks": [
@@ -1970,7 +1970,7 @@
           "owner_name": "manager_7",
           "player_name": "Tee Higgins",
           "position": "WR",
-          "team_name": "team_43",
+          "team_name": "team_45",
           "total_points": 113.4,
           "waiver_score": 91.4,
           "weeks": [
@@ -2012,7 +2012,7 @@
           "owner_name": "manager_16",
           "player_name": "Nyheim Hines",
           "position": "RB",
-          "team_name": "team_30",
+          "team_name": "team_32",
           "total_points": 101.0,
           "waiver_score": 89.0,
           "weeks": [
@@ -2033,7 +2033,7 @@
           "owner_name": "manager_9",
           "player_name": "Robert Tonyan",
           "position": "TE",
-          "team_name": "team_97",
+          "team_name": "team_104",
           "total_points": 98.7,
           "waiver_score": 88.9,
           "weeks": [
@@ -2054,7 +2054,7 @@
           "owner_name": "manager_12",
           "player_name": "Logan Thomas",
           "position": "TE",
-          "team_name": "team_88",
+          "team_name": "team_94",
           "total_points": 92.2,
           "waiver_score": 88.5,
           "weeks": [
@@ -2075,7 +2075,7 @@
           "owner_name": "manager_14",
           "player_name": "Chase Edmonds",
           "position": "RB",
-          "team_name": "team_76",
+          "team_name": "team_81",
           "total_points": 95.8,
           "waiver_score": 87.3,
           "weeks": [
@@ -2096,7 +2096,7 @@
           "owner_name": "manager_1",
           "player_name": "Dallas Goedert",
           "position": "TE",
-          "team_name": "team_21",
+          "team_name": "team_23",
           "total_points": 70.1,
           "waiver_score": 84.6,
           "weeks": [
@@ -2138,7 +2138,7 @@
           "owner_name": "manager_3",
           "player_name": "Chase Claypool",
           "position": "WR",
-          "team_name": "team_47",
+          "team_name": "team_50",
           "total_points": 93.2,
           "waiver_score": 81.8,
           "weeks": [
@@ -2180,7 +2180,7 @@
           "owner_name": "manager_10",
           "player_name": "Dalton Schultz",
           "position": "TE",
-          "team_name": "team_18",
+          "team_name": "team_20",
           "total_points": 62.3,
           "waiver_score": 80.0,
           "weeks": [
@@ -2201,7 +2201,7 @@
           "owner_name": "manager_2",
           "player_name": "Brandon Aiyuk",
           "position": "WR",
-          "team_name": "team_51",
+          "team_name": "team_55",
           "total_points": 91.6,
           "waiver_score": 71.9,
           "weeks": [
@@ -2222,7 +2222,7 @@
           "owner_name": "manager_2",
           "player_name": "Eric Ebron",
           "position": "TE",
-          "team_name": "team_51",
+          "team_name": "team_55",
           "total_points": 64.5,
           "waiver_score": 70.8,
           "weeks": [
@@ -2243,7 +2243,7 @@
           "owner_name": "manager_2",
           "player_name": "Cole Beasley",
           "position": "WR",
-          "team_name": "team_51",
+          "team_name": "team_55",
           "total_points": 84.6,
           "waiver_score": 67.2,
           "weeks": [
@@ -2264,7 +2264,7 @@
           "owner_name": "manager_2",
           "player_name": "Justin Jackson",
           "position": "RB",
-          "team_name": "team_51",
+          "team_name": "team_55",
           "total_points": 35.6,
           "waiver_score": 52.9,
           "weeks": [
@@ -2285,7 +2285,7 @@
           "owner_name": "manager_1",
           "player_name": "Antonio Brown",
           "position": "WR",
-          "team_name": "team_21",
+          "team_name": "team_23",
           "total_points": 63.3,
           "waiver_score": 49.2,
           "weeks": [
@@ -2306,7 +2306,7 @@
           "owner_name": "manager_14",
           "player_name": "Austin Hooper",
           "position": "TE",
-          "team_name": "team_76",
+          "team_name": "team_81",
           "total_points": 36.4,
           "waiver_score": 42.9,
           "weeks": [
@@ -3123,7 +3123,7 @@
           "owner_name": "manager_21",
           "player_name": "Cordarrelle Patterson",
           "position": "RB",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 145.0,
           "waiver_score": 98.6,
           "weeks": [
@@ -3144,7 +3144,7 @@
           "owner_name": "manager_23",
           "player_name": "Elijah Mitchell",
           "position": "RB",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 124.3,
           "waiver_score": 95.9,
           "weeks": [
@@ -3165,7 +3165,7 @@
           "owner_name": "manager_6",
           "player_name": "Hunter Renfrow",
           "position": "WR",
-          "team_name": "team_37",
+          "team_name": "team_39",
           "total_points": 125.1,
           "waiver_score": 94.6,
           "weeks": [
@@ -3186,7 +3186,7 @@
           "owner_name": "manager_1",
           "player_name": "Dawson Knox",
           "position": "TE",
-          "team_name": "team_24",
+          "team_name": "team_26",
           "total_points": 100.5,
           "waiver_score": 92.9,
           "weeks": [
@@ -3207,7 +3207,7 @@
           "owner_name": "manager_3",
           "player_name": "Dalton Schultz",
           "position": "TE",
-          "team_name": "team_67",
+          "team_name": "team_72",
           "total_points": 90.3,
           "waiver_score": 88.5,
           "weeks": [
@@ -3228,7 +3228,7 @@
           "owner_name": "manager_14",
           "player_name": "Zach Ertz",
           "position": "TE",
-          "team_name": "team_78",
+          "team_name": "team_83",
           "total_points": 86.2,
           "waiver_score": 88.5,
           "weeks": [
@@ -3249,7 +3249,7 @@
           "owner_name": "manager_10",
           "player_name": "Kirk Cousins",
           "position": "QB",
-          "team_name": "team_98",
+          "team_name": "team_105",
           "total_points": 158.3,
           "waiver_score": 88.0,
           "weeks": [
@@ -3270,7 +3270,7 @@
           "owner_name": "manager_7",
           "player_name": "Darnell Mooney",
           "position": "WR",
-          "team_name": "team_43",
+          "team_name": "team_45",
           "total_points": 92.7,
           "waiver_score": 83.6,
           "weeks": [
@@ -3291,7 +3291,7 @@
           "owner_name": "manager_9",
           "player_name": "Alexander Mattison",
           "position": "RB",
-          "team_name": "team_22",
+          "team_name": "team_24",
           "total_points": 96.4,
           "waiver_score": 81.7,
           "weeks": [
@@ -3312,7 +3312,7 @@
           "owner_name": "manager_3",
           "player_name": "Rob Gronkowski",
           "position": "TE",
-          "team_name": "team_67",
+          "team_name": "team_72",
           "total_points": 76.1,
           "waiver_score": 80.8,
           "weeks": [
@@ -3333,7 +3333,7 @@
           "owner_name": "manager_3",
           "player_name": "A.J. Green",
           "position": "WR",
-          "team_name": "team_67",
+          "team_name": "team_72",
           "total_points": 76.6,
           "waiver_score": 75.4,
           "weeks": [
@@ -3354,7 +3354,7 @@
           "owner_name": "manager_10",
           "player_name": "Tony Pollard",
           "position": "RB",
-          "team_name": "team_98",
+          "team_name": "team_105",
           "total_points": 78.3,
           "waiver_score": 75.0,
           "weeks": [
@@ -3375,7 +3375,7 @@
           "owner_name": "manager_3",
           "player_name": "Carson Wentz",
           "position": "QB",
-          "team_name": "team_67",
+          "team_name": "team_72",
           "total_points": 111.1,
           "waiver_score": 68.0,
           "weeks": [
@@ -3396,7 +3396,7 @@
           "owner_name": "manager_21",
           "player_name": "Van Jefferson",
           "position": "WR",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 64.3,
           "waiver_score": 63.1,
           "weeks": [
@@ -3417,7 +3417,7 @@
           "owner_name": "manager_12",
           "player_name": "Jared Cook",
           "position": "TE",
-          "team_name": "team_88",
+          "team_name": "team_94",
           "total_points": 48.900000000000006,
           "waiver_score": 61.5,
           "weeks": [
@@ -3438,7 +3438,7 @@
           "owner_name": "manager_6",
           "player_name": "Pat Freiermuth",
           "position": "TE",
-          "team_name": "team_37",
+          "team_name": "team_39",
           "total_points": 51.4,
           "waiver_score": 61.5,
           "weeks": [
@@ -3459,7 +3459,7 @@
           "owner_name": "manager_14",
           "player_name": "Sterling Shepard",
           "position": "WR",
-          "team_name": "team_78",
+          "team_name": "team_83",
           "total_points": 38.9,
           "waiver_score": 43.4,
           "weeks": [
@@ -3480,7 +3480,7 @@
           "owner_name": "manager_10",
           "player_name": "DeVante Parker",
           "position": "WR",
-          "team_name": "team_98",
+          "team_name": "team_105",
           "total_points": 30.1,
           "waiver_score": 39.4,
           "weeks": [
@@ -3501,7 +3501,7 @@
           "owner_name": "manager_7",
           "player_name": "Kadarius Toney",
           "position": "WR",
-          "team_name": "team_43",
+          "team_name": "team_45",
           "total_points": 23.8,
           "waiver_score": 31.4,
           "weeks": [
@@ -3522,7 +3522,7 @@
           "owner_name": "manager_16",
           "player_name": "Phillip Lindsay",
           "position": "RB",
-          "team_name": "team_30",
+          "team_name": "team_32",
           "total_points": 22.1,
           "waiver_score": 29.0,
           "weeks": [
@@ -4405,7 +4405,7 @@
           "owner_name": "manager_2",
           "player_name": "Jamaal Williams",
           "position": "RB",
-          "team_name": "team_34",
+          "team_name": "team_36",
           "total_points": 152.8,
           "waiver_score": 97.0,
           "weeks": [
@@ -4426,7 +4426,7 @@
           "owner_name": "manager_1",
           "player_name": "Trevor Lawrence",
           "position": "QB",
-          "team_name": "team_102",
+          "team_name": "team_109",
           "total_points": 184.1,
           "waiver_score": 92.3,
           "weeks": [
@@ -4447,7 +4447,7 @@
           "owner_name": "manager_6",
           "player_name": "Justin Fields",
           "position": "QB",
-          "team_name": "team_50",
+          "team_name": "team_54",
           "total_points": 172.9,
           "waiver_score": 92.3,
           "weeks": [
@@ -4468,7 +4468,7 @@
           "owner_name": "manager_7",
           "player_name": "Jeff Wilson Jr.",
           "position": "RB",
-          "team_name": "team_43",
+          "team_name": "team_45",
           "total_points": 112.7,
           "waiver_score": 91.7,
           "weeks": [
@@ -4489,7 +4489,7 @@
           "owner_name": "manager_1",
           "player_name": "Taysom Hill",
           "position": "TE",
-          "team_name": "team_102",
+          "team_name": "team_109",
           "total_points": 75.6,
           "waiver_score": 88.0,
           "weeks": [
@@ -4510,7 +4510,7 @@
           "owner_name": "manager_6",
           "player_name": "D'Onta Foreman",
           "position": "RB",
-          "team_name": "team_50",
+          "team_name": "team_54",
           "total_points": 101.6,
           "waiver_score": 86.4,
           "weeks": [
@@ -4531,7 +4531,7 @@
           "owner_name": "manager_6",
           "player_name": "Curtis Samuel",
           "position": "WR",
-          "team_name": "team_50",
+          "team_name": "team_54",
           "total_points": 88.7,
           "waiver_score": 83.1,
           "weeks": [
@@ -4552,7 +4552,7 @@
           "owner_name": "manager_10",
           "player_name": "Geno Smith",
           "position": "QB",
-          "team_name": "team_85",
+          "team_name": "team_90",
           "total_points": 153.7,
           "waiver_score": 81.5,
           "weeks": [
@@ -4573,7 +4573,7 @@
           "owner_name": "manager_6",
           "player_name": "George Pickens",
           "position": "WR",
-          "team_name": "team_50",
+          "team_name": "team_54",
           "total_points": 83.9,
           "waiver_score": 79.7,
           "weeks": [
@@ -4594,7 +4594,7 @@
           "owner_name": "manager_1",
           "player_name": "Tua Tagovailoa",
           "position": "QB",
-          "team_name": "team_102",
+          "team_name": "team_109",
           "total_points": 152.5,
           "waiver_score": 76.9,
           "weeks": [
@@ -4615,7 +4615,7 @@
           "owner_name": "manager_3",
           "player_name": "Joshua Palmer",
           "position": "WR",
-          "team_name": "team_32",
+          "team_name": "team_34",
           "total_points": 82.0,
           "waiver_score": 70.5,
           "weeks": [
@@ -4636,7 +4636,7 @@
           "owner_name": "manager_2",
           "player_name": "Greg Dulcich",
           "position": "TE",
-          "team_name": "team_34",
+          "team_name": "team_36",
           "total_points": 39.4,
           "waiver_score": 64.0,
           "weeks": [
@@ -4657,7 +4657,7 @@
           "owner_name": "manager_3",
           "player_name": "Khalil Herbert",
           "position": "RB",
-          "team_name": "team_32",
+          "team_name": "team_34",
           "total_points": 61.5,
           "waiver_score": 60.3,
           "weeks": [
@@ -4678,7 +4678,7 @@
           "owner_name": "manager_2",
           "player_name": "Carson Wentz",
           "position": "QB",
-          "team_name": "team_34",
+          "team_name": "team_36",
           "total_points": 69.3,
           "waiver_score": 36.4,
           "weeks": [
@@ -5510,7 +5510,7 @@
           "owner_name": "manager_14",
           "player_name": "Puka Nacua",
           "position": "WR",
-          "team_name": "team_76",
+          "team_name": "team_81",
           "total_points": 168.2,
           "waiver_score": 98.6,
           "weeks": [
@@ -5531,7 +5531,7 @@
           "owner_name": "manager_3",
           "player_name": "Kyren Williams",
           "position": "RB",
-          "team_name": "team_64",
+          "team_name": "team_69",
           "total_points": 194.6,
           "waiver_score": 97.1,
           "weeks": [
@@ -5573,7 +5573,7 @@
           "owner_name": "manager_6",
           "player_name": "Brock Purdy",
           "position": "QB",
-          "team_name": "team_28",
+          "team_name": "team_30",
           "total_points": 185.9,
           "waiver_score": 96.4,
           "weeks": [
@@ -5615,7 +5615,7 @@
           "owner_name": "manager_17",
           "player_name": "Zack Moss",
           "position": "RB",
-          "team_name": "team_59",
+          "team_name": "team_64",
           "total_points": 129.3,
           "waiver_score": 94.3,
           "weeks": [
@@ -5636,7 +5636,7 @@
           "owner_name": "manager_9",
           "player_name": "Jake Ferguson",
           "position": "TE",
-          "team_name": "team_23",
+          "team_name": "team_25",
           "total_points": 94.2,
           "waiver_score": 92.6,
           "weeks": [
@@ -5657,7 +5657,7 @@
           "owner_name": "manager_9",
           "player_name": "Trey McBride",
           "position": "TE",
-          "team_name": "team_23",
+          "team_name": "team_25",
           "total_points": 85.1,
           "waiver_score": 92.6,
           "weeks": [
@@ -5678,7 +5678,7 @@
           "owner_name": "manager_6",
           "player_name": "Gus Edwards",
           "position": "RB",
-          "team_name": "team_28",
+          "team_name": "team_30",
           "total_points": 116.8,
           "waiver_score": 92.2,
           "weeks": [
@@ -5699,7 +5699,7 @@
           "owner_name": "manager_23",
           "player_name": "De'Von Achane",
           "position": "RB",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 113.9,
           "waiver_score": 89.7,
           "weeks": [
@@ -5741,7 +5741,7 @@
           "owner_name": "manager_21",
           "player_name": "Russell Wilson",
           "position": "QB",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 150.0,
           "waiver_score": 85.7,
           "weeks": [
@@ -5762,7 +5762,7 @@
           "owner_name": "manager_3",
           "player_name": "C.J. Stroud",
           "position": "QB",
-          "team_name": "team_64",
+          "team_name": "team_69",
           "total_points": 154.0,
           "waiver_score": 84.0,
           "weeks": [
@@ -5783,7 +5783,7 @@
           "owner_name": "manager_10",
           "player_name": "Chuba Hubbard",
           "position": "RB",
-          "team_name": "team_90",
+          "team_name": "team_96",
           "total_points": 95.1,
           "waiver_score": 78.9,
           "weeks": [
@@ -5825,7 +5825,7 @@
           "owner_name": "manager_10",
           "player_name": "Tyjae Spears",
           "position": "RB",
-          "team_name": "team_90",
+          "team_name": "team_96",
           "total_points": 74.5,
           "waiver_score": 68.1,
           "weeks": [
@@ -5846,7 +5846,7 @@
           "owner_name": "manager_2",
           "player_name": "Joshua Dobbs",
           "position": "QB",
-          "team_name": "team_34",
+          "team_name": "team_36",
           "total_points": 128.9,
           "waiver_score": 68.0,
           "weeks": [
@@ -5867,7 +5867,7 @@
           "owner_name": "manager_7",
           "player_name": "Taysom Hill",
           "position": "TE",
-          "team_name": "team_77",
+          "team_name": "team_82",
           "total_points": 55.0,
           "waiver_score": 63.0,
           "weeks": [
@@ -5909,7 +5909,7 @@
           "owner_name": "manager_6",
           "player_name": "Kareem Hunt",
           "position": "RB",
-          "team_name": "team_28",
+          "team_name": "team_30",
           "total_points": 64.5,
           "waiver_score": 58.0,
           "weeks": [
@@ -5930,7 +5930,7 @@
           "owner_name": "manager_17",
           "player_name": "Logan Thomas",
           "position": "TE",
-          "team_name": "team_59",
+          "team_name": "team_64",
           "total_points": 44.1,
           "waiver_score": 46.2,
           "weeks": [
@@ -5951,7 +5951,7 @@
           "owner_name": "manager_10",
           "player_name": "Jaleel McLaughlin",
           "position": "RB",
-          "team_name": "team_90",
+          "team_name": "team_96",
           "total_points": 41.3,
           "waiver_score": 42.4,
           "weeks": [
@@ -5972,7 +5972,7 @@
           "owner_name": "manager_10",
           "player_name": "DeMario Douglas",
           "position": "WR",
-          "team_name": "team_90",
+          "team_name": "team_96",
           "total_points": 39.8,
           "waiver_score": 24.6,
           "weeks": [
@@ -6801,7 +6801,7 @@
           "owner_name": "manager_7",
           "player_name": "Jameson Williams",
           "position": "WR",
-          "team_name": "team_31",
+          "team_name": "team_33",
           "total_points": 142.3,
           "waiver_score": 97.3,
           "weeks": [
@@ -6822,7 +6822,7 @@
           "owner_name": "manager_7",
           "player_name": "Bucky Irving",
           "position": "RB",
-          "team_name": "team_31",
+          "team_name": "team_33",
           "total_points": 149.1,
           "waiver_score": 93.8,
           "weeks": [
@@ -6843,7 +6843,7 @@
           "owner_name": "manager_9",
           "player_name": "Jared Goff",
           "position": "QB",
-          "team_name": "team_75",
+          "team_name": "team_80",
           "total_points": 195.3,
           "waiver_score": 92.9,
           "weeks": [
@@ -6864,7 +6864,7 @@
           "owner_name": "manager_1",
           "player_name": "Baker Mayfield",
           "position": "QB",
-          "team_name": "team_103",
+          "team_name": "team_110",
           "total_points": 182.7,
           "waiver_score": 92.6,
           "weeks": [
@@ -6885,7 +6885,7 @@
           "owner_name": "manager_17",
           "player_name": "Zach Ertz",
           "position": "TE",
-          "team_name": "team_100",
+          "team_name": "team_107",
           "total_points": 93.5,
           "waiver_score": 89.7,
           "weeks": [
@@ -6927,7 +6927,7 @@
           "owner_name": "manager_21",
           "player_name": "Tucker Kraft",
           "position": "TE",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 95.2,
           "waiver_score": 85.2,
           "weeks": [
@@ -6948,7 +6948,7 @@
           "owner_name": "manager_10",
           "player_name": "Geno Smith",
           "position": "QB",
-          "team_name": "team_93",
+          "team_name": "team_99",
           "total_points": 148.2,
           "waiver_score": 82.8,
           "weeks": [
@@ -6969,7 +6969,7 @@
           "owner_name": "manager_6",
           "player_name": "Bo Nix",
           "position": "QB",
-          "team_name": "team_42",
+          "team_name": "team_44",
           "total_points": 149.3,
           "waiver_score": 73.1,
           "weeks": [
@@ -6990,7 +6990,7 @@
           "owner_name": "manager_7",
           "player_name": "Khalil Shakir",
           "position": "WR",
-          "team_name": "team_31",
+          "team_name": "team_33",
           "total_points": 85.2,
           "waiver_score": 71.2,
           "weeks": [
@@ -7011,7 +7011,7 @@
           "owner_name": "manager_17",
           "player_name": "Justin Herbert",
           "position": "QB",
-          "team_name": "team_100",
+          "team_name": "team_107",
           "total_points": 154.6,
           "waiver_score": 70.4,
           "weeks": [
@@ -7032,7 +7032,7 @@
           "owner_name": "manager_2",
           "player_name": "Demarcus Robinson",
           "position": "WR",
-          "team_name": "team_34",
+          "team_name": "team_36",
           "total_points": 66.7,
           "waiver_score": 69.1,
           "weeks": [
@@ -7053,7 +7053,7 @@
           "owner_name": "manager_9",
           "player_name": "T.J. Hockenson",
           "position": "TE",
-          "team_name": "team_75",
+          "team_name": "team_80",
           "total_points": 61.8,
           "waiver_score": 68.0,
           "weeks": [
@@ -7074,7 +7074,7 @@
           "owner_name": "manager_10",
           "player_name": "Jauan Jennings",
           "position": "WR",
-          "team_name": "team_93",
+          "team_name": "team_99",
           "total_points": 92.4,
           "waiver_score": 64.4,
           "weeks": [
@@ -7116,7 +7116,7 @@
           "owner_name": "manager_6",
           "player_name": "Russell Wilson",
           "position": "QB",
-          "team_name": "team_42",
+          "team_name": "team_44",
           "total_points": 131.5,
           "waiver_score": 60.7,
           "weeks": [
@@ -7137,7 +7137,7 @@
           "owner_name": "manager_17",
           "player_name": "Justice Hill",
           "position": "RB",
-          "team_name": "team_100",
+          "team_name": "team_107",
           "total_points": 71.0,
           "waiver_score": 56.2,
           "weeks": [
@@ -7158,7 +7158,7 @@
           "owner_name": "manager_10",
           "player_name": "Sam Darnold",
           "position": "QB",
-          "team_name": "team_93",
+          "team_name": "team_99",
           "total_points": 107.9,
           "waiver_score": 50.0,
           "weeks": [
@@ -7179,7 +7179,7 @@
           "owner_name": "manager_10",
           "player_name": "Tyler Allgeier",
           "position": "RB",
-          "team_name": "team_93",
+          "team_name": "team_99",
           "total_points": 44.9,
           "waiver_score": 46.9,
           "weeks": [
@@ -7221,7 +7221,7 @@
           "owner_name": "manager_7",
           "player_name": "Cedric Tillman",
           "position": "WR",
-          "team_name": "team_31",
+          "team_name": "team_33",
           "total_points": 49.9,
           "waiver_score": 34.9,
           "weeks": [
@@ -7242,7 +7242,7 @@
           "owner_name": "manager_7",
           "player_name": "Alexander Mattison",
           "position": "RB",
-          "team_name": "team_31",
+          "team_name": "team_33",
           "total_points": 31.3,
           "waiver_score": 34.4,
           "weeks": [
@@ -8035,7 +8035,7 @@
           "owner_name": "manager_10",
           "player_name": "Matthew Stafford",
           "position": "QB",
-          "team_name": "team_71",
+          "team_name": "team_76",
           "total_points": 218.0,
           "waiver_score": 96.7,
           "weeks": [
@@ -8056,7 +8056,7 @@
           "owner_name": "manager_1",
           "player_name": "Jaxson Dart",
           "position": "QB",
-          "team_name": "team_99",
+          "team_name": "team_106",
           "total_points": 217.1,
           "waiver_score": 96.7,
           "weeks": [
@@ -8077,7 +8077,7 @@
           "owner_name": "manager_9",
           "player_name": "Rico Dowdle",
           "position": "RB",
-          "team_name": "team_73",
+          "team_name": "team_78",
           "total_points": 175.6,
           "waiver_score": 93.9,
           "weeks": [
@@ -8098,7 +8098,7 @@
           "owner_name": "manager_21",
           "player_name": "Juwan Johnson",
           "position": "TE",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 93.4,
           "waiver_score": 92.9,
           "weeks": [
@@ -8119,7 +8119,7 @@
           "owner_name": "manager_14",
           "player_name": "Wan'Dale Robinson",
           "position": "WR",
-          "team_name": "team_92",
+          "team_name": "team_98",
           "total_points": 125.4,
           "waiver_score": 91.3,
           "weeks": [
@@ -8140,7 +8140,7 @@
           "owner_name": "manager_23",
           "player_name": "Kenneth Gainwell",
           "position": "RB",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 125.0,
           "waiver_score": 83.9,
           "weeks": [
@@ -8161,7 +8161,7 @@
           "owner_name": "manager_21",
           "player_name": "Daniel Jones",
           "position": "QB",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 171.7,
           "waiver_score": 82.8,
           "weeks": [
@@ -8182,7 +8182,7 @@
           "owner_name": "manager_23",
           "player_name": "Jared Goff",
           "position": "QB",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 167.6,
           "waiver_score": 82.1,
           "weeks": [
@@ -8203,7 +8203,7 @@
           "owner_name": "manager_2",
           "player_name": "Zach Ertz",
           "position": "TE",
-          "team_name": "team_34",
+          "team_name": "team_36",
           "total_points": 78.0,
           "waiver_score": 80.8,
           "weeks": [
@@ -8224,7 +8224,7 @@
           "owner_name": "manager_10",
           "player_name": "Hunter Henry",
           "position": "TE",
-          "team_name": "team_71",
+          "team_name": "team_76",
           "total_points": 74.4,
           "waiver_score": 77.8,
           "weeks": [
@@ -8245,7 +8245,7 @@
           "owner_name": "manager_10",
           "player_name": "Kyle Monangai",
           "position": "RB",
-          "team_name": "team_71",
+          "team_name": "team_76",
           "total_points": 111.8,
           "waiver_score": 77.4,
           "weeks": [
@@ -8266,7 +8266,7 @@
           "owner_name": "manager_1",
           "player_name": "Woody Marks",
           "position": "RB",
-          "team_name": "team_99",
+          "team_name": "team_106",
           "total_points": 121.4,
           "waiver_score": 76.9,
           "weeks": [
@@ -8287,7 +8287,7 @@
           "owner_name": "manager_14",
           "player_name": "Kimani Vidal",
           "position": "RB",
-          "team_name": "team_92",
+          "team_name": "team_98",
           "total_points": 99.1,
           "waiver_score": 68.8,
           "weeks": [
@@ -8308,7 +8308,7 @@
           "owner_name": "manager_21",
           "player_name": "Kareem Hunt",
           "position": "RB",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 91.8,
           "waiver_score": 67.7,
           "weeks": [
@@ -8329,7 +8329,7 @@
           "owner_name": "manager_2",
           "player_name": "C.J. Stroud",
           "position": "QB",
-          "team_name": "team_34",
+          "team_name": "team_36",
           "total_points": 129.7,
           "waiver_score": 61.3,
           "weeks": [
@@ -8350,7 +8350,7 @@
           "owner_name": "manager_17",
           "player_name": "Tyjae Spears",
           "position": "RB",
-          "team_name": "team_91",
+          "team_name": "team_97",
           "total_points": 79.5,
           "waiver_score": 60.9,
           "weeks": [
@@ -8371,7 +8371,7 @@
           "owner_name": "manager_23",
           "player_name": "Devin Singletary",
           "position": "RB",
-          "team_name": "team_35",
+          "team_name": "team_37",
           "total_points": 80.4,
           "waiver_score": 54.1,
           "weeks": [
@@ -8413,7 +8413,7 @@
           "owner_name": "manager_7",
           "player_name": "Sam Darnold",
           "position": "QB",
-          "team_name": "team_36",
+          "team_name": "team_38",
           "total_points": 126.1,
           "waiver_score": 50.0,
           "weeks": [
@@ -8434,7 +8434,7 @@
           "owner_name": "manager_21",
           "player_name": "Quentin Johnston",
           "position": "WR",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 54.5,
           "waiver_score": 49.2,
           "weeks": [
@@ -8455,7 +8455,7 @@
           "owner_name": "manager_21",
           "player_name": "Tre Tucker",
           "position": "WR",
-          "team_name": "team_58",
+          "team_name": "team_62",
           "total_points": 45.5,
           "waiver_score": 41.5,
           "weeks": [
@@ -8476,7 +8476,7 @@
           "owner_name": "manager_2",
           "player_name": "Kendrick Bourne",
           "position": "WR",
-          "team_name": "team_34",
+          "team_name": "team_36",
           "total_points": 48.7,
           "waiver_score": 40.9,
           "weeks": [
@@ -8497,7 +8497,7 @@
           "owner_name": "manager_10",
           "player_name": "Trey Benson",
           "position": "RB",
-          "team_name": "team_71",
+          "team_name": "team_76",
           "total_points": 23.4,
           "waiver_score": 27.3,
           "weeks": [
@@ -8518,7 +8518,7 @@
           "owner_name": "manager_10",
           "player_name": "Braelon Allen",
           "position": "RB",
-          "team_name": "team_71",
+          "team_name": "team_76",
           "total_points": 16.8,
           "waiver_score": 22.7,
           "weeks": [
@@ -8549,7 +8549,176 @@
       "error_type": "ValueError"
     },
     "get_standings": {
-      "records": []
+      "records": [
+        {
+          "bonus_losses": 0,
+          "bonus_ties": 0,
+          "bonus_wins": 2,
+          "losses": 0,
+          "manager": "manager_23",
+          "point_diff": 53.80000000000001,
+          "points_against": 235.8,
+          "points_for": 289.6,
+          "standing": 1,
+          "team_name": "Fumble .",
+          "ties": 0,
+          "wins": 2
+        },
+        {
+          "bonus_losses": 1,
+          "bonus_ties": 0,
+          "bonus_wins": 1,
+          "losses": 1,
+          "manager": "manager_9",
+          "point_diff": -12.599999999999994,
+          "points_against": 257.0,
+          "points_for": 244.4,
+          "standing": 2,
+          "team_name": "Bobs and Vagene",
+          "ties": 0,
+          "wins": 1
+        },
+        {
+          "bonus_losses": 1,
+          "bonus_ties": 0,
+          "bonus_wins": 1,
+          "losses": 0,
+          "manager": "manager_1",
+          "point_diff": 24.400000000000006,
+          "points_against": 210.1,
+          "points_for": 234.5,
+          "standing": 3,
+          "team_name": "Jaxson's Dart Makes Em Waddle",
+          "ties": 0,
+          "wins": 2
+        },
+        {
+          "bonus_losses": 0,
+          "bonus_ties": 0,
+          "bonus_wins": 2,
+          "losses": 0,
+          "manager": "manager_17",
+          "point_diff": 56.39999999999998,
+          "points_against": 226.0,
+          "points_for": 282.4,
+          "standing": 4,
+          "team_name": "Watson my wallet",
+          "ties": 0,
+          "wins": 2
+        },
+        {
+          "bonus_losses": 0,
+          "bonus_ties": 0,
+          "bonus_wins": 2,
+          "losses": 1,
+          "manager": "manager_7",
+          "point_diff": 23.0,
+          "points_against": 268.9,
+          "points_for": 291.9,
+          "standing": 5,
+          "team_name": "King Henry's Realm",
+          "ties": 0,
+          "wins": 1
+        },
+        {
+          "bonus_losses": 1,
+          "bonus_ties": 0,
+          "bonus_wins": 1,
+          "losses": 2,
+          "manager": "manager_21",
+          "point_diff": -49.099999999999994,
+          "points_against": 273.5,
+          "points_for": 224.4,
+          "standing": 6,
+          "team_name": "More than a  Thielen",
+          "ties": 0,
+          "wins": 0
+        },
+        {
+          "bonus_losses": 2,
+          "bonus_ties": 0,
+          "bonus_wins": 0,
+          "losses": 1,
+          "manager": "manager_6",
+          "point_diff": -26.5,
+          "points_against": 212.4,
+          "points_for": 185.9,
+          "standing": 7,
+          "team_name": "Baked Elmo",
+          "ties": 0,
+          "wins": 1
+        },
+        {
+          "bonus_losses": 2,
+          "bonus_ties": 0,
+          "bonus_wins": 0,
+          "losses": 1,
+          "manager": "manager_2",
+          "point_diff": -15.100000000000023,
+          "points_against": 214.0,
+          "points_for": 198.89999999999998,
+          "standing": 8,
+          "team_name": "Frankel's Cankles",
+          "ties": 0,
+          "wins": 1
+        },
+        {
+          "bonus_losses": 2,
+          "bonus_ties": 0,
+          "bonus_wins": 0,
+          "losses": 1,
+          "manager": "manager_10",
+          "point_diff": 20.69999999999999,
+          "points_against": 202.70000000000002,
+          "points_for": 223.4,
+          "standing": 9,
+          "team_name": "Bijonnaise",
+          "ties": 0,
+          "wins": 1
+        },
+        {
+          "bonus_losses": 1,
+          "bonus_ties": 0,
+          "bonus_wins": 1,
+          "losses": 2,
+          "manager": "manager_3",
+          "point_diff": -40.5,
+          "points_against": 265.4,
+          "points_for": 224.89999999999998,
+          "standing": 10,
+          "team_name": "Mr. Botched Calendar",
+          "ties": 0,
+          "wins": 0
+        },
+        {
+          "bonus_losses": 1,
+          "bonus_ties": 0,
+          "bonus_wins": 1,
+          "losses": 1,
+          "manager": "manager_14",
+          "point_diff": 41.5,
+          "points_against": 222.0,
+          "points_for": 263.5,
+          "standing": 11,
+          "team_name": "The Glass Castle",
+          "ties": 0,
+          "wins": 1
+        },
+        {
+          "bonus_losses": 1,
+          "bonus_ties": 0,
+          "bonus_wins": 1,
+          "losses": 2,
+          "manager": "manager_12",
+          "point_diff": -75.99999999999997,
+          "points_against": 291.9,
+          "points_for": 215.9,
+          "standing": 12,
+          "team_name": "Big Joshy Style",
+          "ties": 0,
+          "wins": 0
+        }
+      ]
     },
     "get_toilet_bowl_loser": {
       "error": "No consolation ladder matchups ingested for season 2026",

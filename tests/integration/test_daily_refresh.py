@@ -81,6 +81,7 @@ def _build_fake_league(
 
     league = MagicMock()
     league.finalScoringPeriod = final_scoring_period
+    league.current_week = final_scoring_period
     league.teams = [team_a, team_b]
     league.player_map = {100: "Player100", 200: "Player200"}
     league.box_scores.return_value = [
