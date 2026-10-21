@@ -11,6 +11,7 @@ from leagueintel.ingestion.espn import (
     fetch_transactions_all,
     fetch_teams_all,
     fetch_matchups_all,
+    fetch_box_scores_all,
     build_leagues,
 )
 
@@ -273,3 +274,35 @@ def test_fetch_matchups_all_only_processes_weeks_through_current_week(
 
     weeks_written = [call.args[0][0]["week"] for call in mock_write.call_args_list]
     assert weeks_written == [1, 2, 3, 4, 5]
+
+
+# ── fetch_box_scores_all: partial in-season current_week ─────────────────────
+
+
+def test_fetch_box_scores_all_only_processes_weeks_through_current_week():
+    """
+    Simulates being mid-season: ESPN reports current_week = 5 while
+    finalScoringPeriod = 17. In-season, ESPN does NOT raise a KeyError for
+    future weeks' box scores — it returns the current roster with 0 points.
+    fetch_box_scores_all must bound by current_week, otherwise it writes
+    placeholder rows for weeks 6-17, and every currently rostered player
+    appears to have played all 17 weeks (with zeros for unplayed ones).
+    """
+    fake_league = MagicMock()
+    fake_league.finalScoringPeriod = 17
+    fake_league.current_week = 5
+
+    with patch("leagueintel.ingestion.espn.get_connection") as mock_get_conn:
+        with patch("leagueintel.ingestion.espn.create_tables"):
+            with patch("leagueintel.ingestion.espn.fetch_box_scores") as mock_fetch:
+                with patch("leagueintel.ingestion.espn.write_box_scores"):
+                    with patch("leagueintel.ingestion.espn.time.sleep"):
+                        mock_get_conn.return_value = MagicMock()
+                        mock_fetch.return_value = []
+
+                        fetch_box_scores_all(
+                            seasons=[2026], leagues={2026: fake_league}
+                        )
+
+    weeks_fetched = [call.args[1] for call in mock_fetch.call_args_list]
+    assert weeks_fetched == [1, 2, 3, 4, 5]
