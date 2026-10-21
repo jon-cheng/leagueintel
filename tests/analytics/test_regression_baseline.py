@@ -73,7 +73,7 @@ def _rerun(func_name, func, season, owner_map, team_name_map):
     except Exception as e:
         return {"error": str(e), "error_type": type(e).__name__}
 
-    result = pseudonymize_result(func_name, result, owner_map, team_name_map)
+    result = pseudonymize_result(func_name, result, season, owner_map, team_name_map)
     if hasattr(result, "to_dict"):
         return {"records": result.to_dict(orient="records")}
     return result

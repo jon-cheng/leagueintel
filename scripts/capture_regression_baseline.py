@@ -10,11 +10,10 @@ can be checked against real historical output, not just synthetic fixtures.
 See tests/analytics/test_regression_baseline.py for the test that diffs
 against this file.
 
-owner_name/team_name are pseudonymized before writing (manager_1, team_1,
-...) so real people's names never land in a committed fixture. The mapping
-is rebuilt fresh each run from teams.team_id (stable across seasons for the
-same manager, per anonymize_demo_db.py's own verification query) — nothing
-about the real mapping itself is persisted anywhere.
+owner_name/team_name are pseudonymized before writing (manager_{team_id},
+team_{team_id}) so real people's names never land in a committed fixture.
+The mapping is rebuilt fresh each run from the teams table — nothing about
+the real mapping itself is persisted anywhere.
 
 Usage:
     poetry run python scripts/capture_regression_baseline.py
@@ -40,7 +39,7 @@ OUTPUT_PATH = REPO_ROOT / "tests" / "fixtures" / "regression_baseline.json"
 # fields known to carry real owner/team names, per function — see
 # GENERALIZATION_PLAN.md step 1 for how this was enumerated
 NAME_FIELDS = {
-    "get_standings": {"manager": "owner"},
+    "get_standings": {"manager": "owner", "team_name": "team"},
     "get_medal_standings": {"first": "owner", "second": "owner", "third": "owner"},
     "get_consolation_ladder_winner": {"winner": "owner", "opponent": "owner"},
     "get_toilet_bowl_loser": {"last_place": "owner", "opponent": "owner"},
@@ -60,41 +59,40 @@ FUNCTIONS = {
 
 def build_pseudonym_maps(db_path: Path) -> tuple[dict, dict]:
     """
-    Build owner_name -> "manager_N" and team_name -> "team_N" maps.
+    Build (season, owner_name) -> "manager_{team_id}" and
+    (season, team_name) -> "team_{team_id}" maps.
 
-    Owners are numbered by team_id order (stable identity across seasons
-    for the same manager). Team names are numbered alphabetically (a
-    manager's team name changes every season, so there's no stable
-    per-manager identity to key off for these — alphabetical just keeps
-    the numbering deterministic run-to-run).
+    Labels come from team_id alone, never from a name's position in some
+    ordering — so a team or owner renamed (even mid-season) keeps its
+    label, and no other team's label moves. The analytics results only
+    carry names, not team_id, so names are still the lookup key; keying
+    by (season, name) keeps that lookup unambiguous, since names are
+    unique within a season but can be reused across seasons.
+
+    A team_id can change hands across seasons, so manager_N may refer to
+    different people in different seasons. That's fine here: the baseline
+    is compared one season at a time.
     """
     conn = sqlite3.connect(db_path)
-    owner_rows = conn.execute(
-        "SELECT DISTINCT team_id, owner_name FROM teams ORDER BY team_id"
-    ).fetchall()
-    team_name_rows = conn.execute(
-        "SELECT DISTINCT team_name FROM teams ORDER BY team_name"
-    ).fetchall()
+    rows = conn.execute("SELECT season, team_id, team_name, owner_name FROM teams").fetchall()
     conn.close()
 
-    owner_map = {
-        owner_name: f"manager_{i + 1}" for i, (_, owner_name) in enumerate(owner_rows)
-    }
-    team_name_map = {
-        team_name: f"team_{i + 1}" for i, (team_name,) in enumerate(team_name_rows)
-    }
+    owner_map = {(season, owner): f"manager_{team_id}" for season, team_id, _, owner in rows}
+    team_name_map = {(season, team): f"team_{team_id}" for season, team_id, team, _ in rows}
     return owner_map, team_name_map
 
 
-def pseudonymize_value(value, kind: str, owner_map: dict, team_name_map: dict):
+def pseudonymize_value(value, kind: str, season: int, owner_map: dict, team_name_map: dict):
     if kind == "owner":
-        return owner_map.get(value, value)
+        return owner_map.get((season, value), value)
     if kind == "team":
-        return team_name_map.get(value, value)
+        return team_name_map.get((season, value), value)
     return value
 
 
-def pseudonymize_result(func_name: str, result, owner_map: dict, team_name_map: dict):
+def pseudonymize_result(
+    func_name: str, result, season: int, owner_map: dict, team_name_map: dict
+):
     name_fields = NAME_FIELDS.get(func_name, {})
     if not name_fields:
         return result
@@ -104,15 +102,16 @@ def pseudonymize_result(func_name: str, result, owner_map: dict, team_name_map: 
         for field, kind in name_fields.items():
             if field in result:
                 result[field] = pseudonymize_value(
-                    result[field], kind, owner_map, team_name_map
+                    result[field], kind, season, owner_map, team_name_map
                 )
         return result
 
     # DataFrame case
     for field, kind in name_fields.items():
         if field in result.columns:
-            mapping = owner_map if kind == "owner" else team_name_map
-            result[field] = result[field].map(mapping).fillna(result[field])
+            result[field] = result[field].map(
+                lambda v: pseudonymize_value(v, kind, season, owner_map, team_name_map)
+            )
     return result
 
 
@@ -124,7 +123,7 @@ def capture_season(func_name: str, func, season: int, owner_map: dict, team_name
     except Exception as e:  # noqa: BLE001 — intentional: one bad season must not abort the whole capture
         return {"error": str(e), "error_type": type(e).__name__}
 
-    result = pseudonymize_result(func_name, result, owner_map, team_name_map)
+    result = pseudonymize_result(func_name, result, season, owner_map, team_name_map)
 
     if hasattr(result, "to_dict"):
         return {"records": result.to_dict(orient="records")}
