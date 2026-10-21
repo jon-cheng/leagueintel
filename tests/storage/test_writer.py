@@ -17,12 +17,12 @@ def conn():
     connection.close()
 
 
-def _box_score(points: float) -> dict:
+def _box_score(points: float = 10.0, team_id: int = 1, player_id: int = 100, week: int = 5) -> dict:
     return {
         "season": 2026,
-        "week": 5,
-        "team_id": 1,
-        "player_id": 100,
+        "week": week,
+        "team_id": team_id,
+        "player_id": player_id,
         "player_name": "Test Player",
         "position": "RB",
         "lineup_slot": "RB",
@@ -57,6 +57,58 @@ def test_write_box_scores_does_not_duplicate_rows_on_reingest(conn):
         "SELECT COUNT(*) FROM box_scores WHERE season = 2026 AND week = 5 AND player_id = 100"
     ).fetchone()[0]
     assert count == 1
+
+
+def _week_rows(conn, week: int = 5) -> list[tuple]:
+    return conn.execute(
+        "SELECT team_id, player_id FROM box_scores WHERE season = 2026 AND week = ? ORDER BY 1, 2",
+        (week,),
+    ).fetchall()
+
+
+def test_write_box_scores_removes_player_no_longer_on_team(conn):
+    """
+    Protects against ghost rows: a player dropped since the week was last
+    written must disappear from that team's week. Deleting only the
+    players present in the new fetch left dropped players behind forever,
+    so they looked rostered (with 0 points) in weeks they weren't.
+    """
+    write_box_scores([_box_score(player_id=100), _box_score(player_id=101)], conn)
+    write_box_scores([_box_score(player_id=100)], conn)
+
+    assert _week_rows(conn) == [(1, 100)]
+
+
+def test_write_box_scores_leaves_teams_missing_from_fetch_untouched(conn):
+    """
+    Protects against a partial fetch wiping data: replacement is scoped to
+    the teams actually present in the new rows, so a team ESPN didn't
+    return this time keeps its existing week.
+    """
+    write_box_scores([_box_score(team_id=1, player_id=100), _box_score(team_id=2, player_id=200)], conn)
+    write_box_scores([_box_score(team_id=1, player_id=100)], conn)
+
+    assert _week_rows(conn) == [(1, 100), (2, 200)]
+
+
+def test_write_box_scores_player_moved_teams_appears_once(conn):
+    """
+    Protects against a player showing on two teams in the same week when a
+    partial fetch includes only his NEW team: the per-player delete still
+    removes his old team's row.
+    """
+    write_box_scores([_box_score(team_id=1, player_id=100)], conn)
+    write_box_scores([_box_score(team_id=3, player_id=100)], conn)
+
+    assert _week_rows(conn) == [(3, 100)]
+
+
+def test_write_box_scores_leaves_other_weeks_untouched(conn):
+    """Protects against replacement leaking outside the week being written."""
+    write_box_scores([_box_score(week=4, player_id=101)], conn)
+    write_box_scores([_box_score(week=5, player_id=100)], conn)
+
+    assert _week_rows(conn, week=4) == [(1, 101)]
 
 
 def _transaction(status: str) -> dict:
