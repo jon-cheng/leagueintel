@@ -227,6 +227,12 @@ def write_box_scores(box_scores: list[dict], conn: sqlite3.Connection) -> None:
     Uses DELETE + INSERT instead of INSERT OR IGNORE so re-ingesting a week
     (e.g. a daily in-season refresh) picks up updated points/projections
     instead of freezing whatever was captured on the first fetch.
+
+    The fetch is treated as the full roster for every (season, week, team)
+    it contains, so a player dropped since the last write is removed
+    rather than left behind as a ghost row. Teams absent from the fetch
+    are left alone. The per-player delete additionally stops a player
+    appearing on two teams in one week when only his new team is fetched.
     """
     rows = []
     skipped = 0
@@ -238,6 +244,14 @@ def write_box_scores(box_scores: list[dict], conn: sqlite3.Connection) -> None:
         except ValidationError as e:
             logger.warning(f"Skipping invalid box score: {e}")
             skipped += 1
+
+    conn.executemany(
+        """
+        DELETE FROM box_scores
+        WHERE season = ? AND week = ? AND team_id = ?
+        """,
+        {(r[0], r[1], r[2]) for r in rows},
+    )
 
     conn.executemany(
         """

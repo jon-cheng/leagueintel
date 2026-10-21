@@ -241,7 +241,7 @@ def compute_acquisition_history(
       when not applicable, "Wk N-present" for a stint still open in an
       unfinished season — chronological by acquisition_week, joined
       with "; " — e.g.
-      "Daniel Corbett: (Waiver, $8, Wk 3-9); Calvin Cotton: (Waiver, $7, Wk 10-17)"
+      "Alice Example: (Waiver, $8, Wk 3-9); Bob Example: (Waiver, $7, Wk 10-17)"
     """
     if stints.empty:
         return pd.DataFrame(columns=["player_id", "history"])

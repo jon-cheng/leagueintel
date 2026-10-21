@@ -173,7 +173,7 @@ def test_compute_acquisition_history_lists_every_manager_chronologically():
             _bid(100, 2, "WAIVER", 10, 7),
         ]
     )
-    teams = pd.DataFrame([_team(1, "Daniel Corbett"), _team(2, "Calvin Cotton")])
+    teams = pd.DataFrame([_team(1, "Alice Example"), _team(2, "Bob Example")])
 
     # season complete (max_ingested_week=17) — the drop_week=18 sentinel
     # on the second stint really does mean "held through week 17" here
@@ -182,7 +182,7 @@ def test_compute_acquisition_history_lists_every_manager_chronologically():
     assert len(result) == 1
     assert result.iloc[0]["player_id"] == 100
     assert result.iloc[0]["history"] == (
-        "Daniel Corbett: (Waiver, $8, Wk 3-6); Calvin Cotton: (Waiver, $7, Wk 10-17)"
+        "Alice Example: (Waiver, $8, Wk 3-6); Bob Example: (Waiver, $7, Wk 10-17)"
     )
 
 
@@ -190,33 +190,33 @@ def test_compute_acquisition_history_trade_has_no_price():
     """TRADE (and FREEAGENT) stints have no matching row in bids, so no price should be shown."""
     stints = pd.DataFrame([_stint(200, 3, "TRADE", 7, 18)])
     bids = pd.DataFrame(columns=["player_id", "team_id", "transaction_type", "week", "bid_amount"])
-    teams = pd.DataFrame([_team(3, "Chris Everson")])
+    teams = pd.DataFrame([_team(3, "Carol Example")])
 
     result = compute_acquisition_history(stints, bids, teams, max_ingested_week=17)
 
-    assert result.iloc[0]["history"] == "Chris Everson: (Trade, Wk 7-17)"
+    assert result.iloc[0]["history"] == "Carol Example: (Trade, Wk 7-17)"
 
 
 def test_compute_acquisition_history_draft_has_auction_price():
     """DRAFT stints price from the DRAFT transaction's bid_amount, not a waiver bid."""
     stints = pd.DataFrame([_stint(300, 1, "DRAFT", 1, 18)])
     bids = pd.DataFrame([_bid(300, 1, "DRAFT", 1, 55)])
-    teams = pd.DataFrame([_team(1, "Daniel Corbett")])
+    teams = pd.DataFrame([_team(1, "Alice Example")])
 
     result = compute_acquisition_history(stints, bids, teams, max_ingested_week=17)
 
-    assert result.iloc[0]["history"] == "Daniel Corbett: (Draft, $55, Wk 1-17)"
+    assert result.iloc[0]["history"] == "Alice Example: (Draft, $55, Wk 1-17)"
 
 
 def test_compute_acquisition_history_same_week_add_drop_shows_single_week():
     """A same-week add/cut (duration_weeks == 0) has no real second week — show it as one week, not a backwards range."""
     stints = pd.DataFrame([_stint(400, 1, "WAIVER", 6, 6)])
     bids = pd.DataFrame([_bid(400, 1, "WAIVER", 6, 1)])
-    teams = pd.DataFrame([_team(1, "Daniel Corbett")])
+    teams = pd.DataFrame([_team(1, "Alice Example")])
 
     result = compute_acquisition_history(stints, bids, teams, max_ingested_week=17)
 
-    assert result.iloc[0]["history"] == "Daniel Corbett: (Waiver, $1, Wk 6)"
+    assert result.iloc[0]["history"] == "Alice Example: (Waiver, $1, Wk 6)"
 
 
 def test_compute_acquisition_history_open_stint_in_progress_season_shows_present():
@@ -229,11 +229,11 @@ def test_compute_acquisition_history_open_stint_in_progress_season_shows_present
     """
     stints = pd.DataFrame([_stint(500, 1, "DRAFT", 1, 18)])
     bids = pd.DataFrame([_bid(500, 1, "DRAFT", 1, 40)])
-    teams = pd.DataFrame([_team(1, "Daniel Corbett")])
+    teams = pd.DataFrame([_team(1, "Alice Example")])
 
     result = compute_acquisition_history(stints, bids, teams, max_ingested_week=2)
 
-    assert result.iloc[0]["history"] == "Daniel Corbett: (Draft, $40, Wk 1-present)"
+    assert result.iloc[0]["history"] == "Alice Example: (Draft, $40, Wk 1-present)"
 
 
 def test_compute_acquisition_history_completed_drop_shown_even_in_progress_season():
@@ -243,11 +243,11 @@ def test_compute_acquisition_history_completed_drop_shown_even_in_progress_seaso
     """
     stints = pd.DataFrame([_stint(600, 1, "WAIVER", 1, 2)])
     bids = pd.DataFrame([_bid(600, 1, "WAIVER", 1, 3)])
-    teams = pd.DataFrame([_team(1, "Daniel Corbett")])
+    teams = pd.DataFrame([_team(1, "Alice Example")])
 
     result = compute_acquisition_history(stints, bids, teams, max_ingested_week=2)
 
-    assert result.iloc[0]["history"] == "Daniel Corbett: (Waiver, $3, Wk 1)"
+    assert result.iloc[0]["history"] == "Alice Example: (Waiver, $3, Wk 1)"
 
 
 def test_compute_acquisition_history_empty_input_returns_empty_frame():
