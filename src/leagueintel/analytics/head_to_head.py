@@ -52,6 +52,9 @@ def compute_h2h_records(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         DataFrame with columns: manager_a, manager_b, wins_a, wins_b, ties
     """
+    # unplayed matchups have NULL scores — skip them rather than let NaN
+    # fall through to the tie branch below
+    df = df.dropna(subset=["home_score", "away_score"])
     records = {}
     for row in df.itertuples():
         pair = tuple(sorted((row.home_manager, row.away_manager), key=_last_name))

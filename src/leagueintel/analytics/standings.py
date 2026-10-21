@@ -32,6 +32,15 @@ def get_regular_season_matchups(season: int) -> pd.DataFrame:
     return df
 
 
+def _played(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Drop matchups that haven't been played yet. Ingestion stores an
+    unplayed matchup's scores as NULL (NaN here); left in, NaN fails every
+    comparison and the matchup is silently counted as a tie.
+    """
+    return df.dropna(subset=["home_score", "away_score"])
+
+
 def _side_frame(df: pd.DataFrame, side: str, other_side: str) -> pd.DataFrame:
     """
     Build one manager-perspective slice (home or away) of the matchups
@@ -75,6 +84,7 @@ def compute_standings(df: pd.DataFrame) -> pd.DataFrame:
         that's the best this codebase can derive on its own without it
         (e.g. for synthetic test fixtures with no live ESPN backing).
     """
+    df = _played(df)
     home = _side_frame(df, "home", "away")
     away = _side_frame(df, "away", "home")
     games = pd.concat([home, away], ignore_index=True)
@@ -131,6 +141,7 @@ def compute_median_scoring_bonus(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         DataFrame with columns: manager, bonus_wins, bonus_losses, bonus_ties
     """
+    df = _played(df)
     home = df.rename(columns={"home_manager": "manager", "home_score": "points_for"})[
         ["week", "manager", "points_for"]
     ]

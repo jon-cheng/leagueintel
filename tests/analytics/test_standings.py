@@ -170,6 +170,45 @@ def test_median_scoring_bonus_accumulates_across_multiple_weeks():
     assert result.loc["Manager A", "bonus_losses"] == 1
 
 
+def test_compute_standings_ignores_unplayed_matchups():
+    """
+    Protects against an unplayed week counting as a result. A matchup that
+    hasn't been played has NULL scores (NaN after read_sql); comparing NaN
+    is always False, so the "tie" default used to stick and every team got
+    a phantom tie for the current week.
+    """
+    df = pd.DataFrame(
+        [
+            _matchup("Manager A", "Manager B", 120.0, 100.0, week=1),
+            _matchup("Manager A", "Manager B", None, None, week=2),  # not played yet
+        ]
+    )
+    result = compute_standings(df).set_index("manager")
+
+    assert result.loc["Manager A", ["wins", "losses", "ties"]].tolist() == [1, 0, 0]
+    assert result.loc["Manager B", ["wins", "losses", "ties"]].tolist() == [0, 1, 0]
+    assert result.loc["Manager A", "points_for"] == 120.0
+
+
+def test_median_scoring_bonus_ignores_unplayed_weeks():
+    """
+    Same protection for the bonus record: an unplayed week has no median,
+    so it must give no bonus result, not a bonus tie for every team.
+    """
+    df = pd.DataFrame(
+        [
+            _matchup("Manager A", "Manager B", 100.0, 90.0, week=1),
+            _matchup("Manager C", "Manager D", 80.0, 70.0, week=1),
+            _matchup("Manager A", "Manager C", None, None, week=2),  # not played yet
+            _matchup("Manager B", "Manager D", None, None, week=2),
+        ]
+    )
+    result = compute_median_scoring_bonus(df).set_index("manager")
+
+    assert result["bonus_ties"].sum() == 0
+    assert result.loc["Manager A", ["bonus_wins", "bonus_losses"]].tolist() == [1, 0]
+
+
 @pytest.fixture
 def db_conn(tmp_path, monkeypatch):
     db_path = tmp_path / "test.db"
