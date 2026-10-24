@@ -116,13 +116,17 @@ def fetch_transactions_all(
         if week:
             weeks = [week]
         else:
-            # bound to finalScoringPeriod like fetch_box_scores_all/
-            # fetch_matchups_all, so an in-progress season doesn't request
-            # weeks that haven't happened yet
+            # bound by current_week like fetch_box_scores_all/
+            # fetch_matchups_all: finalScoringPeriod is the season's
+            # configured length, not its progress. A future-week request
+            # just returns the current week's transactions again (pending
+            # claims for next week included), so it adds nothing.
             league = leagues.get(y) or League(
                 league_id=LEAGUE_ID, year=y, espn_s2=ESPN_S2, swid=SWID
             )
-            weeks = _get_weeks(min(max_week, league.finalScoringPeriod))
+            weeks = _get_weeks(
+                min(max_week, league.current_week, league.finalScoringPeriod)
+            )
 
         logger.info(f"=== Season {y}: {len(weeks)} week(s) ===")
         for w in weeks:

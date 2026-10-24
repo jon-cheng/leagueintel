@@ -146,16 +146,19 @@ def test_fetch_transactions_all_missing_credentials():
                 fetch_transactions_all(year=2024, week=1)
 
 
-def test_fetch_transactions_all_bounds_weeks_to_final_scoring_period(
+def test_fetch_transactions_all_bounds_weeks_to_current_week(
     sample_response, tmp_path
 ):
     """
-    Simulates being mid-season: ESPN reports finalScoringPeriod = 3, so only
-    3 weeks have occurred so far. fetch_transactions_all should stop there
-    instead of requesting all the way up to max_week/DEFAULT_MAX_WEEK.
+    Simulates being mid-season: ESPN reports current_week = 3 while
+    finalScoringPeriod = 17 (the season's configured length, which never
+    changes mid-season). Requesting a future week just returns the current
+    week's transactions again, so fetch_transactions_all must stop at
+    current_week instead of re-fetching the same data for weeks 4-17.
     """
     fake_league = MagicMock()
-    fake_league.finalScoringPeriod = 3
+    fake_league.current_week = 3
+    fake_league.finalScoringPeriod = 17
 
     with patch("leagueintel.ingestion.espn.LEAGUE_ID", "123"):
         with patch("leagueintel.ingestion.espn.ESPN_S2", "abc"):
