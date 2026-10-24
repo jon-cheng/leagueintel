@@ -161,6 +161,11 @@ def compute_stint_scores_with_population(
     # real week on the roster and must contribute nothing to scoring.
     stints = stints[stints["drop_week"] > stints["acquisition_week"]]
 
+    # NULL points (NaN) = that player's game hasn't been played yet. Drop
+    # those rows up front so they never count as a game anywhere below
+    # (num_weeks, comparison_games/comparison_ppg).
+    box_scores = box_scores[box_scores["points"].notna()]
+
     # stint_scores: each stint's box scores while actually on the roster.
     # A manager's discontinuous stints of the same acquisition_type for a
     # player (e.g. waiver-added, dropped, re-added) each contribute their

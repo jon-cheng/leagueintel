@@ -511,3 +511,40 @@ def test_compute_stint_scores_does_not_merge_different_acquisition_types():
 
     assert len(result) == 2
     assert set(result["acquisition_type"]) == {"DRAFT", "WAIVER"}
+
+
+def test_compute_stint_scores_unplayed_weeks_are_not_games():
+    """
+    Protects against unplayed weeks (NULL points, NaN here) counting as
+    games. Mid-week, the query player's game can be final while a
+    comparison player's isn't: that comparison player's unplayed week used
+    to count toward comparison_games, deflating his PPG (12 pts over 3
+    "games" = 4.0 instead of 6.0). The query player's own unplayed week
+    must likewise not count toward num_weeks.
+    """
+    stints = pd.DataFrame(
+        [{"player_id": 100, "team_id": 1, "season": 2024, "acquisition_type": "WAIVER",
+          "acquisition_week": 1, "drop_week": 18}]
+    )
+    box_scores = pd.DataFrame(
+        [_box_score(100, 1, w, 10) for w in (1, 2, 3)]
+        + [_box_score(100, 1, 4, None)]                  # query: week 4 not played yet
+        + [_box_score(200, 2, w, 6) for w in (1, 2)]
+        + [_box_score(200, 2, 3, None)]                  # comparison: week 3 not played yet
+    )
+    players = pd.DataFrame(
+        [{"player_id": 100, "player_name": "Query"}, {"player_id": 200, "player_name": "Other"}]
+    )
+    teams = pd.DataFrame(
+        [{"team_id": 1, "season": 2024, "team_name": "Team A", "owner_name": "Alice"},
+         {"team_id": 2, "season": 2024, "team_name": "Team B", "owner_name": "Bob"}]
+    )
+
+    result, population = compute_stint_scores_with_population(
+        stints, box_scores, players, teams, top_n_weeks=8, min_weeks=1
+    )
+
+    assert result.iloc[0]["num_weeks"] == 3
+    assert result.iloc[0]["weeks"] == [1, 2, 3]
+    other = population[population["comparison_player_name"] == "Other"].iloc[0]
+    assert other["comparison_ppg"] == 6.0

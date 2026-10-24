@@ -89,7 +89,8 @@ def compute_draft_roi(df: pd.DataFrame, min_weeks: int = MIN_WEEKS) -> pd.DataFr
             player_name, bid_amount, owner_name, position,
             games_started, total_points, points_per_game
     """
-    started = df[~df["lineup_slot"].isin(NON_STARTING_SLOTS)].copy()
+    # NULL points (NaN) = game not played yet — not a game started
+    started = df[~df["lineup_slot"].isin(NON_STARTING_SLOTS) & df["points"].notna()].copy()
     agg = (
         started.groupby(["player_name", "bid_amount", "owner_name", "position"])
         .agg(games_started=("week", "count"), total_points=("points", "sum"))
