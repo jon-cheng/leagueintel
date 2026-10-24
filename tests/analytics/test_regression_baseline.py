@@ -20,7 +20,7 @@ import math
 import pandas as pd
 import pytest
 
-from leagueintel.config import ALL_SEASONS, DEFAULT_DB_PATH, REPO_ROOT
+from leagueintel.config import DEFAULT_DB_PATH, REPO_ROOT
 from leagueintel.analytics.availability import SeasonNotReadyError
 from leagueintel.analytics.standings import get_standings
 from leagueintel.analytics.consolation import (
@@ -32,6 +32,7 @@ from leagueintel.analytics.draft import get_draft_roi
 from leagueintel.analytics.waiver import get_waiver_scores
 
 from scripts.capture_regression_baseline import (
+    BASELINE_SEASONS,
     build_pseudonym_maps,
     pseudonymize_result,
 )
@@ -108,7 +109,7 @@ def _assert_records_equal(actual_records: list, expected_records: list, path: st
 
 
 @pytest.mark.regression
-@pytest.mark.parametrize("season", ALL_SEASONS)
+@pytest.mark.parametrize("season", BASELINE_SEASONS)
 @pytest.mark.parametrize("func_name", list(FUNCTIONS.keys()))
 def test_matches_baseline(season, func_name, baseline, pseudonym_maps):
     season_key = str(season)
