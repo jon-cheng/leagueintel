@@ -69,6 +69,11 @@ def _matchup_html(
     return f'<div class="matchup">{top_html}{bot_html}</div>'
 
 
+def _score(value) -> float | None:
+    """NULL score (game not played yet, NaN after read_sql) -> None, which renders as "—"."""
+    return None if pd.isna(value) else value
+
+
 def _connector(n_pairs: int, gap_px: int) -> str:
     """Vertical connector lines between rounds."""
     pairs_html = ""
@@ -103,7 +108,7 @@ def render_playoff_bracket(season: int) -> str:
             matchups.append(
                 {
                     "top": row["home_owner"],
-                    "top_score": row["home_score"],
+                    "top_score": _score(row["home_score"]),
                     "bot": (
                         row["away_owner"] if pd.notna(row.get("away_owner")) else None
                     ),
@@ -127,11 +132,10 @@ def render_playoff_bracket(season: int) -> str:
 
     # ── champion ─────────────────────────────────────────────────────────────
     last = rounds[-1]["matchups"][0]
-    champ = (
-        last["top"]
-        if (last["top_score"] or 0) > (last["bot_score"] or 0)
-        else last["bot"]
-    )
+    if last["top_score"] is None or last["bot_score"] is None:
+        champ = "TBD"  # championship not played yet
+    else:
+        champ = last["top"] if last["top_score"] > last["bot_score"] else last["bot"]
 
     # ── HTML ─────────────────────────────────────────────────────────────────
     rounds_html = ""
