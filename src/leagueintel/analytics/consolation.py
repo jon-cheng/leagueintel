@@ -48,6 +48,22 @@ def get_regular_season_standings(season: int) -> pd.DataFrame:
     return df
 
 
+def _season_finished(season: int) -> bool:
+    """
+    Whether ESPN has finalized this season's ranks. final_standing is 0
+    for every team until the season ends (not NULL), then 1..N — ESPN's
+    own "season is over" signal. Ladder data alone can't tell: overnight
+    after the second-to-last week, every ingested ladder game is played
+    but the final week isn't ingested yet.
+    """
+    conn = get_connection()
+    teams, ranked = conn.execute(
+        "SELECT COUNT(*), SUM(final_standing > 0) FROM teams WHERE season = ?", (season,)
+    ).fetchone()
+    conn.close()
+    return teams > 0 and ranked == teams
+
+
 def get_consolation_matchups(season: int) -> pd.DataFrame:
     """Fetch all consolation ladder matchups with owner names."""
     conn = get_connection()
@@ -87,11 +103,13 @@ def get_toilet_bowl_loser(season: int) -> dict:
     from partial ladder results. The final week's consolation-ladder game
     is only consulted afterward, to pull the opponent/scores for display.
     """
+    if not _season_finished(season):
+        raise ValueError(f"Season {season} is not finished yet")
     conn = get_connection()
     last_place_row = pd.read_sql(
         """
         SELECT owner_name FROM teams
-        WHERE season = :season AND final_standing IS NOT NULL
+        WHERE season = :season AND final_standing > 0
         ORDER BY final_standing DESC
         LIMIT 1
         """,
@@ -159,6 +177,8 @@ def get_consolation_ladder_winner(season: int) -> dict:
     old "most wins before the final week" heuristic, which wasn't
     guaranteed to pick the same team in a bracket with byes.
     """
+    if not _season_finished(season):
+        raise ValueError(f"Consolation ladder for season {season} is not finished yet")
     matchups = get_consolation_matchups(season)
     if matchups.empty:
         raise ValueError(f"No consolation ladder matchups ingested for season {season}")

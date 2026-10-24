@@ -139,3 +139,65 @@ def test_get_consolation_ladder_winner_refuses_unfinished_ladder(db_conn):
 
     with pytest.raises(ValueError, match="not finished"):
         consolation.get_consolation_ladder_winner(SEASON)
+
+
+LADDER = "LOSERS_CONSOLATION_LADDER"
+
+
+def _play_full_ladder(conn):
+    """
+    A complete two-round ladder for the four non-playoff teams: C and E win
+    round one; in the final week C stays undefeated (ladder winner) and D
+    loses again (last place).
+    """
+    _insert_matchup(conn, 15, 3, 4, 110.0, 90.0, LADDER)  # C beats D
+    _insert_matchup(conn, 15, 5, 6, 100.0, 95.0, LADDER)  # E beats F
+    _insert_matchup(conn, 16, 3, 5, 120.0, 80.0, LADDER)  # C beats E
+    _insert_matchup(conn, 16, 4, 6, 70.0, 85.0, LADDER)   # F beats D
+
+
+def _live_season_final_standings(conn):
+    """ESPN reports final_standing = 0 for every team until the season ends — not NULL."""
+    _set_final_standings(conn, {team_id: 0 for team_id, *_ in TEAMS})
+
+
+def test_ladder_winner_waits_for_season_to_finish(db_conn):
+    """
+    Protects against crowning a ladder winner a week early. Overnight after
+    the second-to-last week's games end, every ingested ladder game is
+    played but the final week isn't ingested yet (ESPN hasn't advanced
+    current_week). Judging by the ladder data alone, that window returned
+    a premature winner (with the wrong game shown as "the final") in a
+    replay of 2019, and a misleading data error in 2023/2025.
+    """
+    _play_full_ladder(db_conn)
+    _live_season_final_standings(db_conn)
+
+    with pytest.raises(ValueError, match="not finished"):
+        consolation.get_consolation_ladder_winner(SEASON)
+
+
+def test_toilet_bowl_loser_waits_for_season_to_finish(db_conn):
+    """
+    Protects against naming an arbitrary team last place mid-playoffs.
+    final_standing is 0 (not NULL) during the live season, so an
+    "IS NOT NULL" check let it through and the highest of twelve zeros
+    was picked as last place once ladder games existed.
+    """
+    _play_full_ladder(db_conn)
+    _live_season_final_standings(db_conn)
+
+    with pytest.raises(ValueError, match="not finished"):
+        consolation.get_toilet_bowl_loser(SEASON)
+
+
+def test_ladder_winner_and_toilet_bowl_once_season_finished(db_conn):
+    """Protects real answers from the gate: once ESPN sets final ranks, both functions return results."""
+    _play_full_ladder(db_conn)
+    _set_final_standings(db_conn, {1: 1, 2: 2, 3: 3, 5: 4, 6: 5, 4: 6})  # D last
+
+    ladder = consolation.get_consolation_ladder_winner(SEASON)
+    assert (ladder["winner"], ladder["winner_score"], ladder["opponent"]) == ("Manager C", 120.0, "Manager E")
+
+    toilet = consolation.get_toilet_bowl_loser(SEASON)
+    assert (toilet["last_place"], toilet["last_place_score"], toilet["opponent"]) == ("Manager D", 70.0, "Manager F")
