@@ -62,10 +62,10 @@ class BoxScoreRecord(BaseModel):
     position: str | None = None
     lineup_slot: str | None = None
     pro_team: str | None = None
-    points: float = 0.0
+    points: float | None = 0.0  # None = game not played yet
     projected_points: float = 0.0
     on_bye_week: int = 0  # 0 or 1
-    game_played: int = 0  # 0-100
+    game_played: int = 0  # 0 until 3h after kickoff, else 100 (not a percentage)
 
 
 class MatchupRecord(BaseModel):
@@ -73,8 +73,8 @@ class MatchupRecord(BaseModel):
     week: int
     home_team_id: int
     away_team_id: int | None = None
-    home_score: float = 0.0
-    away_score: float = 0.0
+    home_score: float | None = 0.0  # None = not final (a starter still to play)
+    away_score: float | None = 0.0
     home_projected: float = 0.0
     away_projected: float = 0.0
     is_playoff: int = 0

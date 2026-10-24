@@ -60,6 +60,10 @@ BASE_URL = (
     "/segments/0/leagues/{league_id}"
 )
 
+# Lineup slots that don't count toward a team's score — critical for
+# points calculation (started = any slot not in this list)
+NON_STARTING_SLOTS = ["BE", "IR"]
+
 # Threshold games played for consideration in draft, waiver analyses
 MIN_WEEKS = 8
 

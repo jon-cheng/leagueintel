@@ -162,6 +162,10 @@ def get_consolation_ladder_winner(season: int) -> dict:
     matchups = get_consolation_matchups(season)
     if matchups.empty:
         raise ValueError(f"No consolation ladder matchups ingested for season {season}")
+    # unplayed games have NULL scores — NaN would fail the "<" check below
+    # and quietly mark the away team as the loser
+    if matchups[["home_score", "away_score"]].isna().any(axis=None):
+        raise ValueError(f"Consolation ladder for season {season} is not finished yet")
     weeks = sorted(matchups["week"].unique())
 
     losses = set()

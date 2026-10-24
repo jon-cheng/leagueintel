@@ -4,7 +4,9 @@ import sqlite3
 import pandas as pd
 import pytest
 
+from leagueintel.config import CURRENT_YEAR
 from scripts.capture_regression_baseline import (
+    BASELINE_SEASONS,
     build_pseudonym_maps,
     pseudonymize_result,
 )
@@ -140,3 +142,13 @@ def test_every_name_column_in_every_result_gets_pseudonymized(teams_db):
     out = pseudonymize_result("get_standings", standings, 2023, owner_map, team_name_map)
 
     assert out.to_dict(orient="records") == [{"manager": "manager_4", "team_name": "team_4"}]
+
+
+def test_baseline_excludes_the_live_season():
+    """
+    Protects the baseline from the live season: its standings change every
+    week as games are played, which made the regression test fail on every
+    refresh regardless of code changes.
+    """
+    assert CURRENT_YEAR not in BASELINE_SEASONS
+    assert CURRENT_YEAR - 1 in BASELINE_SEASONS  # last completed season is still covered

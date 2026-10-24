@@ -76,6 +76,9 @@ Columns: id, season, week, team_id, opponent_team_id, score,
 - opponent_team_id/opponent_score/opponent_projected can be NULL
   on bye weeks — handle that case rather than assuming an
   opponent always exists
+- score/opponent_score: NULL = not final yet (a starter still to
+  play, e.g. the current week). Say the game hasn't been played or
+  finished; never report 0, a loss or a tie
 - Prefer this over matchups for team-centric questions. Getting
   the home/away pairing wrong when using matchups directly is a
   known source of incorrect winner/score attribution — default
@@ -89,6 +92,7 @@ Use for: draft ROI, bid amount vs performance.
 Columns: player_name, bid_amount, season, owner_name, team_name,
          position, points, lineup_slot, week
 - lineup_slot: QB/RB/WR/TE/RB-WR-TE=started, BE=bench, IR=injured
+- points: NULL = that week's game not played yet (not 0)
 - Excludes K and D/ST
 
 ### draft_picks
@@ -199,12 +203,18 @@ Columns: season, week, team_id, player_id, player_name,
          position, lineup_slot, points, projected_points,
          on_bye_week, game_played
 - lineup_slot: started = QB/RB/WR/TE/RB-WR-TE, bench = BE, injured = IR
-- game_played: 0-100, percentage of game played (0 = DNP)
+- points: NULL = this player's NFL game hasn't been played yet (e.g.
+  later this week). Say he hasn't played yet; never report 0. A 0 is a
+  real score.
+- on_bye_week = 1: his NFL team had a bye; points = 0 is a real 0
+- game_played: 0 until ~3h after his NFL kickoff, then 100. Not a
+  percentage and NOT a did-not-play flag; an inactive player whose
+  team played shows 100 with 0 points
 
 Common patterns:
   Started only:     lineup_slot NOT IN ('BE', 'IR')
   Points left on bench: lineup_slot = 'BE'
-  Did not play:     game_played = 0 AND on_bye_week = 0
+  Not played yet:   points IS NULL
 
 ### matchups
 One row per matchup per week. Use only when you need event-level
@@ -214,6 +224,9 @@ Columns: season, week, home_team_id, away_team_id,
          home_score, away_score, home_projected, away_projected,
          is_playoff, matchup_type
 - away_team_id: NULL = bye week
+- home_score/away_score: NULL = not final yet (a starter still to
+  play, e.g. the current week). Say the game hasn't been played or
+  finished; never report 0, a loss or a tie
 - matchup_type: NONE=regular season, WINNERS_BRACKET=championship,
                 WINNERS_CONSOLATION_LADDER=3rd-6th,
                 LOSERS_CONSOLATION_LADDER=toilet bowl
@@ -245,6 +258,9 @@ Rules:
 - The most recent season is {max(ALL_SEASONS)} — use this when no season is specified
 - Reference managers by owner_name, not team_id
 - For questions outside fantasy football or this league, politely decline
+- NULL points or scores mean not played yet. State that explicitly
+  (e.g. "Browns D/ST haven't played yet this week"). SUM/AVG/COUNT(col)
+  already skip NULL, so totals and averages cover played games only
 - Explain findings conversationally — not just raw numbers
 - When showing rankings always include the manager name alongside player/stat
 - Never use emojis in responses — they cause rendering issues in the UI

@@ -122,3 +122,20 @@ def test_get_medal_standings_ignores_other_consolation_ladder_games(db_conn):
     standings = consolation.get_medal_standings(SEASON)
 
     assert standings["third"] == "Manager D"
+
+
+def test_get_consolation_ladder_winner_refuses_unfinished_ladder(db_conn):
+    """
+    Protects against crowning a ladder winner while the ladder is still
+    being played. An unplayed game has NULL scores; NaN fails the "<"
+    check, so the away team used to be recorded as the loser and the home
+    team declared winner before the final was played. The page already
+    catches ValueError for "not available yet", so raise instead.
+    """
+    ladder = "LOSERS_CONSOLATION_LADDER"
+    _insert_matchup(db_conn, 15, 1, 2, 110.0, 90.0, ladder)  # A beats B
+    _insert_matchup(db_conn, 15, 3, 4, 105.0, 95.0, ladder)  # C beats D
+    _insert_matchup(db_conn, 16, 1, 3, None, None, ladder)   # final: not played yet
+
+    with pytest.raises(ValueError, match="not finished"):
+        consolation.get_consolation_ladder_winner(SEASON)

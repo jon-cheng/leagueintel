@@ -51,3 +51,22 @@ def test_compute_draft_roi_min_weeks_zero_includes_low_start_players():
     )
     result = compute_draft_roi(df, min_weeks=0)
     assert "Bench Warmer" in result["player_name"].values
+
+
+def test_compute_draft_roi_unplayed_start_is_not_a_game():
+    """
+    Protects against an unplayed week counting as a game started. A
+    player slotted into this week's lineup whose game hasn't happened has
+    NULL points (NaN); counting that row as a start used to drag his
+    points-per-game down as if he'd scored 0.
+    """
+    df = pd.DataFrame(
+        [
+            {"player_name": "Starter", "bid_amount": 30, "owner_name": "Test",
+             "position": "WR", "lineup_slot": "WR", "points": pts, "week": w}
+            for w, pts in [(1, 10.0), (2, 20.0), (3, None)]  # week 3 not played yet
+        ]
+    )
+    row = compute_draft_roi(df, min_weeks=0).iloc[0]
+    assert row["games_started"] == 2
+    assert row["points_per_game"] == 15.0

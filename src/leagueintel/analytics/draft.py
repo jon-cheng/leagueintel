@@ -4,7 +4,7 @@ Draft analytics — ROI analysis for auction draft picks.
 
 import pandas as pd
 from leagueintel.storage.database import get_connection, get_max_ingested_week
-from leagueintel.config import MIN_WEEKS
+from leagueintel.config import MIN_WEEKS, NON_STARTING_SLOTS
 from leagueintel.analytics.availability import check_season_ready
 
 DRAFT_BOX_SCORES_SQL = """
@@ -38,8 +38,6 @@ DRAFT_SELECTIONS_ALL_POSITIONS_SQL = """
     AND mv.item_type = 'DRAFT'
     AND t.season = :season
 """
-
-NON_STARTING_SLOTS = ["BE", "IR"]
 
 
 def get_draft_roi(season: int, min_weeks: int = MIN_WEEKS) -> pd.DataFrame:
@@ -89,7 +87,8 @@ def compute_draft_roi(df: pd.DataFrame, min_weeks: int = MIN_WEEKS) -> pd.DataFr
             player_name, bid_amount, owner_name, position,
             games_started, total_points, points_per_game
     """
-    started = df[~df["lineup_slot"].isin(NON_STARTING_SLOTS)].copy()
+    # NULL points (NaN) = game not played yet — not a game started
+    started = df[~df["lineup_slot"].isin(NON_STARTING_SLOTS) & df["points"].notna()].copy()
     agg = (
         started.groupby(["player_name", "bid_amount", "owner_name", "position"])
         .agg(games_started=("week", "count"), total_points=("points", "sum"))

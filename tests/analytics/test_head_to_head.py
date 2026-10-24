@@ -31,6 +31,22 @@ def test_compute_h2h_records_counts_wins_losses_ties():
     assert {row["wins_a"], row["wins_b"], row["ties"]} == {1}
 
 
+def test_compute_h2h_records_ignores_unplayed_matchups():
+    """
+    Protects against an unplayed matchup (NULL scores) being recorded as a
+    tie between the pair — NaN fails both > comparisons and fell through
+    to the tie branch.
+    """
+    df = pd.DataFrame(
+        [
+            _matchup("Manager A", "Manager B", 120.0, 100.0),
+            _matchup("Manager A", "Manager B", None, None),  # not played yet
+        ]
+    )
+    row = compute_h2h_records(df).iloc[0]
+    assert (row["wins_a"], row["wins_b"], row["ties"]) == (1, 0, 0)
+
+
 def test_compute_h2h_records_credits_winner_regardless_of_home_away():
     """
     Regression guard: a manager's win must count whether they played

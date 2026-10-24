@@ -1,6 +1,6 @@
 # scripts/capture_regression_baseline.py
 """
-Captures a regression baseline: for every season in ALL_SEASONS, calls the
+Captures a regression baseline: for every completed season (BASELINE_SEASONS), calls the
 six core analytics entry points against the REAL leagueintel.db and
 serializes the results to tests/fixtures/regression_baseline.json.
 
@@ -32,9 +32,14 @@ from leagueintel.analytics.consolation import (
 from leagueintel.analytics.draft import get_draft_roi
 from leagueintel.analytics.standings import get_standings
 from leagueintel.analytics.waiver import get_waiver_scores
-from leagueintel.config import ALL_SEASONS, DEFAULT_DB_PATH, REPO_ROOT
+from leagueintel.config import ALL_SEASONS, CURRENT_YEAR, DEFAULT_DB_PATH, REPO_ROOT
 
 OUTPUT_PATH = REPO_ROOT / "tests" / "fixtures" / "regression_baseline.json"
+
+# Completed seasons only: the live season's results change every week as
+# games are played, so a baseline of it would fail on every refresh for
+# reasons that have nothing to do with code changes.
+BASELINE_SEASONS = [season for season in ALL_SEASONS if season < CURRENT_YEAR]
 
 # fields known to carry real owner/team names, per function — see
 # GENERALIZATION_PLAN.md step 1 for how this was enumerated
@@ -136,7 +141,7 @@ def main() -> None:
     print(f"Pseudonymized {len(owner_map)} owners, {len(team_name_map)} team names.")
 
     baseline = {}
-    for season in ALL_SEASONS:
+    for season in BASELINE_SEASONS:
         baseline[str(season)] = {}
         for func_name, func in FUNCTIONS.items():
             baseline[str(season)][func_name] = capture_season(
@@ -148,7 +153,7 @@ def main() -> None:
     with open(OUTPUT_PATH, "w") as f:
         json.dump(baseline, f, indent=2, sort_keys=True)
 
-    print(f"\nWrote baseline for {len(ALL_SEASONS)} seasons to {OUTPUT_PATH}")
+    print(f"\nWrote baseline for {len(BASELINE_SEASONS)} seasons to {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":
