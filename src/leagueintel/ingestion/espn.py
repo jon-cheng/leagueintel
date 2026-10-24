@@ -19,6 +19,7 @@ from leagueintel.config import (
     DEFAULT_OUTPUT_DIR,
     DEFAULT_MAX_WEEK,
     BASE_URL,
+    NON_STARTING_SLOTS,
 )
 from leagueintel.storage.database import get_connection, create_tables
 from leagueintel.storage.writer import (
@@ -281,6 +282,19 @@ def fetch_players_all(
 # ── Box scores ────────────────────────────────────────────────────────────────
 
 
+def _game_unplayed(player) -> bool:
+    """
+    Whether this player's NFL game for the week hasn't been played yet.
+
+    espn_api sets game_played to 0 until 3 hours after kickoff and 100
+    after (it's not a percentage). Bye weeks keep the default 100 with
+    on_bye_week set — a bye is a real 0, not "not played yet". A game
+    still in progress counts as unplayed, so partial live points aren't
+    stored; the daily refresh runs well after games end.
+    """
+    return player.game_played == 0 and not player.on_bye_week
+
+
 def _extract_player_week(player, team_id: int, week: int, season: int) -> dict:
     """Extract box score fields from a single player in a lineup."""
     return {
@@ -292,7 +306,8 @@ def _extract_player_week(player, team_id: int, week: int, season: int) -> dict:
         "position": player.position,
         "lineup_slot": player.lineupSlot,
         "pro_team": player.proTeam,
-        "points": player.points,
+        # NULL, not 0, for a game not played yet — 0 would read as "scored 0"
+        "points": None if _game_unplayed(player) else player.points,
         "projected_points": player.projected_points,
         "on_bye_week": int(player.on_bye_week),
         "game_played": player.game_played,
@@ -366,13 +381,24 @@ def _extract_matchup(matchup, week: int, season: int) -> dict:
     home_team_id = matchup.home_team.team_id if matchup.home_team else None
     away_team_id = matchup.away_team.team_id if matchup.away_team else None
 
+    # A team score isn't final until every starter's game is played, so
+    # both scores are NULL while any starter is still to play. Decided per
+    # lineup rather than by week number: ESPN reports current_week ==
+    # finalScoringPeriod for a finished season, so a week-based rule would
+    # wipe every past championship.
+    starters = [
+        p for p in [*matchup.home_lineup, *matchup.away_lineup]
+        if p.lineupSlot not in NON_STARTING_SLOTS
+    ]
+    final = not any(_game_unplayed(p) for p in starters)
+
     return {
         "season": season,
         "week": week,
         "home_team_id": home_team_id,
         "away_team_id": away_team_id,
-        "home_score": matchup.home_score,
-        "away_score": matchup.away_score,
+        "home_score": matchup.home_score if final else None,
+        "away_score": matchup.away_score if final else None,
         "home_projected": matchup.home_projected,
         "away_projected": matchup.away_projected,
         "is_playoff": int(matchup.is_playoff),

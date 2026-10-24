@@ -13,7 +13,10 @@ from leagueintel.ingestion.espn import (
     fetch_matchups_all,
     fetch_box_scores_all,
     build_leagues,
+    _extract_player_week,
+    _extract_matchup,
 )
+from leagueintel.storage.writer import BoxScoreRecord, MatchupRecord
 
 
 # sample API response fixture
@@ -306,3 +309,99 @@ def test_fetch_box_scores_all_only_processes_weeks_through_current_week():
 
     weeks_fetched = [call.args[1] for call in mock_fetch.call_args_list]
     assert weeks_fetched == [1, 2, 3, 4, 5]
+
+
+# ── unplayed games: NULL instead of 0 ────────────────────────────────────────
+
+
+def _player(points=12.0, game_played=100, on_bye_week=False, lineup_slot="RB"):
+    """
+    Stand-in for espn_api's BoxPlayer. game_played is espn_api's own
+    signal: 0 until 3h after the player's NFL kickoff, otherwise 100 (bye
+    weeks keep the default 100 with on_bye_week=True).
+    """
+    player = MagicMock()
+    player.playerId = 1
+    player.name = "Player"
+    player.position = "RB"
+    player.lineupSlot = lineup_slot
+    player.proTeam = "SF"
+    player.points = points
+    player.projected_points = 10.0
+    player.on_bye_week = on_bye_week
+    player.game_played = game_played
+    return player
+
+
+def _matchup(home_lineup, away_lineup, has_away_team=True):
+    matchup = _fake_matchup()
+    matchup.home_lineup = home_lineup
+    matchup.away_lineup = away_lineup
+    if not has_away_team:
+        matchup.away_team = 0  # how espn_api represents a bye
+    return matchup
+
+
+def test_extract_player_week_keeps_points_for_finished_game():
+    """Protects the normal case: a finished game's points are stored as-is."""
+    assert _extract_player_week(_player(points=12.0), 1, 5, 2026)["points"] == 12.0
+
+
+def test_extract_player_week_unplayed_game_is_null_not_zero():
+    """
+    Protects against the reported bug: a player whose game hasn't been
+    played (e.g. Browns D/ST before week 7 kicked off) was stored as 0.0,
+    so the chatbot said he scored 0. Not played yet must be NULL.
+    """
+    row = _extract_player_week(_player(points=0.0, game_played=0), 1, 7, 2026)
+    assert row["points"] is None
+
+
+def test_extract_player_week_bye_week_stays_zero():
+    """
+    Protects bye weeks from being caught by the unplayed rule: a bye is a
+    real 0 for the fantasy team, not "not played yet".
+    """
+    row = _extract_player_week(_player(points=0.0, game_played=100, on_bye_week=True), 1, 7, 2026)
+    assert row["points"] == 0.0
+
+
+def test_extract_matchup_keeps_scores_when_all_starters_finished():
+    """
+    Protects completed weeks, including past seasons' championships. A
+    rule based on current_week would have wiped those, since ESPN reports
+    current_week == finalScoringPeriod for a finished season.
+    """
+    row = _extract_matchup(_matchup([_player()], [_player()]), 17, 2025)
+    assert (row["home_score"], row["away_score"]) == (100.0, 90.0)
+
+
+def test_extract_matchup_scores_null_while_any_starter_unplayed():
+    """
+    Protects against a partial or not-yet-started week being stored as a
+    real score: one starter still to play means neither team's score is
+    final, so both are NULL (an unplayed week used to be stored 0.0-0.0).
+    """
+    row = _extract_matchup(_matchup([_player()], [_player(game_played=0)]), 7, 2026)
+    assert (row["home_score"], row["away_score"]) == (None, None)
+
+
+def test_extract_matchup_ignores_unplayed_bench_players():
+    """Protects final scores from bench (and IR) players, who don't count toward the score."""
+    home = [_player(), _player(game_played=0, lineup_slot="BE"), _player(game_played=0, lineup_slot="IR")]
+    row = _extract_matchup(_matchup(home, [_player()]), 7, 2026)
+    assert (row["home_score"], row["away_score"]) == (100.0, 90.0)
+
+
+def test_extract_matchup_bye_uses_home_lineup_only():
+    """Protects bye matchups (no away team, no away lineup) from erroring or being misjudged."""
+    row = _extract_matchup(_matchup([_player(game_played=0)], [], has_away_team=False), 7, 2026)
+    assert row["away_team_id"] is None
+    assert row["home_score"] is None
+
+
+def test_records_accept_null_scores():
+    """Protects the write path: the Pydantic models must let NULL through, not reject or default it to 0."""
+    assert BoxScoreRecord(season=2026, week=7, team_id=1, player_id=1, points=None).points is None
+    record = MatchupRecord(season=2026, week=7, home_team_id=1, home_score=None, away_score=None)
+    assert (record.home_score, record.away_score) == (None, None)

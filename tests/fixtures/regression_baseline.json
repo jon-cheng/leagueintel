@@ -8552,7 +8552,7 @@
       "records": [
         {
           "bonus_losses": 0,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 6,
           "losses": 0,
           "manager": "manager_10",
@@ -8561,12 +8561,12 @@
           "points_for": 813.9000000000001,
           "standing": 1,
           "team_name": "team_10",
-          "ties": 1,
+          "ties": 0,
           "wins": 6
         },
         {
           "bonus_losses": 2,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 4,
           "losses": 1,
           "manager": "manager_6",
@@ -8575,12 +8575,12 @@
           "points_for": 824.0,
           "standing": 2,
           "team_name": "team_6",
-          "ties": 1,
+          "ties": 0,
           "wins": 5
         },
         {
           "bonus_losses": 2,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 4,
           "losses": 2,
           "manager": "manager_7",
@@ -8589,12 +8589,12 @@
           "points_for": 769.2,
           "standing": 3,
           "team_name": "team_7",
-          "ties": 1,
+          "ties": 0,
           "wins": 4
         },
         {
           "bonus_losses": 2,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 4,
           "losses": 3,
           "manager": "manager_9",
@@ -8603,12 +8603,12 @@
           "points_for": 765.9,
           "standing": 4,
           "team_name": "team_9",
-          "ties": 1,
+          "ties": 0,
           "wins": 3
         },
         {
           "bonus_losses": 3,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 3,
           "losses": 2,
           "manager": "manager_13",
@@ -8617,12 +8617,12 @@
           "points_for": 765.6,
           "standing": 5,
           "team_name": "team_13",
-          "ties": 1,
+          "ties": 0,
           "wins": 4
         },
         {
           "bonus_losses": 3,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 3,
           "losses": 2,
           "manager": "manager_1",
@@ -8631,12 +8631,12 @@
           "points_for": 681.0,
           "standing": 6,
           "team_name": "team_1",
-          "ties": 1,
+          "ties": 0,
           "wins": 4
         },
         {
           "bonus_losses": 3,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 3,
           "losses": 4,
           "manager": "manager_5",
@@ -8645,12 +8645,12 @@
           "points_for": 706.1,
           "standing": 7,
           "team_name": "team_5",
-          "ties": 1,
+          "ties": 0,
           "wins": 2
         },
         {
           "bonus_losses": 2,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 4,
           "losses": 5,
           "manager": "manager_3",
@@ -8659,12 +8659,12 @@
           "points_for": 705.5,
           "standing": 8,
           "team_name": "team_3",
-          "ties": 1,
+          "ties": 0,
           "wins": 1
         },
         {
           "bonus_losses": 3,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 3,
           "losses": 5,
           "manager": "manager_8",
@@ -8673,12 +8673,12 @@
           "points_for": 640.0,
           "standing": 9,
           "team_name": "team_8",
-          "ties": 1,
+          "ties": 0,
           "wins": 1
         },
         {
           "bonus_losses": 5,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 1,
           "losses": 3,
           "manager": "manager_4",
@@ -8687,12 +8687,12 @@
           "points_for": 619.5,
           "standing": 10,
           "team_name": "team_4",
-          "ties": 1,
+          "ties": 0,
           "wins": 3
         },
         {
           "bonus_losses": 5,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 1,
           "losses": 5,
           "manager": "manager_12",
@@ -8701,12 +8701,12 @@
           "points_for": 609.4,
           "standing": 11,
           "team_name": "team_12",
-          "ties": 1,
+          "ties": 0,
           "wins": 1
         },
         {
           "bonus_losses": 6,
-          "bonus_ties": 1,
+          "bonus_ties": 0,
           "bonus_wins": 0,
           "losses": 4,
           "manager": "manager_2",
@@ -8715,7 +8715,7 @@
           "points_for": 478.5,
           "standing": 12,
           "team_name": "team_2",
-          "ties": 1,
+          "ties": 0,
           "wins": 2
         }
       ]
