@@ -37,7 +37,7 @@ head-to-head history, all in one place.
 </tr>
 <tr>
 <td align="center">
-<h3>6,620</h3>
+<h3>6,630</h3>
 <sub>Waiver Bids Placed</sub>
 </td>
 <td align="center">
@@ -45,13 +45,13 @@ head-to-head history, all in one place.
 <sub>Successful Adds</sub>
 </td>
 <td align="center">
-<h3>749</h3>
+<h3>755</h3>
 <sub>Matchups Played</sub>
 </td>
 </tr>
 </table>
 
-<p align="center"><sub>Last updated: 2026-11-09 19:25 GMT</sub></p>
+<p align="center"><sub>Last updated: 2026-11-10 16:44 GMT</sub></p>
 <!-- METRICS_TABLE_END -->
 
 > "Who had the most regrettable drop of 2025?"
