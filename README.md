@@ -51,7 +51,7 @@ head-to-head history, all in one place.
 </tr>
 </table>
 
-<p align="center"><sub>Last updated: 2026-11-15 16:01 GMT</sub></p>
+<p align="center"><sub>Last updated: 2026-11-16 19:10 GMT</sub></p>
 <!-- METRICS_TABLE_END -->
 
 > "Who had the most regrettable drop of 2025?"
